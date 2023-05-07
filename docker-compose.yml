@@ -1,0 +1,18 @@
+version: '3.1'
+
+services:
+  odonts-api:
+    build: 
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: odonts-api
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    networks:
+      - odonts-network-api
+    
+networks:
+  odonts-network-api:
+    name: donts-network

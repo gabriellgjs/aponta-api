@@ -10,8 +10,12 @@ server.use(express.static(path.join(__dirname, '../public')));
 server.use(express.urlencoded({extended: true}));
 
 server.get("/", (request, response) => {
-    return response.send("Hello World!");
-  });
+    return response.send("Hello World in docker!");
+});
+
+server.get("/docker", (request, response) => {
+    return response.send("mapenado o novos volumes, novamente");
+});
 
 server.use((req : Request, res : Response)=>res.status(404).json({error: 'Not found page!'}));
 
