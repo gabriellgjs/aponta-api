@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(100)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  employee   Employee[]
+
+  @@map("roles")
+}
+
+model Address {
+  id          Int       @id @default(autoincrement())
+  street      String    @db.VarChar(255)
+  district    String    @db.VarChar(100)
+  city        String    @db.VarChar(100)
+  postal_code String    @db.VarChar(50)
+  state       String    @db.VarChar(50)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+
+  person_id   Int
+  person      Person    @relation(fields: [person_id], references: [id])
+
+  @@map("addresses")
+}
+
+model Telephone {
+  id         Int       @id @default(autoincrement())
+  telephone  String    @db.VarChar(50)
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  person_id  Int
+  person     Person?   @relation(fields: [person_id], references: [id])
+
+  @@map("telephones")
+}
+
+model Person {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(255)
+  birth_date DateTime @db.Date()
+  rg         String   @db.VarChar(10)
+  cpf        String   @db.VarChar(12)
+  gender     String   @db.VarChar(100)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  deleted_at DateTime?
+
+  employee    Employee[]
+  patient     Patient[]
+  telephone   Telephone[]
+  address     Address[]
+
+  @@map("people")
+}
+
+model Employee {
+  id               Int       @id @default(autoincrement())
+  hire_date        DateTime  @db.Date()
+  termination_date DateTime? @db.Date()
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  deleted_at       DateTime?
+
+  role_id          Int
+  role             Role?     @relation(fields: [role_id], references: [id])
+  person_id        Int        
+  person           Person?   @relation(fields: [person_id], references: [id])
+  user             User[]
+
+  @@map("employees")
+}
+
+model Patient {
+  id             Int       @id @default(autoincrement())
+  marital_status String    @db.VarChar(100)
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  deleted_at     DateTime?
+
+  person         Person    @relation(fields: [person_id], references: [id])
+  person_id      Int  
+
+  @@map("patients")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique @db.VarChar(255)
+  password    String    @db.VarChar(255)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  deleted_at  DateTime?
+
+  employee_id Int
+  employee    Employee  @relation(fields: [employee_id], references: [id])
+
+  @@map("users")
+}

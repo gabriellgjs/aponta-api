@@ -1,6 +1,18 @@
 version: '3.1'
 
-services:
+services:  
+  database-postgres:
+    container_name: database-postgres
+    image: postgres:alpine
+    ports:   
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD} 
+    networks:
+      - odonts-network-api
+    
   odonts-api:
     build: 
       context: .
@@ -18,19 +30,6 @@ services:
       - database-postgres
     env_file:
       - .env
-    
-  database-postgres:
-    container_name: database-postgres
-    image: postgres:alpine
-    ports:   
-      - 5432:5432
-    environment:
-      POSTGRES_DB: ${DATABASE_NAME}
-      POSTGRES_USER: ${DATABASE_USER}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD} 
-    networks:
-      - odonts-network-api
-    
 
 networks:
   odonts-network-api:
