@@ -30,8 +30,8 @@ model Address {
   updated_at  DateTime  @updatedAt
   deleted_at  DateTime?
 
-  person_id   Int
-  person      Person    @relation(fields: [person_id], references: [id])
+  people_id   Int
+  people      People    @relation(fields: [people_id], references: [id])
 
   @@map("addresses")
 }
@@ -43,13 +43,13 @@ model Telephone {
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
 
-  person_id  Int
-  person     Person?   @relation(fields: [person_id], references: [id])
+  people_id  Int
+  people     People   @relation(fields: [people_id], references: [id])
 
   @@map("telephones")
 }
 
-model Person {
+model People {
   id         Int      @id @default(autoincrement())
   name       String   @db.VarChar(255)
   birth_date DateTime @db.Date()
@@ -77,9 +77,9 @@ model Employee {
   deleted_at       DateTime?
 
   role_id          Int
-  role             Role?     @relation(fields: [role_id], references: [id])
-  person_id        Int        
-  person           Person?   @relation(fields: [person_id], references: [id])
+  role             Role     @relation(fields: [role_id], references: [id])
+  people_id        Int        
+  people           People   @relation(fields: [people_id], references: [id])
   user             User[]
 
   @@map("employees")
@@ -92,8 +92,8 @@ model Patient {
   updated_at     DateTime  @updatedAt
   deleted_at     DateTime?
 
-  person         Person    @relation(fields: [person_id], references: [id])
-  person_id      Int  
+  people         People    @relation(fields: [people_id], references: [id])
+  people_id      Int  
 
   @@map("patients")
 }
