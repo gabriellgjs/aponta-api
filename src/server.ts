@@ -1,24 +1,22 @@
-import express, { Request, Response} from 'express';
-import path from 'path';
+import fastify from 'fastify';
+import cors from '@fastify/cors'
 import dotenv from 'dotenv';
 
 dotenv.config();
-const server = express();
 
-server.use(express.static(path.join(__dirname, '../public')));
+const port = parseInt(process.env.PORT || '3000');
 
-server.use(express.urlencoded({extended: true}));
+const server = fastify();
+
+server.register(cors);
 
 server.get("/", (request, response) => {
-    return response.send("Hello World in docker!");
+    return response.send("Hello World in fastify");
 });
 
-server.get("/docker", (request, response) => {
-    return response.send("mapenado o novos volumes, novamente");
-});
-
-server.use((req : Request, res : Response)=>res.status(404).json({error: 'Not found page!'}));
-
-server.listen(process.env.PORT, () => {
-    console.log("Server is running in port " + process.env.PORT);
-});
+server.listen({
+    port,
+    host: '0.0.0.0'
+  }).then(() => {
+    console.log('HTTP Server running! on port ' + port);
+  })
