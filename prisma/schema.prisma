@@ -9,10 +9,11 @@ datasource db {
 
 model Role {
   id         Int       @id @default(autoincrement())
+  status     String    @db.VarChar(50)
   name       String    @db.VarChar(100)
   created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  deleted_at DateTime?
+  updated_at DateTime? @updatedAt
+  deleted_at DateTime? 
 
   employee   Employee[]
 
@@ -21,14 +22,14 @@ model Role {
 
 model Address {
   id          Int       @id @default(autoincrement())
+  status      String    @db.VarChar(50)
   street      String    @db.VarChar(255)
   district    String    @db.VarChar(100)
   city        String    @db.VarChar(100)
   postal_code String    @db.VarChar(50)
   state       String    @db.VarChar(50)
   created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
-  deleted_at  DateTime?
+  updated_at  DateTime? @updatedAt
 
   people_id   Int
   people      People    @relation(fields: [people_id], references: [id])
@@ -38,10 +39,10 @@ model Address {
 
 model Telephone {
   id         Int       @id @default(autoincrement())
+  status     String    @db.VarChar(50)
   telephone  String    @db.VarChar(50)
   created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  deleted_at DateTime?
+  updated_at DateTime? @updatedAt
 
   people_id  Int
   people     People   @relation(fields: [people_id], references: [id])
@@ -50,15 +51,15 @@ model Telephone {
 }
 
 model People {
-  id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(255)
-  birth_date DateTime @db.Date()
-  rg         String   @db.VarChar(10)
-  cpf        String   @db.VarChar(12)
-  gender     String   @db.VarChar(100)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  deleted_at DateTime?
+  id         Int       @id @default(autoincrement())
+  status     String    @db.VarChar(50)
+  name       String    @db.VarChar(255)
+  birth_date DateTime  @db.Date()
+  rg         String    @db.VarChar(10)
+  cpf        String    @db.VarChar(12)
+  gender     String    @db.VarChar(100)
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
 
   employee    Employee[]
   patient     Patient[]
@@ -70,44 +71,71 @@ model People {
 
 model Employee {
   id               Int       @id @default(autoincrement())
+  status           String    @db.VarChar(50)
   hire_date        DateTime  @db.Date()
   termination_date DateTime? @db.Date()
   created_at       DateTime  @default(now())
-  updated_at       DateTime  @updatedAt
-  deleted_at       DateTime?
+  updated_at       DateTime? @updatedAt
 
   role_id          Int
   role             Role     @relation(fields: [role_id], references: [id])
   people_id        Int        
   people           People   @relation(fields: [people_id], references: [id])
+
   user             User[]
+  appointments     Appointments[]
 
   @@map("employees")
 }
 
 model Patient {
   id             Int       @id @default(autoincrement())
+  status         String    @db.VarChar(50)
   marital_status String    @db.VarChar(100)
   created_at     DateTime  @default(now())
-  updated_at     DateTime  @updatedAt
-  deleted_at     DateTime?
+  updated_at     DateTime? @updatedAt
 
   people         People    @relation(fields: [people_id], references: [id])
   people_id      Int  
+
+  appointments Appointments[]
 
   @@map("patients")
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  email       String    @unique @db.VarChar(255)
-  password    String    @db.VarChar(255)
-  created_at  DateTime  @default(now())
-  updated_at  DateTime  @updatedAt
-  deleted_at  DateTime?
+  id           Int       @id @default(autoincrement())
+  status       String    @db.VarChar(50)
+  email        String    @unique @db.VarChar(255)
+  password     String    @db.VarChar(255)
+  created_at   DateTime  @default(now())
+  updated_at   DateTime? @updatedAt
 
-  employee_id Int
-  employee    Employee  @relation(fields: [employee_id], references: [id])
+  employee_id  Int
+  employee     Employee  @relation(fields: [employee_id], references: [id])
+
+  appointments Appointments[]
 
   @@map("users")
 }
+
+
+model Appointments {
+  id             Int      @id @default(autoincrement())
+  status         String   @db.VarChar(50)
+  data_time      DateTime 
+
+  employee_id    Int
+  user           User     @relation(fields: [employee_id], references: [id])
+  dentist_id     Int
+  employee       Employee @relation(fields: [dentist_id], references: [id])
+  patient_id     Int
+  patient        Patient  @relation(fields: [patient_id], references: [id])
+
+  appointment_id Int? @unique
+  appointment    Appointments? @relation("ParentAppointment", fields: [appointment_id], references: [id])
+  appointments   Appointments? @relation("ParentAppointment")
+
+  @@map("appointments")
+}
+
