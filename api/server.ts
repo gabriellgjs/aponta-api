@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import RolesRoutes from './Roles/Routes/RolesRoutes';
 import { Routes } from './routes';
 
 dotenv.config();

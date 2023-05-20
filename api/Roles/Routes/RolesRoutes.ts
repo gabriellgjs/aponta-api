@@ -19,11 +19,19 @@ export default class RolesRoutes {
 
     const createRole = this.rolesController.createRole.bind(this.rolesController);
 
+    const updateRole = this.rolesController.updateRole.bind(this.rolesController);
+
+    const deleteRole = this.rolesController.deleteRole.bind(this.rolesController);
+
     this.rolesRoutes.get("/role/:id", getRole);
 
     this.rolesRoutes.get("/roles", getRoles);
 
     this.rolesRoutes.post("/role", createRole);
+
+    this.rolesRoutes.put("/role/:id", updateRole)
+
+    this.rolesRoutes.delete("/role/:id", deleteRole)
   }
 
   get getRoleRoutes() {

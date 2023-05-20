@@ -17,7 +17,7 @@ export default class RoleRepository {
   }
 
   async update(role: Role): Promise<void> {
-     await this.roleModel.updateRole(role);
+    await this.roleModel.updateRole(role);
   }
 
   async delete(role: Role): Promise<void> {

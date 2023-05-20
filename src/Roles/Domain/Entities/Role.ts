@@ -10,7 +10,7 @@ export default class Role {
   constructor(props: RoleProps) {
     this.props = {
       ...props,
-      status: "active"
+      status: props.status? props.status: "active"
     };
   }
 
