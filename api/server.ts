@@ -1,22 +1,20 @@
-import fastify from 'fastify';
-import cors from '@fastify/cors'
+import express from 'express';
 import dotenv from 'dotenv';
+import RolesRoutes from './Roles/Routes/RolesRoutes';
 
 dotenv.config();
 
 const port = parseInt(process.env.PORT || '3000');
 
-const server = fastify();
+const server = express();
 
-server.register(cors);
-
-server.get("/", (request, response) => {
-    return response.send("Hello World in fastify");
-});
+server.use(express.json());
+server.use(new RolesRoutes().getRoleRoutes);
 
 server.listen({
     port,
     host: '0.0.0.0'
-  }).then(() => {
+  },
+  () => {
     console.log('HTTP Server running! on port ' + port);
   })
