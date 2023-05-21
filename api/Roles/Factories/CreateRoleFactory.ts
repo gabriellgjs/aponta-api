@@ -1,5 +1,5 @@
 import { Request } from "express";
-import CreateRoleInputData from "../../../src/Roles/Application/Dtos/CreateRoleInputData";
+import CreateRoleInputData from "@src/Roles/Application/Dtos/CreateRoleInputData";
 
 export default class CreateRoleFactory {
   static fromRequest(request: Request) {

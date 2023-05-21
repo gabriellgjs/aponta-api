@@ -17,5 +17,5 @@ server.listen({
     host: '0.0.0.0'
   },
   () => {
-    console.log('HTTP Server running! on port ' + port);
+    console.log('HTTP Server running on port ' + port);
   })

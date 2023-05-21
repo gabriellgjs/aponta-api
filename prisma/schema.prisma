@@ -138,4 +138,3 @@ model Appointments {
 
   @@map("appointments")
 }
-

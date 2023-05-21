@@ -2,8 +2,6 @@ import { People, PeopleProps } from '../../../Shared/Domain/Entities/People';
 import { Role } from './Role';
 import { User } from './User';
 
-//TODO criar alias
-
 interface EmployeeProps extends PeopleProps {
   user: User;
   role: Role;

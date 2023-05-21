@@ -1,5 +1,5 @@
 import { Request } from "express";
-import UpdateRoleInputData from "../../../src/Roles/Application/Dtos/UpdateRoleInputData";
+import UpdateRoleInputData from "@src/Roles/Application/Dtos/UpdateRoleInputData";
 import { Role } from "@prisma/client";
 
 export default class UpdateRoleFactory {

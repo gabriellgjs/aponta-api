@@ -1,13 +1,13 @@
 
 import { Request, Response } from "express";
 
-import CreateRoleAction from "../../../src/Roles/Application/Actions/CreateRoleAction";
+import CreateRoleAction from "@src/Roles/Application/Actions/CreateRoleAction";
+import UpdateRoleAction from "@src/Roles/Application/Actions/UpdateRoleActiont";
+import DeleteRoleAction from "@src/Roles/Application/Actions/DeleteRoleAction";
 import CreateRoleFactory from "../Factories/CreateRoleFactory";
-import RolesModel from "../Models/RolesModel";
 import UpdateRoleFactory from "../Factories/UpdateRoleFactory";
-import UpdateRoleAction from "../../../src/Roles/Application/Actions/UpdateRoleActiont";
-import DeleteRoleAction from "../../../src/Roles/Application/Actions/DeleteRoleAction";
 import DeleteRoleFactory from "../Factories/DeleteRoleFactory";
+import RolesModel from "../Models/RolesModel";
 
 export default class RolesController {
   public async getRole(

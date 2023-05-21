@@ -1,4 +1,4 @@
-import PrismaConnection  from "../../../prisma/PrismaConnection";
+import PrismaConnection  from "@prisma/PrismaConnection";
 
 export default class RolesModel {
   private prismaConnection: PrismaConnection;

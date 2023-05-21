@@ -1,5 +1,5 @@
 import { Request } from "express";
-import DeleteRoleInputData from "../../../src/Roles/Application/Dtos/DeleteRoleInputData";
+import DeleteRoleInputData from "@src/Roles/Application/Dtos/DeleteRoleInputData";
 
 export default class DeleteRoleFactory {
   static fromRequest(request: Request) {
