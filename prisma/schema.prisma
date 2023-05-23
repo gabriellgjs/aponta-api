@@ -52,7 +52,6 @@ model Telephone {
 
 model People {
   id         Int       @id @default(autoincrement())
-  status     String    @db.VarChar(50)
   name       String    @db.VarChar(255)
   birth_date DateTime  @db.Date()
   rg         String    @db.VarChar(10)
