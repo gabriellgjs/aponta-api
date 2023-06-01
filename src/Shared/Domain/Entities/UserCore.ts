@@ -1,15 +1,17 @@
 interface UserProps {
+  id?: number;
+  status?: string;
   email: string;
   password: string;
 }
 
-export class User {
+export default class UserCore {
   private props: UserProps;
 
   constructor(props: UserProps) {
     const isValidePassword = this.validatePassword(props.password);
 
-    if(!isValidePassword) {
+    if (!isValidePassword) {
       throw new Error('Password is incorrect length');
     }
 
@@ -36,5 +38,21 @@ export class User {
 
   set password(password: string) {
     this.props.password = password;
+  }
+
+  get id(): number {
+    return this.props.id ? this.props.id : 0;
+  }
+
+  set id(id: number) {
+    this.props.id = id;
+  }
+
+  get status(): string {
+    return this.props.status ? this.props.status : '';
+  }
+
+  set status(status: string) {
+    this.props.status = status;
   }
 }

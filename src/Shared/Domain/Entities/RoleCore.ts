@@ -10,24 +10,8 @@ export default class RoleCore {
   constructor(props: RoleProps) {
     this.props = {
       ...props,
-      status: props.status? props.status: "active"
+      status: props.status ? props.status : 'ativo',
     };
-  }
-
-  get name(): string {
-    return this.props.name;
-  }
-
-  set name(name: string) {
-    this.props.name = name;
-  }
-
-  get status(): string {
-    return this.props.status? this.props.status : "";
-  }
-
-  set status(status: string) {
-    this.props.status = status;
   }
 
   get id(): number {
@@ -36,5 +20,21 @@ export default class RoleCore {
 
   set id(id: number) {
     this.props.id = id;
+  }
+
+  get status(): string {
+    return this.props.status ? this.props.status : '';
+  }
+
+  set status(status: string) {
+    this.props.status = status;
+  }
+
+  get name(): string {
+    return this.props.name;
+  }
+
+  set name(name: string) {
+    this.props.name = name;
   }
 }

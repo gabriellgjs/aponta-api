@@ -1,14 +1,14 @@
-import { Andress } from './Address';
-import { Telephone } from './Telephone';
+import Address from './AddressCore';
+import Telephone from './TelephoneCore';
 
 export interface PeopleProps {
   name: string;
-  birthDate: Date;
+  birth_date: Date;
   rg: string;
   cpf: string;
   gender: string;
   telephone: Telephone;
-  andress: Andress;
+  address: Address;
 }
 
 export abstract class People {
@@ -28,12 +28,12 @@ export abstract class People {
     this.props.name = name;
   }
 
-  get birthDate(): Date {
-    return this.props.birthDate;
+  get birth_date(): Date {
+    return this.props.birth_date;
   }
 
-  set birthDate(date: Date) {
-    this.props.birthDate = date;
+  set birth_date(date: Date) {
+    this.props.birth_date = date;
   }
 
   get rg(): string {
@@ -60,12 +60,12 @@ export abstract class People {
     this.props.telephone = telephone;
   }
 
-  get andress(): Andress {
-    return this.props.andress;
+  get address(): Address {
+    return this.props.address;
   }
 
-  set andress(andress: Andress) {
-    this.props.andress = andress;
+  set address(address: Address) {
+    this.props.address = address;
   }
 
   get gender(): string {
