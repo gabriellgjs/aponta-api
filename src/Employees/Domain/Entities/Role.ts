@@ -1,21 +1,3 @@
-interface RoleProps {
-  name: string;
-}
+import RoleCore from '@src/Shared/Domain/Entities/RoleCore';
 
-export class Role {
-  private props: RoleProps;
-
-  constructor(props: RoleProps) {
-    this.props = {
-      ...props,
-    };
-  }
-
-  get name(): string {
-    return this.props.name;
-  }
-
-  set name(name: string) {
-    this.props.name = name;
-  }
-}
+export default class Role extends RoleCore {}
