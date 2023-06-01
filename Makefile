@@ -1,4 +1,3 @@
-
 docker-compose up: 
 	docker-compose up -d --build
 
@@ -9,7 +8,7 @@ seed: migrate
 	docker exec -it odonts-api npx prisma db seed
 
 start: seed
-	@echo -e "${CG}Start API"
+	@echo "Start API"
 
 prisma-studio: 
 	docker exec -it odonts-api npx prisma studio
