@@ -9,19 +9,9 @@ export default class UserCore {
   private props: UserProps;
 
   constructor(props: UserProps) {
-    const isValidePassword = this.validatePassword(props.password);
-
-    if (!isValidePassword) {
-      throw new Error('Password is incorrect length');
-    }
-
     this.props = {
       ...props,
     };
-  }
-
-  private validatePassword(password: string): boolean {
-    return password.length >= 6 && password.length <= 20;
   }
 
   get email(): string {
@@ -49,7 +39,7 @@ export default class UserCore {
   }
 
   get status(): string {
-    return this.props.status ? this.props.status : '';
+    return this.props.status ? this.props.status : 'ativo';
   }
 
   set status(status: string) {
