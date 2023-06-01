@@ -12,12 +12,14 @@ server.use(express.json());
 
 server.use(Routes);
 
-server.listen({
+server.listen(
+  {
     port,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
   },
   () => {
     console.log('HTTP Server running on port ' + port);
-})
+  },
+);
 
 //TODO ESLINT
