@@ -1,4 +1,3 @@
-import RoleCore from "@src/Shared/Domain/Entities/RoleCore";
+import RoleCore from '@src/Shared/Domain/Entities/RoleCore';
 
-export default class Role extends RoleCore{
-}
+export default class Role extends RoleCore {}

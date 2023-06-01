@@ -1,5 +1,5 @@
-import Role from "../../Domain/Entities/Role";
-import RolesModel from "../Models/RolesModel";
+import Role from '../../Domain/Entities/Role';
+import RolesModel from '../Models/RolesModel';
 
 export default class RoleRepository {
   private roleModel: RolesModel;
@@ -20,9 +20,9 @@ export default class RoleRepository {
     await this.roleModel.updateRole(role);
   }
 
-  async delete(role: Role): Promise<void> {
-    await this.roleModel.deleteRole(role);
+  async delete(role_id: number): Promise<void> {
+    await this.roleModel.deleteRole(role_id);
   }
 }
 
-//TODO verificar se existe a necessidade de um metodo save()
+//TODO verificar se existe a necessidade de um método save()

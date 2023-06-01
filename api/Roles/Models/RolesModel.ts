@@ -1,4 +1,4 @@
-import PrismaConnection  from "@prisma/PrismaConnection";
+import PrismaConnection from '@prisma/PrismaConnection';
 
 export default class RolesModel {
   private prismaConnection: PrismaConnection;
@@ -9,9 +9,18 @@ export default class RolesModel {
 
   async getRoles() {
     try {
-      return await this.prismaConnection.role.findMany();
+      return await this.prismaConnection.role.findMany({
+        where: {
+          status: 'ativo',
+        },
+        select: {
+          id: true,
+          name: true,
+          status: true,
+        },
+      });
     } catch (error) {
-      throw new Error("erro");
+      throw new Error('erro');
     }
   }
 
@@ -20,10 +29,10 @@ export default class RolesModel {
       return await this.prismaConnection.role.findUnique({
         where: {
           id: role_id,
-        }
+        },
       });
     } catch (error) {
-      throw new Error("erro");
+      throw new Error('erro');
     }
   }
 }

@@ -1,6 +1,3 @@
-export default class DeleteRoleInputData{
-  constructor(
-    readonly id: number,
-    readonly name: string,
-  ){}
+export default class DeleteRoleInputData {
+  constructor(readonly id: number) {}
 }

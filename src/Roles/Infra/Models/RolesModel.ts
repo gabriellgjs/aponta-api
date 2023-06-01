@@ -1,5 +1,5 @@
-import PrismaConnection  from "@prisma/PrismaConnection";
-import Role  from "../../Domain/Entities/Role";
+import PrismaConnection from '@prisma/PrismaConnection';
+import Role from '../../Domain/Entities/Role';
 
 export default class RolesModel {
   private prismaConnection: PrismaConnection;
@@ -13,26 +13,26 @@ export default class RolesModel {
       return await this.prismaConnection.role.create({
         data: {
           status: role.status,
-          name: role.name
+          name: role.name,
         },
-      })
+      });
     } catch (error) {
-      throw new Error("erro");
+      throw new Error('erro');
     }
   }
 
-  async deleteRole(role: Role) {
+  async deleteRole(role_id: number) {
     try {
       return await this.prismaConnection.role.update({
         where: {
-          id: role.id,
+          id: role_id,
         },
         data: {
-          deleted_at: new Date()
-        }
-      })
+          status: 'inativo',
+        },
+      });
     } catch (error) {
-      throw new Error("erro");
+      throw new Error('erro');
     }
   }
 
@@ -45,11 +45,10 @@ export default class RolesModel {
         data: {
           status: role.status,
           name: role.name,
-          updated_at: new Date()
-        }
-      })
+        },
+      });
     } catch (error) {
-      throw new Error("erro");
+      throw new Error('erro');
     }
   }
 }

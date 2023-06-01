@@ -1,7 +1,7 @@
-export default class UpdateRoleInputData{
+export default class UpdateRoleInputData {
   constructor(
     readonly id: number,
     readonly name: string,
     readonly status?: string,
-  ){}
+  ) {}
 }
