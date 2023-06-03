@@ -1,0 +1,49 @@
+version: '3.5'
+
+services:  
+  database-postgres:
+    container_name: odonts-database
+    build:
+      context: ../
+      dockerfile: .docker/postgresql/Dockerfile
+    ports:   
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} 
+    networks:
+      - odonts-network-api
+    restart: on-failure
+    tty: true
+    
+  odonts-api:
+    container_name: odonts-api
+    build: 
+      context: ../
+      dockerfile: .docker/node/Dockerfile
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    restart: on-failure
+    environment:
+      NODE_OPTIONS: ${NODE_OPTIONS}
+    env_file:
+      - ../.env
+    ports:
+      - "${API_PORT}:3000"
+      - "${PRISMA_STUDIO}:5555"
+    working_dir: /var/www/odonts-api
+    volumes:
+      - ../:/var/www/odonts-api
+    networks:
+      - odonts-network-api
+    depends_on:
+      - database-postgres
+    links:
+      - database-postgres
+    tty: true
+
+networks:
+  odonts-network-api:
+    name: odonts-network

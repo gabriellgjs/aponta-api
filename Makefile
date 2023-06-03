@@ -1,14 +1,64 @@
-docker-compose up: 
-	docker-compose up -d --build
+DOCKER_COMPOSE_FILE=.docker/docker-compose.yml
+DOCKER_ENV_FILE=.docker/.env
 
-migrate: docker-compose up
-	docker exec -it odonts-api npx prisma migrate dev 
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │ Infra commands                                                              │
+# └─────────────────────────────────────────────────────────────────────────────┘
 
-seed: migrate
-	docker exec -it odonts-api npx prisma db seed
+.PHONY: prepare-api
+prepare-api: stop start api-dev
 
-start: seed
-	@echo "Start API"
+.PHONY: prepare-db
+prepare-db: db-seed prisma-studio
 
-prisma-studio: 
-	docker exec -it odonts-api npx prisma studio
+.PHONY: build
+build:
+	@docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(DOCKER_ENV_FILE) build
+
+.PHONY: start
+start:
+	@docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(DOCKER_ENV_FILE) up -d
+
+.PHONY: stop
+stop:
+	@docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(DOCKER_ENV_FILE) down
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │ API commands                                                                │
+# └─────────────────────────────────────────────────────────────────────────────┘
+
+.PHONY: api-build
+api-build:
+	@docker exec mens_api bash -c "npm run build"
+
+.PHONY: api-dev
+api-dev:
+	@docker exec -it odonts-api bash -c "sudo yarn run start:dev"
+
+.PHONY: api-exec
+api-exec:
+	@docker exec -it odonts-api bash
+
+.PHONY: api-install
+api-install:
+	@docker exec -it odonts-api bash -c "npm install"
+
+.PHONY: api-log
+api-log:
+	@docker logs odonts-api --follow
+
+# ┌─────────────────────────────────────────────────────────────────────────────┐
+# │ DATABASE commands                                                           │
+# └─────────────────────────────────────────────────────────────────────────────┘
+
+.PHONY: db-seed
+db-seed: db-migrate
+	@docker exec -it odonts-api bash -c "sudo npx prisma db seed"
+
+.PHONY: db-migrate
+db-migrate:
+	@docker exec -it odonts-api bash -c "sudo npx prisma migrate dev"
+
+.PHONY: prisma-studio
+prisma-studio:
+	@docker exec -it odonts-api bash -c "sudo npx prisma studio --browser none"
