@@ -24,7 +24,7 @@ export default class EmployeesController {
 
       return response
         .status(200)
-        .send(JSON.stringify(EmployeeOutputData.responseGetEmployee(employee)));
+        .json(EmployeeOutputData.responseGetEmployee(employee));
     } catch (error) {
       throw new Error('erro');
     }
@@ -38,7 +38,7 @@ export default class EmployeesController {
 
       return response
         .status(200)
-        .send(EmployeeOutputData.responseGetEmployees(employees));
+        .json(EmployeeOutputData.responseGetEmployees(employees));
     } catch (error) {
       throw new Error('erro');
     }

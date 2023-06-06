@@ -20,7 +20,7 @@ export default class RolesController {
 
       const role = await rolesModel.getRoleById(Number(id));
 
-      return response.status(200).send(JSON.stringify(role));
+      return response.status(200).json(role);
     } catch (error) {
       throw new Error('erro');
     }
@@ -31,7 +31,7 @@ export default class RolesController {
 
     const roles = await rolesModel.getRoles();
 
-    return response.status(200).send(JSON.stringify(roles));
+    return response.status(200).json(roles);
   }
 
   public async createRole(request: Request, response: Response) {

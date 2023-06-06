@@ -20,11 +20,11 @@ export default class UsersRoutes {
       this.usersController,
     );
 
-    this.usersRoutes.get('/user/:id', getUser);
+    this.usersRoutes.get('/:id', getUser);
 
-    this.usersRoutes.get('/users', getUsers);
+    this.usersRoutes.get('/', getUsers);
 
-    this.usersRoutes.post('/user', createUser);
+    this.usersRoutes.post('/', createUser);
 
   }
 

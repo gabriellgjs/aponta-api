@@ -28,15 +28,15 @@ export default class RolesRoutes {
       this.rolesController,
     );
 
-    this.rolesRoutes.get('/role/:id', getRole);
+    this.rolesRoutes.get('/', getRoles);
 
-    this.rolesRoutes.get('/roles', getRoles);
+    this.rolesRoutes.post('/', createRole);
 
-    this.rolesRoutes.post('/role', createRole);
+    this.rolesRoutes.get('/:id', getRole);
 
-    this.rolesRoutes.put('/role/:id', updateRole);
+    this.rolesRoutes.put('/:id', updateRole);
 
-    this.rolesRoutes.delete('/role/:id', deleteRole);
+    this.rolesRoutes.delete('/:id', deleteRole);
   }
 
   get RolesRoutes() {

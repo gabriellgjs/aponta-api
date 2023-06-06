@@ -32,15 +32,15 @@ export default class EmployeesRoutes {
       this.employeesController,
     );
 
-    this.employeesRoutes.get('/employee/:id', getEmployee);
+    this.employeesRoutes.get('/', getEmployees);
 
-    this.employeesRoutes.get('/employees', getEmployees);
+    this.employeesRoutes.post('/', createEmployee);
+    
+    this.employeesRoutes.get('/:id', getEmployee);
 
-    this.employeesRoutes.post('/employee', createEmployee);
+    this.employeesRoutes.put('/:id', updateEmployee);
 
-    this.employeesRoutes.put('/employee/:id', updateEmployee);
-
-    this.employeesRoutes.delete('/employee/:id', deleteEmployee);
+    this.employeesRoutes.delete('/:id', deleteEmployee);
   }
 
   get EmployeesRoutes() {

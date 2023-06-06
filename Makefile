@@ -33,7 +33,7 @@ api-build:
 
 .PHONY: api-dev
 api-dev:
-	@docker exec -it odonts-api bash -c "sudo yarn run start:dev"
+	@docker exec -it odonts-api bash -c "sudo yarn run dev"
 
 .PHONY: api-exec
 api-exec:

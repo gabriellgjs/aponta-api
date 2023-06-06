@@ -1,14 +1,7 @@
-import { Request, Response } from 'express';
-import UsersModel from '../Models/UserModel';
-import CreateRoleAction from '@src/Roles/Application/Actions/CreateRoleAction';
-import DeleteRoleAction from '@src/Roles/Application/Actions/DeleteRoleAction';
-import UpdateRoleAction from '@src/Roles/Application/Actions/UpdateRoleActiont';
-import CreateRoleFactory from 'api/Roles/Factories/CreateRoleFactory';
-import DeleteRoleFactory from 'api/Roles/Factories/DeleteRoleFactory';
-import UpdateRoleFactory from 'api/Roles/Factories/UpdateRoleFactory';
-import RolesModel from 'api/Roles/Models/RolesModel';
 import CreateUserAction from '@src/User/Application/Actions/CreateUserAction';
+import { Request, Response } from 'express';
 import CreateUserFactory from '../Factories/CreateUserFactory';
+import UsersModel from '../Models/UserModel';
 
 export default class UsersController {
   public async getUser(
@@ -22,7 +15,7 @@ export default class UsersController {
 
       const user = await usersModel.getUserById(Number(id));
 
-      return response.status(200).send(JSON.stringify(user));
+      return response.status(200).json(user);
     } catch (error) {
       throw new Error('erro');
     }
@@ -33,7 +26,7 @@ export default class UsersController {
 
     const users = await usersModel.getUsers();
 
-    return response.status(200).send(JSON.stringify(users));
+    return response.status(200).json(users);
   }
 
   public async createUser(request: Request, response: Response) {

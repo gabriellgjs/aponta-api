@@ -1,6 +1,6 @@
-import express from 'express';
 import dotenv from 'dotenv';
-import { Routes } from './routes';
+import express from 'express';
+import Routes  from './routes';
 
 dotenv.config();
 
@@ -10,7 +10,7 @@ const server = express();
 
 server.use(express.json());
 
-server.use(Routes);
+server.use("/", new Routes().routes);
 
 server.listen(
   {
