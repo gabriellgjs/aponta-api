@@ -13,9 +13,20 @@ const admRole = [
   },
 ];
 
+const user = {
+  status: "ativo",
+  email: "contato.gabrieljosesilva@gmail.com",
+  password: "$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy"
+
+}
+
 async function run() {
   await prisma.role.createMany({
     data: admRole,
+  });
+
+  await prisma.user.createMany({
+    data: user,
   });
 }
 

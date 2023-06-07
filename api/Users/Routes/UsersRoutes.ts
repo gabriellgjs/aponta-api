@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import UsersController from '../Controllers/UsersController';
+import CreateUserMiddleware from '../Middlewares/CreateUserMiddleware';
 
 export default class UsersRoutes {
   private usersController: UsersController;
@@ -12,7 +13,7 @@ export default class UsersRoutes {
   }
 
   public async routes() {
-    const getUser= this.usersController.getUser.bind(this.usersController);
+    const getUser = this.usersController.getUser.bind(this.usersController);
 
     const getUsers = this.usersController.getUsers.bind(this.usersController);
 
@@ -24,8 +25,7 @@ export default class UsersRoutes {
 
     this.usersRoutes.get('/', getUsers);
 
-    this.usersRoutes.post('/', createUser);
-
+    this.usersRoutes.post('/', CreateUserMiddleware, createUser);
   }
 
   get UsersRoutes() {
