@@ -8,12 +8,17 @@ export default class UserRepository {
     this.userModel = new UsersModel();
   }
 
-  async create(user: User): Promise<User> {
-    const { id } = await this.userModel.createUser(user);
-
-    user.id = id;
-
-    return user;
+  async create(user: User) {
+    try {
+      const id = await this.userModel.createUser(user);
+      
+      user.id =  id ?? 0;
+  
+      return user;
+      
+    } catch (error) {
+      
+    }
   }
 
   async update(user: User): Promise<void> {

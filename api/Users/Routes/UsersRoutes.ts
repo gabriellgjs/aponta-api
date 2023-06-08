@@ -14,17 +14,13 @@ export default class UsersRoutes {
 
   public async routes() {
     const getUser = this.usersController.getUser.bind(this.usersController);
-
     const getUsers = this.usersController.getUsers.bind(this.usersController);
-
     const createUser = this.usersController.createUser.bind(
       this.usersController,
     );
 
     this.usersRoutes.get('/:id', getUser);
-
     this.usersRoutes.get('/', getUsers);
-
     this.usersRoutes.post('/', CreateUserMiddleware, createUser);
   }
 
@@ -32,5 +28,3 @@ export default class UsersRoutes {
     return this.usersRoutes;
   }
 }
-
-//TODO middleawers

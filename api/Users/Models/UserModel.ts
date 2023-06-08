@@ -1,11 +1,7 @@
-import PrismaConnection from '@prisma/PrismaConnection';
+import { prismaConnection } from '@prisma/PrismaConnection';
 
 export default class UsersModel {
-  private prismaConnection: PrismaConnection;
-
-  constructor() {
-    this.prismaConnection = new PrismaConnection();
-  }
+  private prismaConnection = prismaConnection;
 
   async getUsers() {
     try {

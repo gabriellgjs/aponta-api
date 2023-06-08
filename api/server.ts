@@ -1,6 +1,8 @@
+import 'express-async-errors';
 import dotenv from 'dotenv';
 import express from 'express';
 import Routes  from './routes';
+import { ErrorResponse } from './Shared/Middlewares/ErrorResponse';
 
 dotenv.config();
 
@@ -11,6 +13,8 @@ const server = express();
 server.use(express.json());
 
 server.use("/", new Routes().routes);
+
+server.use(ErrorResponse);
 
 server.listen(
   {

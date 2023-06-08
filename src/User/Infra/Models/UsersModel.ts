@@ -1,24 +1,24 @@
-import PrismaConnection from '@prisma/PrismaConnection';
+import { prismaConnection } from '@prisma/PrismaConnection';
 import User from '@src/User/Domain/Entities/User';
+import { ApiError, BadRequestError } from 'api/Shared/Utils/Error/ApiError';
+import { response } from 'express';
+import { ZodError } from 'zod';
 
 export default class UsersModel {
-  private prismaConnection: PrismaConnection;
-
-  constructor() {
-    this.prismaConnection = new PrismaConnection();
-  }
+  private prismaConnection = prismaConnection;
 
   async createUser(user: User) {
     try {
-      return await this.prismaConnection.user.create({
+      const { id } = await this.prismaConnection.user.create({
         data: {
           status: user.status,
           email: user.email,
           password: user.password,
         },
       });
+      return id;
     } catch (error) {
-      throw new Error('erro');
+      console.log(error)
     }
   }
 
