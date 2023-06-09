@@ -1,28 +1,28 @@
 import { Request, Response } from 'express';
 
 import CreateRoleAction from '@src/Roles/Application/Actions/CreateRoleAction';
-import UpdateRoleAction from '@src/Roles/Application/Actions/UpdateRoleActiont';
+import UpdateRoleAction from '@src/Roles/Application/Actions/UpdateRoleAction';
 import DeleteRoleAction from '@src/Roles/Application/Actions/DeleteRoleAction';
 import CreateRoleFactory from '../Factories/CreateRoleFactory';
 import UpdateRoleFactory from '../Factories/UpdateRoleFactory';
 import DeleteRoleFactory from '../Factories/DeleteRoleFactory';
 import RolesModel from '../Models/RolesModel';
+import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
+import RoleOutputData from '../Dtos/RoleOutputData';
 
 export default class RolesController {
-  public async getRole(
-    request: Request,
-    response: Response,
-  ): Promise<Response<string | undefined>> {
+  public async getRole(request: Request, response: Response) {
     try {
       const rolesModel = new RolesModel();
 
       const { id } = request.params;
 
-      const role = await rolesModel.getRoleById(Number(id));
+      const role = await rolesModel.getRole(Number(id));
 
-      return response.status(200).json(role);
+      return response.status(200).json(role ?? 'Nenhum cargo encontrado');
     } catch (error) {
-      throw new Error('erro');
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
     }
   }
 
@@ -31,7 +31,11 @@ export default class RolesController {
 
     const roles = await rolesModel.getRoles();
 
-    return response.status(200).json(roles);
+    return response
+      .status(200)
+      .json(
+        RoleOutputData.responseGetRoles(roles) ?? 'Nenhum cargo encontrado',
+      );
   }
 
   public async createRole(request: Request, response: Response) {
@@ -40,11 +44,12 @@ export default class RolesController {
 
       const roleFactory = CreateRoleFactory.fromRequest(request);
 
-      const roleId = (await roleAction.execute(roleFactory)).id;
+      const roleId = (await roleAction.execute(roleFactory))?.id;
 
       return response.status(200).json(roleId);
     } catch (error) {
-      throw new Error('erro');
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
     }
   }
 
@@ -55,7 +60,7 @@ export default class RolesController {
 
       const userDataInput = UpdateRoleFactory.fromRequest(request);
 
-      const actualRole = await rolesModel.getRoleById(userDataInput.id);
+      const actualRole = await rolesModel.getRole(userDataInput.id);
 
       const actualRoleInput = UpdateRoleFactory.fromCurrentRole(actualRole);
 

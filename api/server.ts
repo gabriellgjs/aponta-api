@@ -12,6 +12,7 @@ const server = express();
 
 server.use(express.json());
 
+
 server.use("/", new Routes().routes);
 
 server.use(ErrorResponse);
@@ -25,5 +26,3 @@ server.listen(
     console.log('HTTP Server running on port ' + port);
   },
 );
-
-//TODO ESLINT

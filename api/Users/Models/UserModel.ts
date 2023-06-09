@@ -1,4 +1,5 @@
 import { prismaConnection } from '@prisma/PrismaConnection';
+import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 
 export default class UsersModel {
   private prismaConnection = prismaConnection;
@@ -15,7 +16,7 @@ export default class UsersModel {
         },
       });
     } catch (error) {
-      throw new Error('erro');
+      throw new InternalServerError("Erro ao listar os usuários.");
     }
   }
 
@@ -27,7 +28,7 @@ export default class UsersModel {
         },
       });
     } catch (error) {
-      throw new Error('erro');
+      throw new InternalServerError("Erro ao listar o usuário.");
     }
   }
 }

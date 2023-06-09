@@ -4,7 +4,7 @@ import User from '../../Domain/Entities/User';
 import CreateUserInputData from '../Dtos/CreateUserInputData';
 
 export default class CreateUserAction {
-  async execute(input: CreateUserInputData): Promise<User> {
+  async execute(input: CreateUserInputData) {
     const userRepository = new UserRepository();
 
     const user = new User({

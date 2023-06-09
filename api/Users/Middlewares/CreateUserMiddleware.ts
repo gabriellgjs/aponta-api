@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
-import { BadRequestError } from 'api/Shared/Utils/Error/ApiError';
+import { BadRequestError } from 'api/Shared/Utils/Error/ApiErrors';
 import GeneratorErrorResponse from 'api/Shared/Utils/Error/Helpers/GeneratorErrorMessages';
 import { prismaConnection } from '@prisma/PrismaConnection';
 

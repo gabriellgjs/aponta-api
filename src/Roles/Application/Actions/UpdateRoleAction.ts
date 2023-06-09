@@ -12,7 +12,6 @@ export default class UpdateRoleAction {
     const role = new Role({
       id: actual.id,
       name: input.name,
-      status: input.status ? input.status : actual.status,
     });
 
     return await roleRepository.update(role);

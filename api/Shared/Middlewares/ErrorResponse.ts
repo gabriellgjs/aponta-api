@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from 'express';
-import { ApiError } from '../Utils/Error/ApiError';
+import { BaseError, InternalServerError } from '../Utils/Error/ApiErrors';
+
+type ErrorProps = Error & Partial<BaseError>;
 
 export const ErrorResponse = (
-  error: Error & Partial<ApiError>,
+  error: ErrorProps,
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   const statusCode = error.statusCode ?? 500;
-  const message = error.statusCode ? error.message : 'Internal Server Error';
-  return res.status(statusCode).json({ message });
+  const message = error.statusCode ? error.message : 'Internal Server Error.';
+  return res.status(statusCode).json({messagem: message});
 };

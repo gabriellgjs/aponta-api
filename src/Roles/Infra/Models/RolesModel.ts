@@ -1,12 +1,9 @@
-import PrismaConnection from '@prisma/PrismaConnection';
+import { prismaConnection } from '@prisma/PrismaConnection';
+import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 import Role from '../../Domain/Entities/Role';
 
 export default class RolesModel {
-  private prismaConnection: PrismaConnection;
-
-  constructor() {
-    this.prismaConnection = new PrismaConnection();
-  }
+  private prismaConnection = prismaConnection;
 
   async createRole(role: Role) {
     try {
@@ -17,22 +14,22 @@ export default class RolesModel {
         },
       });
     } catch (error) {
-      throw new Error('erro');
+      throw new InternalServerError("Erro ao criar um cargo.");
     }
   }
 
-  async deleteRole(role_id: number) {
+  async deleteRole(roleId: number) {
     try {
       return await this.prismaConnection.role.update({
         where: {
-          id: role_id,
+          id: roleId,
         },
         data: {
           status: 'inativo',
         },
       });
     } catch (error) {
-      throw new Error('erro');
+      throw new InternalServerError('Erro ao deletar um cargo.');
     }
   }
 
@@ -48,9 +45,7 @@ export default class RolesModel {
         },
       });
     } catch (error) {
-      throw new Error('erro');
+      throw new InternalServerError('Erro ao atualizar um cargo.');
     }
   }
 }
-
-//TODO tratar erros

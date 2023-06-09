@@ -2,7 +2,7 @@ import CreateUserAction from '@src/User/Application/Actions/CreateUserAction';
 import { Request, Response } from 'express';
 import CreateUserFactory from '../Factories/CreateUserFactory';
 import UsersModel from '../Models/UserModel';
-import { ApiError } from 'api/Shared/Utils/Error/ApiError';
+import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 import { ZodError } from 'zod';
 
 export default class UsersController {
@@ -14,7 +14,8 @@ export default class UsersController {
 
       return response.status(200).json(user);
     } catch (error) {
-      if (error instanceof ZodError) throw new ApiError(error.message, 500);
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
     }
   }
 
@@ -25,7 +26,8 @@ export default class UsersController {
 
       return response.status(200).json(users);
     } catch (error) {
-      if (error instanceof ZodError) throw new ApiError(error.message, 500);
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
     }
   }
 
@@ -33,11 +35,12 @@ export default class UsersController {
     try {
       const userAction = new CreateUserAction();
       const userFactory = CreateUserFactory.fromRequest(request);
-      const user_id = (await userAction.execute(userFactory)).id;
-  
-      return response.status(200).json(user_id);
+      const userCreated = await userAction.execute(userFactory);
+
+      return response.status(200).json(userCreated?.id);
     } catch (error) {
-      if (error instanceof ZodError) throw new ApiError(error.message, 500);
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
     }
   }
 }

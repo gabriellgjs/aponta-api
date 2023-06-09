@@ -74,7 +74,6 @@ export default class EmployeesController {
 
     const userDataInput = DeleteEmployeeFactory.fromRequest(request);
 
-    console.log(userDataInput);
 
     await employeeAction.execute(userDataInput);
 

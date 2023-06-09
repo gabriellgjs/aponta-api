@@ -1,10 +1,7 @@
-import dotenv from 'dotenv';
 import {
   responseGetEmployee,
   responseGetEmployees,
 } from '../Types/EmployeesTypes';
-
-dotenv.config();
 
 export default class EmployeeOutputData {
   static responseGetEmployee(employee: responseGetEmployee) {
@@ -74,7 +71,7 @@ export default class EmployeeOutputData {
       return {
         id,
         name,
-        url: `${process.env.BASE_URL}/employee/${id}`,
+        url: `${process.env.BASE_URL}/employees/${id}`,
       };
     });
 

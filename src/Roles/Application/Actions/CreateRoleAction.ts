@@ -3,13 +3,13 @@ import RoleRepository from '../../Infra/Repositories/RoleRepository';
 import CreateRoleInputData from '../Dtos/CreateRoleInputData';
 
 export default class CreateRoleAction {
-  async execute(input: CreateRoleInputData): Promise<Role> {
+  async execute(input: CreateRoleInputData): Promise<Role | void> {
     const roleRepository = new RoleRepository();
 
     const role = new Role({
       name: input.name,
     });
 
-    return await roleRepository.create(role);
+    return await roleRepository.save(role);
   }
 }

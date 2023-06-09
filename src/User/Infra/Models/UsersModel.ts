@@ -1,8 +1,6 @@
 import { prismaConnection } from '@prisma/PrismaConnection';
 import User from '@src/User/Domain/Entities/User';
-import { ApiError, BadRequestError } from 'api/Shared/Utils/Error/ApiError';
-import { response } from 'express';
-import { ZodError } from 'zod';
+import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 
 export default class UsersModel {
   private prismaConnection = prismaConnection;
@@ -16,9 +14,10 @@ export default class UsersModel {
           password: user.password,
         },
       });
+      
       return id;
     } catch (error) {
-      console.log(error)
+      throw new InternalServerError("Erro ao criar o usuário");
     }
   }
 

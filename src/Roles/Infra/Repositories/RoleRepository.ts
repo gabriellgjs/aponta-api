@@ -8,10 +8,18 @@ export default class RoleRepository {
     this.roleModel = new RolesModel();
   }
 
-  async create(role: Role): Promise<Role> {
-    const { id } = await this.roleModel.createRole(role);
+  async save(role: Role) {
+    if (role.id) {
+      this.update(role);
+    }
 
-    role.id = id;
+    return this.create(role);
+  }
+
+  async create(role: Role): Promise<Role> {
+    const role_created = await this.roleModel.createRole(role);
+
+    role.id = role_created!.id;
 
     return role;
   }
@@ -24,5 +32,3 @@ export default class RoleRepository {
     await this.roleModel.deleteRole(role_id);
   }
 }
-
-//TODO verificar se existe a necessidade de um método save()

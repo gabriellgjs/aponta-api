@@ -13,7 +13,7 @@ export default class AuthenticationRoutes {
 
   public async routes() {
     const login = this.loginController.login.bind(this.loginController);
-  
+
     this.loginRoutes.post('/', login);
   }
 
@@ -22,4 +22,3 @@ export default class AuthenticationRoutes {
   }
 }
 
-//TODO middleawers

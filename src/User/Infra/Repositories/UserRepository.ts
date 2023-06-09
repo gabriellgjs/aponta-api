@@ -12,7 +12,7 @@ export default class UserRepository {
     try {
       const id = await this.userModel.createUser(user);
       
-      user.id =  id ?? 0;
+      user.id =  id;
   
       return user;
       
