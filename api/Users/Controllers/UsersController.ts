@@ -37,7 +37,7 @@ export default class UsersController {
       const userFactory = CreateUserFactory.fromRequest(request);
       const userCreated = await userAction.execute(userFactory);
 
-      return response.status(200).json(userCreated?.id);
+      return response.status(201).json(userCreated?.id);
     } catch (error) {
       if (error instanceof InternalServerError)
         throw new InternalServerError(error.message);

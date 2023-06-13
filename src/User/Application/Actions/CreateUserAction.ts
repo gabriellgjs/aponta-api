@@ -15,7 +15,7 @@ export default class CreateUserAction {
     return await userRepository.create(user);
   }
 
-   private async generateHashPassword(password: string) {
-    return await bcrypt.hash(password, 10)
+  private async generateHashPassword(password: string) {
+    return await bcrypt.hash(password, 10);
   }
 }

@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import EmployeesController from '../Controllers/EmployeesController';
+import CreateEmployeeMiddleware from '../Middlewares/CreateEmployeeMiddleware';
 
 export default class EmployeesRoutes {
   private employeesController: EmployeesController;
@@ -34,7 +35,7 @@ export default class EmployeesRoutes {
 
     this.employeesRoutes.get('/', getEmployees);
 
-    this.employeesRoutes.post('/', createEmployee);
+    this.employeesRoutes.post('/', CreateEmployeeMiddleware, createEmployee);
     
     this.employeesRoutes.get('/:id', getEmployee);
 

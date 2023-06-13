@@ -6,7 +6,7 @@ export default class UpdateRoleAction {
   async execute(
     input: UpdateRoleInputData,
     actual: UpdateRoleInputData,
-  ): Promise<void> {
+  ) {
     const roleRepository = new RoleRepository();
 
     const role = new Role({
@@ -14,6 +14,6 @@ export default class UpdateRoleAction {
       name: input.name,
     });
 
-    return await roleRepository.update(role);
+    return await roleRepository.save(role);
   }
 }

@@ -1,7 +1,6 @@
 interface TelephoneProps {
   id?: number;
   number: string;
-  status?: string;
 }
 
 export default class TelephoneCore {
@@ -10,7 +9,6 @@ export default class TelephoneCore {
   constructor(props: TelephoneProps) {
     this.props = {
       ...props,
-      status: props.status ? props.status : 'active',
     };
   }
 
@@ -20,14 +18,6 @@ export default class TelephoneCore {
 
   get number(): string {
     return this.props.number;
-  }
-
-  get status(): string {
-    return this.props.status ? this.props.status : 'a';
-  }
-
-  set status(status: string) {
-    this.props.status = status;
   }
 
   get id(): number {

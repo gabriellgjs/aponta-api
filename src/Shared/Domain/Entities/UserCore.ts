@@ -11,6 +11,7 @@ export default class UserCore {
   constructor(props: UserProps) {
     this.props = {
       ...props,
+      status: props.status ?? 'ativo',
     };
   }
 
@@ -39,7 +40,7 @@ export default class UserCore {
   }
 
   get status(): string {
-    return this.props.status ? this.props.status : 'ativo';
+    return this.props.status ?? '';
   }
 
   set status(status: string) {

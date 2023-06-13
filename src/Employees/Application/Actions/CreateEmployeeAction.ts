@@ -5,7 +5,7 @@ import EmployeeRepository from '../../Infra/Repositories/EmployeeRepository';
 import CreateEmployeeInputData from '../Dtos/CreateEmployeeInputData';
 
 export default class CreateEmployeeAction {
-  async execute(input: CreateEmployeeInputData): Promise<Employee> {
+  async execute(input: CreateEmployeeInputData) {
     const employeeRepository = new EmployeeRepository();
 
     const number = {
@@ -35,6 +35,6 @@ export default class CreateEmployeeAction {
       hire_date: input.hire_date,
     });
 
-    return await employeeRepository.create(employee);
+    return await employeeRepository.save(employee);
   }
 }

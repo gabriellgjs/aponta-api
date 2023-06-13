@@ -8,10 +8,18 @@ export default class EmployeeRepository {
     this.employeesModel = new EmployeesModel();
   }
 
+  async save(employee: Employee) {
+    if (employee.id) {
+      return this.update(employee);
+    }
+
+    return this.create(employee);
+  }
+
   async create(employee: Employee): Promise<Employee> {
     const id = await this.employeesModel.createEmployee(employee);
 
-    employee.id = id ? id : 0;
+    employee.id = id ?? 0;
 
     return employee;
   }

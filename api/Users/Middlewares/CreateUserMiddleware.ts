@@ -13,17 +13,11 @@ export default async function CreateUserMiddleware(
 ) {
   const createUserSchema = z.object({
     email: z
-      .string({
-        required_error: GeneratorErrorResponse.emptyInputError('email'),
-        invalid_type_error: GeneratorErrorResponse.stringInputError('email'),
-      })
-      .email(GeneratorErrorResponse.emailInputError()),
+      .string(GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired('email'))
+      .email(GeneratorErrorResponse.generateErrorMessageEmail()),
     password: z
-      .string({
-        required_error: GeneratorErrorResponse.emptyInputError('senha'),
-        invalid_type_error: GeneratorErrorResponse.stringInputError('senha'),
-      })
-      .min(6, GeneratorErrorResponse.minInputError('email', 6)),
+      .string(GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired('password'))
+      .min(6, GeneratorErrorResponse.generateErrorMessageMinLength('password', 6)),
   });
 
   const isParseSuccess = createUserSchema.safeParse(request.body);

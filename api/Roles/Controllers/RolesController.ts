@@ -46,7 +46,7 @@ export default class RolesController {
 
       const roleId = (await roleAction.execute(roleFactory))?.id;
 
-      return response.status(200).json(roleId);
+      return response.status(201).json(roleId);
     } catch (error) {
       if (error instanceof InternalServerError)
         throw new InternalServerError(error.message);
@@ -66,9 +66,10 @@ export default class RolesController {
 
       await roleAction.execute(userDataInput, actualRoleInput);
 
-      return response.status(200).json('funfou');
+      return response.status(204);
     } catch (error) {
-      throw new Error('erro');
+      if (error instanceof InternalServerError)
+      throw new InternalServerError(error.message);
     }
   }
 
@@ -80,9 +81,10 @@ export default class RolesController {
 
       await roleAction.execute(userDataInput);
 
-      return response.status(200).json('funfou');
+      return response.status(204);
     } catch (error) {
-      throw new Error('erro');
+      if (error instanceof InternalServerError)
+      throw new InternalServerError(error.message);
     }
   }
 }

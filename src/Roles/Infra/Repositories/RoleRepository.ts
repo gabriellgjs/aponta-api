@@ -10,7 +10,7 @@ export default class RoleRepository {
 
   async save(role: Role) {
     if (role.id) {
-      this.update(role);
+      return this.update(role);
     }
 
     return this.create(role);

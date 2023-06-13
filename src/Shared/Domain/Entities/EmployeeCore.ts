@@ -1,5 +1,4 @@
 import { People, PeopleProps } from './People';
-import UserCore from './UserCore';
 
 interface EmployeeProps extends PeopleProps {
   id?: number;
@@ -22,6 +21,7 @@ export default class EmployeeCore extends People {
 
     this.props = {
       ...props,
+      status: props.status ?? 'ativo',
     };
   }
 
@@ -58,7 +58,7 @@ export default class EmployeeCore extends People {
   }
 
   get status(): string {
-    return this.props.status ? this.props.status : 'active';
+    return this.props.status ? this.props.status : 'ativo';
   }
 
   set status(status: string) {

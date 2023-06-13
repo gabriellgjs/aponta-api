@@ -1,14 +1,9 @@
-import PrismaConnection from '@prisma/PrismaConnection';
+import { prismaConnection } from '@prisma/PrismaConnection';
 import { getEmployee } from '../Types/EmployeesTypes';
+import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 
 export default class EmployeesModel {
-  private prismaConnection: PrismaConnection;
-
-  constructor() {
-    this.prismaConnection = new PrismaConnection();
-  }
-
-  //TODO DEVOLVER TODAS AS INFORMAÇÕES DE EMPLOYEE
+  private prismaConnection = prismaConnection;
 
   async getEmployees() {
     try {
@@ -23,7 +18,7 @@ export default class EmployeesModel {
         },
       });
     } catch (error) {
-      throw new Error('erro');
+        throw new InternalServerError("Erro ao listar os funcionários.");
     }
   }
 
@@ -36,14 +31,14 @@ export default class EmployeesModel {
         include: {
           people: {
             include: {
-              address: true,
+              address: true,              
               telephone: true,
             },
           },
         },
       });
     } catch (error) {
-      throw new Error('erro');
+      throw new InternalServerError("Erro ao listar o funcionário.");
     }
   }
 }

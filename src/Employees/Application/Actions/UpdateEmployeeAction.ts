@@ -8,7 +8,7 @@ export default class UpdateEmployeeAction {
   async execute(
     input: UpdateEmployeeInputData,
     actual: UpdateEmployeeInputData,
-  ): Promise<void> {
+  ) {
     const employeeRepository = new EmployeeRepository();
 
     
@@ -41,6 +41,6 @@ export default class UpdateEmployeeAction {
       }),
     });
 
-    return await employeeRepository.update(employee);
+    return await employeeRepository.save(employee);
   }
 }

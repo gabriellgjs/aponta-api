@@ -9,12 +9,11 @@ import DeleteEmployeeAction from '@src/Employees/Application/Actions/DeleteEmplo
 import DeleteEmployeeFactory from '../Factories/DeleteEmployeeFactory';
 import UpdateEmployeeAction from '@src/Employees/Application/Actions/UpdateEmployeeAction';
 import UpdateEmployeeFactory from '../Factories/UpdateEmployeeFactory';
+import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
+import Employee from '@src/Employees/Domain/Entities/Employee';
 
 export default class EmployeesController {
-  public async getEmployee(
-    request: Request,
-    response: Response,
-  ): Promise<Response<string | undefined>> {
+  public async getEmployee(request: Request, response: Response) {
     try {
       const employeesModel = new EmployeesModel();
 
@@ -24,9 +23,13 @@ export default class EmployeesController {
 
       return response
         .status(200)
-        .json(EmployeeOutputData.responseGetEmployee(employee));
+        .json(
+          EmployeeOutputData.responseGetEmployee(employee) ??
+            'Nenhum funcionário encontrado',
+        );
     } catch (error) {
-      throw new Error('erro');
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
     }
   }
 
@@ -38,45 +41,65 @@ export default class EmployeesController {
 
       return response
         .status(200)
-        .json(EmployeeOutputData.responseGetEmployees(employees));
+        .json(
+          EmployeeOutputData.responseGetEmployees(employees) ??
+            'Nenhum funcionário encontrado',
+        );
     } catch (error) {
-      throw new Error('erro');
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
     }
   }
 
   public async createEmployee(request: Request, response: Response) {
-    const employeeAction = new CreateEmployeeAction();
+    try {
+      const employeeAction = new CreateEmployeeAction();
 
-    const employeeFactory = CreateEmployeeFactory.fromRequest(request);
+      const employeeFactory = CreateEmployeeFactory.fromRequest(request);
 
-    const employeeId = (await employeeAction.execute(employeeFactory)).id;
+      const employeeId = (await employeeAction.execute(employeeFactory))?.id;
 
-    return response.status(200).json(employeeId);
+      return response.status(201).json(employeeId);
+    } catch (error) {
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
+    }
   }
 
   public async updateEmployee(request: Request, response: Response) {
+    try {
       const employeeAction = new UpdateEmployeeAction();
       const employeesModel = new EmployeesModel();
-  
+
       const userDataInput = UpdateEmployeeFactory.fromRequest(request);
-  
-      const actualEmployee = await employeesModel.getEmployeesById(userDataInput.id);
-    
-      const actualEmployeesInput = UpdateEmployeeFactory.fromCurrentRole(actualEmployee);
-  
+
+      const actualEmployee = await employeesModel.getEmployeesById(
+        userDataInput.id,
+      );
+
+      const actualEmployeesInput =
+        UpdateEmployeeFactory.fromCurrentRole(actualEmployee);
+
       await employeeAction.execute(userDataInput, actualEmployeesInput);
-  
-      return response.status(200).json('funfou');
+      console.log('aqui')
+      return response.status(204).json();
+    } catch (error) {
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
+    }
   }
 
   public async deleteEmployee(request: Request, response: Response) {
-    const employeeAction = new DeleteEmployeeAction();
+    try {
+      const employeeAction = new DeleteEmployeeAction();
 
-    const userDataInput = DeleteEmployeeFactory.fromRequest(request);
+      const userDataInput = DeleteEmployeeFactory.fromRequest(request);
 
-
-    await employeeAction.execute(userDataInput);
-
-    return response.status(200).json('funfou');
+      await employeeAction.execute(userDataInput);
+      return response.status(204).json();
+    } catch (error) {
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
+    }
   }
 }
