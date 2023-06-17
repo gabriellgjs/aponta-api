@@ -6,8 +6,8 @@ import { verifyPersonSchema } from '../Utils/Zod/ZodVerifySchemas';
 import { BirthDateValidator } from './BirthDateValidator';
 import CepValidator from './CepValidator';
 import CpfValidator from './CpfValidator';
+import regexName from '../Utils/Regex/RegexName';
 
-const regexName = /^[a-zA-ZÀ-ÖØ-öø-ÿ ]+$/u;
 const regexRG = /^[a-zA-Z0-9]+$/gm;
 const regexTelephone = /^\([1-9]{2}\) (?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$/gm;
 

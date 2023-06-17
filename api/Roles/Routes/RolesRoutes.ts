@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import RolesController from '../Controllers/RolesController';
+import CreateRoleMiddleware from '../Middlewares/CreateRoleMiddleware';
 
 export default class RolesRoutes {
   private rolesController: RolesController;
@@ -30,7 +31,7 @@ export default class RolesRoutes {
 
     this.rolesRoutes.get('/', getRoles);
 
-    this.rolesRoutes.post('/', createRole);
+    this.rolesRoutes.post('/', CreateRoleMiddleware, createRole);
 
     this.rolesRoutes.get('/:id', getRole);
 

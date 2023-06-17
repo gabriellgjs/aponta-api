@@ -5,22 +5,24 @@ import personValidatorZod from 'api/Shared/Middlewares/PersonValidatorZod';
 import GeneratorErrorResponse from 'api/Shared/Utils/Error/Helpers/GeneratorErrorMessages';
 import { verifyEmployeeSchema } from 'api/Shared/Utils/Zod/ZodVerifySchemas';
 import verifyHireDate from './VerifyHireDate';
-import verifyPisPasep from './verifyPisPasep';
-import verifyRoleExist from './verifyRoleExist';
+import verifyPisPasep from './VerifyPisPasep';
+import verifyRoleExist from './VerifyRoleExist';
 
 export default async function CreateEmployeeMiddleware(
   request: Request,
   response: Response,
   next: NextFunction,
 ) {
-  await verifyMiddlewares(request, response, next);
+  await verifyMiddlewaresEmployee(request, response, next);
 }
 
-const verifyMiddlewares = async (
+const verifyMiddlewaresEmployee = async (
   request: Request,
   response: Response,
   next: NextFunction,
 ) => {
+  const Person = await personValidatorZod(request);
+  
   const EmployeeSchema = z.object({
     hire_date: z
       .string(
@@ -41,13 +43,14 @@ const verifyMiddlewares = async (
     )
   });
 
-  const person = await personValidatorZod(request);
   const EmployeeSchemaZodVerify = verifyEmployeeSchema(EmployeeSchema, request);
 
-  verifyHireDate(EmployeeSchemaZodVerify.data.hire_date, person.data.birth_date);
+  verifyHireDate(EmployeeSchemaZodVerify.data.hire_date, Person.data.birth_date);
   verifyPisPasep(EmployeeSchemaZodVerify.data.pis_pasep);
   await verifyRoleExist(EmployeeSchemaZodVerify.data.role_id);
 
   next();
 };
+
+
 //TODO alterar quantidade de caracteres de RG
