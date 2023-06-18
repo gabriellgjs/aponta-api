@@ -12,6 +12,11 @@ export class BadRequestError extends BaseError {
     super(message, 400);
   }
 }
+export class NotFoundError extends BaseError {
+  constructor(message: string) {
+    super(message, 404);
+  }
+}
 
 export class InternalServerError extends BaseError {
   constructor(message: string) {

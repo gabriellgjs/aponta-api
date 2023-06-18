@@ -23,7 +23,7 @@ export default class RoleCore {
   }
 
   get status(): string {
-    return this.props.status ? this.props.status : '';
+    return this.props.status ?? '';
   }
 
   set status(status: string) {

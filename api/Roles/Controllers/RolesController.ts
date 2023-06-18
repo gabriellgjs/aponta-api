@@ -7,7 +7,11 @@ import CreateRoleFactory from '../Factories/CreateRoleFactory';
 import UpdateRoleFactory from '../Factories/UpdateRoleFactory';
 import DeleteRoleFactory from '../Factories/DeleteRoleFactory';
 import RolesModel from '../Models/RolesModel';
-import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
+import {
+  BadRequestError,
+  InternalServerError,
+  NotFoundError,
+} from 'api/Shared/Utils/Error/ApiErrors';
 import RoleOutputData from '../Dtos/RoleOutputData';
 
 export default class RolesController {
@@ -19,7 +23,9 @@ export default class RolesController {
 
       const role = await rolesModel.getRole(Number(id));
 
-      return response.status(200).json(role ?? 'Nenhum cargo encontrado');
+      if (!role) throw new NotFoundError('Cargo não encontrado');
+
+      return response.status(200).json(role);
     } catch (error) {
       if (error instanceof InternalServerError)
         throw new InternalServerError(error.message);
@@ -27,15 +33,16 @@ export default class RolesController {
   }
 
   public async getRoles(request: Request, response: Response) {
-    const rolesModel = new RolesModel();
+    try {
+      const rolesModel = new RolesModel();
 
-    const roles = await rolesModel.getRoles();
+      const roles = await rolesModel.getRoles();
 
-    return response
-      .status(200)
-      .json(
-        RoleOutputData.responseGetRoles(roles) ?? 'Nenhum cargo encontrado',
-      );
+      return response.status(200).json(RoleOutputData.responseGetRoles(roles));
+    } catch (error) {
+      if (error instanceof InternalServerError)
+        throw new InternalServerError(error.message);
+    }
   }
 
   public async createRole(request: Request, response: Response) {
@@ -66,10 +73,10 @@ export default class RolesController {
 
       await roleAction.execute(userDataInput, actualRoleInput);
 
-      return response.status(204);
+      return response.status(204).json();
     } catch (error) {
       if (error instanceof InternalServerError)
-      throw new InternalServerError(error.message);
+        throw new InternalServerError(error.message);
     }
   }
 
@@ -81,10 +88,10 @@ export default class RolesController {
 
       await roleAction.execute(userDataInput);
 
-      return response.status(204);
+      return response.status(204).json();
     } catch (error) {
       if (error instanceof InternalServerError)
-      throw new InternalServerError(error.message);
+        throw new InternalServerError(error.message);
     }
   }
 }

@@ -81,7 +81,6 @@ export default class EmployeesController {
         UpdateEmployeeFactory.fromCurrentRole(actualEmployee);
 
       await employeeAction.execute(userDataInput, actualEmployeesInput);
-      console.log('aqui')
       return response.status(204).json();
     } catch (error) {
       if (error instanceof InternalServerError)

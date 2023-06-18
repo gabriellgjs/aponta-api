@@ -9,20 +9,21 @@ export default class RolesModel {
     try {
       return await this.prismaConnection.role.create({
         data: {
-          status: role.status,
           name: role.name,
+          status: role.status,
         },
       });
     } catch (error) {
-      throw new InternalServerError("Erro ao criar um cargo.");
+      throw new InternalServerError('Erro ao criar um cargo.');
     }
   }
 
   async deleteRole(roleId: number) {
     try {
-      return await this.prismaConnection.role.update({
+      return await this.prismaConnection.role.updateMany({
         where: {
           id: roleId,
+          status: 'ativo',
         },
         data: {
           status: 'inativo',
@@ -40,7 +41,6 @@ export default class RolesModel {
           id: role.id,
         },
         data: {
-          status: role.status,
           name: role.name,
         },
       });

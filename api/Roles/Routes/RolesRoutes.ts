@@ -1,6 +1,9 @@
 import express, { Router } from 'express';
 import RolesController from '../Controllers/RolesController';
 import CreateRoleMiddleware from '../Middlewares/CreateRoleMiddleware';
+import DeleteRoleMiddleware from '../Middlewares/DeleteRoleMiddleware';
+import UpdateRoleMiddleware from '../Middlewares/UpdateRoleMiddleware';
+import GetRoleMiddleware from '../Middlewares/GetRoleMiddleware';
 
 export default class RolesRoutes {
   private rolesController: RolesController;
@@ -33,11 +36,12 @@ export default class RolesRoutes {
 
     this.rolesRoutes.post('/', CreateRoleMiddleware, createRole);
 
-    this.rolesRoutes.get('/:id', getRole);
+    this.rolesRoutes.get('/:id', GetRoleMiddleware, getRole);
 
-    this.rolesRoutes.put('/:id', updateRole);
+    this.rolesRoutes.put('/:id', UpdateRoleMiddleware
+    , updateRole);
 
-    this.rolesRoutes.delete('/:id', deleteRole);
+    this.rolesRoutes.delete('/:id', DeleteRoleMiddleware, deleteRole);
   }
 
   get RolesRoutes() {

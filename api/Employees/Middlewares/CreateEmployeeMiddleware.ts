@@ -6,7 +6,7 @@ import GeneratorErrorResponse from 'api/Shared/Utils/Error/Helpers/GeneratorErro
 import { verifyEmployeeSchema } from 'api/Shared/Utils/Zod/ZodVerifySchemas';
 import verifyHireDate from './VerifyHireDate';
 import verifyPisPasep from './VerifyPisPasep';
-import verifyRoleExist from './VerifyRoleExist';
+import verifyRoleExist from 'api/Shared/Middlewares/VerifyRoleExist';
 
 export default async function CreateEmployeeMiddleware(
   request: Request,

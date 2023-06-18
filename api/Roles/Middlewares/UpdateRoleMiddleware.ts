@@ -3,17 +3,20 @@ import regexName from "api/Shared/Utils/Regex/RegexName";
 import { verifyRoleSchema } from "api/Shared/Utils/Zod/ZodVerifySchemas";
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
+import VerifyInAndRoleExist from "./VerifyIdAndRoleExist";
 
-export default async function CreateRoleMiddleware(
+export default async function UpdateRoleMiddleware(
   request: Request,
   response: Response,
   next: NextFunction,
 ) {
-  await verifyMiddlewareCreateRole(request, response, next);
-
+  await verifyMiddlewareUpdateRole(request, response, next);
+  const { id } = request.params;
+  
+  await VerifyInAndRoleExist(Number(id));
 }
 
-const verifyMiddlewareCreateRole = async (
+const verifyMiddlewareUpdateRole = async (
   request: Request,
   response: Response,
   next: NextFunction,

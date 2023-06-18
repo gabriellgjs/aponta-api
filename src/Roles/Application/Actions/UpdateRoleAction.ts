@@ -11,7 +11,7 @@ export default class UpdateRoleAction {
 
     const role = new Role({
       id: actual.id,
-      name: input.name,
+      name: input.name.trim(),
     });
 
     return await roleRepository.save(role);

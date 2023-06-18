@@ -17,7 +17,6 @@ const user = {
   status: "ativo",
   email: "contato.gabrieljosesilva@gmail.com",
   password: "$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy"
-
 }
 
 async function run() {
