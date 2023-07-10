@@ -10,7 +10,6 @@ import DeleteEmployeeFactory from '../Factories/DeleteEmployeeFactory';
 import UpdateEmployeeAction from '@src/Employees/Application/Actions/UpdateEmployeeAction';
 import UpdateEmployeeFactory from '../Factories/UpdateEmployeeFactory';
 import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
-import Employee from '@src/Employees/Domain/Entities/Employee';
 
 export default class EmployeesController {
   public async getEmployee(request: Request, response: Response) {

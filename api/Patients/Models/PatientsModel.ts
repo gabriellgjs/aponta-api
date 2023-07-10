@@ -1,11 +1,10 @@
 import { prismaConnection } from '@prisma/PrismaConnection';
-import { getEmployee } from '../Types/EmployeesTypes';
 import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 
-export default class EmployeesModel {
+export default class PatientsModel {
   private prismaConnection = prismaConnection;
 
-  async getEmployees() {
+  async getPatients() {
     try {
       return await this.prismaConnection.employee.findMany({
         select: {
@@ -18,15 +17,15 @@ export default class EmployeesModel {
         },
       });
     } catch (error) {
-        throw new InternalServerError("Erro ao listar os funcionários.");
+        throw new InternalServerError("Erro ao listar os pacientes.");
     }
   }
 
-  async getEmployeesById(employee_id: number): getEmployee {
+  async getPatientById(patient_id: number) {
     try {
-      return await this.prismaConnection.employee.findUnique({
+      return await this.prismaConnection.patient.findUnique({
         where: {
-          id: employee_id,
+          id: patient_id,
         },
         include: {
           people: {
@@ -38,9 +37,7 @@ export default class EmployeesModel {
         },
       });
     } catch (error) {
-      throw new InternalServerError("Erro ao listar o funcionário.");
+      throw new InternalServerError("Erro ao listar o paciente.");
     }
   }
 }
-
-// TODO troca a função getEmployees pro sigular
