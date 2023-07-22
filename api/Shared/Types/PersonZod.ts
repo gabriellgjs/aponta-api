@@ -17,4 +17,8 @@ export type PersonSchemaZod = z.ZodObject<{
   telephone: z.ZodObject<{
     number: z.ZodString;
   }>;
+  patient: z.ZodObject<{
+    marital_status: z.ZodString;
+    career: z.ZodString;
+  }>;
 }>;

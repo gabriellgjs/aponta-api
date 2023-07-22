@@ -6,7 +6,6 @@ import GeneratorErrorResponse from 'api/Shared/Utils/Error/Helpers/GeneratorErro
 import { verifyEmployeeSchema } from 'api/Shared/Utils/Zod/ZodVerifySchemas';
 import verifyHireDate from './VerifyHireDate';
 import verifyPisPasep from './VerifyPisPasep';
-import verifyRoleExist from 'api/Shared/Middlewares/VerifyRoleExist';
 
 export default async function CreateEmployeeMiddleware(
   request: Request,
@@ -31,11 +30,6 @@ const verifyMiddlewaresEmployee = async (
         ),
       )
       .datetime(),
-    role_id: z.number(
-      GeneratorErrorResponse.generateErrorMessageInTypeNumberOrRequired(
-        'role_id',
-      ),
-    ),
     pis_pasep: z.string(
       GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
         'pis_pasep',
@@ -47,8 +41,7 @@ const verifyMiddlewaresEmployee = async (
 
   verifyHireDate(EmployeeSchemaZodVerify.data.hire_date, Person.data.birth_date);
   verifyPisPasep(EmployeeSchemaZodVerify.data.pis_pasep);
-  await verifyRoleExist(EmployeeSchemaZodVerify.data.role_id);
-
+  
   next();
 };
 

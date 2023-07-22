@@ -7,7 +7,6 @@ export default class CreateEmployeeInputData {
     readonly gender: string,
     readonly hire_date: Date,
     readonly pis_pasep: string,
-    readonly role_id: number,
     readonly address: {
       readonly street: string;
       readonly number: string;
@@ -19,5 +18,9 @@ export default class CreateEmployeeInputData {
     readonly telephone: {
       readonly number: string;
     },
+    readonly patient: {
+      readonly marital_status: string;
+      readonly career: string;
+    }
   ) {}
 }

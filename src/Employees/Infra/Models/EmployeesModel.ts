@@ -20,7 +20,6 @@ export default class EmployeesModel {
                 status: employee.status,
                 hire_date: employee.hire_date,
                 pis_pasep: employee.pis_pasep,
-                role_id: employee.role_id,
               },
             },
             address: {
@@ -38,6 +37,13 @@ export default class EmployeesModel {
                 number: employee.telephone.number,
               },
             },
+            patient: {
+              create: {
+                status: employee.patient.status,
+                marital_status: employee.patient.marital_status,
+                career: employee.patient.career,
+              }
+            }
           },
         }),
       ]);
@@ -112,7 +118,6 @@ export default class EmployeesModel {
             status: employee.status,
             hire_date: employee.hire_date,
             termination_date: employee.termination_date,
-            role_id: employee.role_id,
             pis_pasep: employee.pis_pasep,
           },
         }),
@@ -147,6 +152,15 @@ export default class EmployeesModel {
           },
           data: {
             number: employee.telephone.number,
+          },
+        }),
+        this.prismaConnection.patient.update({
+          where: {
+            id: employee.patient.id,
+          },
+          data: {
+            marital_status: employee.patient.marital_status,
+            career: employee.patient.career,
           },
         }),
       ]);

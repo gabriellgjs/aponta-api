@@ -10,7 +10,6 @@ export default async function CreateRoleMiddleware(
   next: NextFunction,
 ) {
   await verifyMiddlewareCreateRole(request, response, next);
-
 }
 
 const verifyMiddlewareCreateRole = async (
@@ -26,6 +25,13 @@ const verifyMiddlewareCreateRole = async (
       ),
     )
     .regex(regexName, 'Nome só pode ter letras e acentuações.').trim(),
+    description: z
+    .string(
+      GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
+        'description',
+      ),
+    )
+    .regex(regexName, 'Descrição só pode ter letras e acentuações.').trim(),
   });
 
   verifyRoleSchema(roleSchema, request);

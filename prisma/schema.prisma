@@ -7,19 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Role {
-  id     Int    @id @default(autoincrement())
-  status String @db.VarChar(50)
-  name   String @db.VarChar(100)
-
-  created_at DateTime  @default(now())
-  updated_at DateTime? @updatedAt
-
-  employee Employee[]
-
-  @@map("roles")
-}
-
 model Address {
   id          Int    @id @default(autoincrement())
   street      String @db.VarChar(255)
@@ -79,12 +66,10 @@ model Employee {
 
   created_at DateTime  @default(now())
   updated_at DateTime? @updatedAt
-
-  role_id   Int
+  
   people_id Int
   user_id   Int?
 
-  role   Role   @relation(fields: [role_id], references: [id])
   people People @relation(fields: [people_id], references: [id])
   user   User?  @relation(fields: [user_id], references: [id])
 
@@ -113,13 +98,66 @@ model User {
   status     String    @db.VarChar(50)
   email      String    @unique @db.VarChar(255)
   password   String    @db.VarChar(255)
+  role_id Int
+
   created_at DateTime  @default(now())
   updated_at DateTime? @updatedAt
 
+  role Role @relation(fields: [role_id], references: [id])
   appointments Appointments[]
   employees    Employee[]
+  userPermissions UserPermissions[]
 
   @@map("users")
+}
+
+
+model Role {
+  id     Int    @id @default(autoincrement())
+  name   String @db.VarChar(100)
+  description String @db.VarChar(255)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+
+  users User[]
+  rolePermissions RolePermissions[]
+
+  @@map("roles")
+}
+
+model Permissions {
+  id     Int    @id @default(autoincrement())
+  name   String @db.VarChar(100)
+  description String @db.VarChar(255)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime? @updatedAt
+
+  userPermissions UserPermissions[]
+  rolePermissions RolePermissions[]
+
+  @@map("permissions")
+}
+
+model UserPermissions {
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  permission Permissions @relation(fields: [permission_id], references: [id])
+  permission_id Int
+
+  @@id([user_id, permission_id])
+  @@map("user_permissions")
+}
+
+model RolePermissions {
+  role Role @relation(fields: [role_id], references: [id])
+  role_id Int
+  permission Permissions @relation(fields: [permission_id], references: [id])
+  permission_id Int
+
+  @@id([role_id, permission_id])  
+  @@map("role_permissions")
 }
 
 model Appointments {

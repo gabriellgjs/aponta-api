@@ -12,6 +12,7 @@ export default class UsersModel {
           status: user.status,
           email: user.email,
           password: user.password,
+          role_id: user.role_id,
         },
       });
       

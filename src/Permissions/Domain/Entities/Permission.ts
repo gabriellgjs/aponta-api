@@ -1,16 +1,15 @@
-interface RoleProps {
+interface PermissionProps {
   id?: number;
   name: string;
-  status?: string;
+  description: string;
 }
 
-export default class RoleCore {
-  private props: RoleProps;
+export default class Permission {
+  private props: PermissionProps;
 
-  constructor(props: RoleProps) {
+  constructor(props: PermissionProps) {
     this.props = {
       ...props,
-      status: props.status ?? 'ativo',
     };
   }
 
@@ -22,19 +21,19 @@ export default class RoleCore {
     this.props.id = id;
   }
 
-  get status(): string {
-    return this.props.status ?? '';
-  }
-
-  set status(status: string) {
-    this.props.status = status;
-  }
-
   get name(): string {
     return this.props.name;
   }
 
   set name(name: string) {
     this.props.name = name;
+  }
+
+  get description(): string {
+    return this.props.description;
+  }
+
+  set description(description: string) {
+    this.props.description = description;
   }
 }

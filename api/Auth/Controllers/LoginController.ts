@@ -2,8 +2,9 @@ import { compare } from 'bcryptjs';
 import { Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
 
+import { BadRequestError, InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 import LoginUserFactory from '../Factories/LoginUserFactory';
-import UsersModel from '../Models/UserModel';
+import LoginModel from '../Models/LoginModel';
 
 interface propsToken {
   id: number;
@@ -40,23 +41,26 @@ export default class LoginController {
   }
 
   public async login(request: Request, response: Response) {
-    const userFactory = LoginUserFactory.fromRequest(request);
+    try {
+      const userFactory = LoginUserFactory.fromRequest(request);
+      const loginModel = new LoginModel();
+      const userExists = await loginModel.findUser(userFactory.email);
+  
+      if (!userExists) throw new BadRequestError('Email ou senha inválidos.');
+  
+      const passwordIsMatch = await this.comparePassword(
+        userExists.password,
+        userFactory.password,
+      );
+  
+      if (!passwordIsMatch) throw new BadRequestError('Email ou senha inválidos.');
+  
+      return response.status(200)
+                      .json(this.generateTokenAuthenticationByUser(userExists));     
+    } catch (error) {
+      if (error instanceof InternalServerError)
+      throw new InternalServerError(error.message);
+    }
 
-    const usersModel = new UsersModel();
-
-    const userExists = await usersModel.findUser(userFactory.email);
-
-    if (!userExists) throw new Error('Email ou senha inválidos.');
-
-    const passwordIsMatch = await this.comparePassword(
-      userExists.password,
-      userFactory.password,
-    );
-
-    if (!passwordIsMatch) throw new Error('Email ou senha inválidos.');
-
-    return response
-      .status(200)
-      .send(this.generateTokenAuthenticationByUser(userExists));
   }
 }

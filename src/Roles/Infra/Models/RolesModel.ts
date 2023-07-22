@@ -10,7 +10,7 @@ export default class RolesModel {
       return await this.prismaConnection.role.create({
         data: {
           name: role.name,
-          status: role.status,
+          description: role.description,
         },
       });
     } catch (error) {
@@ -20,15 +20,10 @@ export default class RolesModel {
 
   async deleteRole(roleId: number) {
     try {
-      return await this.prismaConnection.role.updateMany({
-        where: {
+      return await this.prismaConnection.role.delete({
+        where: { 
           id: roleId,
-          status: 'ativo',
-        },
-        data: {
-          status: 'inativo',
-        },
-      });
+        }});
     } catch (error) {
       throw new InternalServerError('Erro ao deletar um cargo.');
     }
@@ -42,6 +37,7 @@ export default class RolesModel {
         },
         data: {
           name: role.name,
+          description: role.description,
         },
       });
     } catch (error) {

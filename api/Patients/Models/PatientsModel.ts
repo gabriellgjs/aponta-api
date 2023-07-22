@@ -6,7 +6,7 @@ export default class PatientsModel {
 
   async getPatients() {
     try {
-      return await this.prismaConnection.employee.findMany({
+      return await this.prismaConnection.patient.findMany({
         select: {
           id: true,
           people: {

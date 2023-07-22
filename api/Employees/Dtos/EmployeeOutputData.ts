@@ -24,12 +24,15 @@ export default class EmployeeOutputData {
     const hire_date = employee?.hire_date;
     const termination_date = employee?.termination_date;
     const pis_pasep = employee?.pis_pasep;
-    const role_id = employee?.role_id;
 
     const telephone_id = employee?.people.telephone[0].id;
     const number = employee?.people.telephone[0].number;
 
     const user_id = employee?.user_id;
+
+    const patient_id = employee?.people.patient[0].id;
+    const marital_status = employee?.people.patient[0].marital_status;
+    const career = employee?.people.patient[0].career;
 
     return {
       employee: {
@@ -38,7 +41,6 @@ export default class EmployeeOutputData {
         hire_date,
         termination_date,
         pis_pasep,
-        role_id,
         user_id,
         people: {
           id: people_id,
@@ -60,6 +62,11 @@ export default class EmployeeOutputData {
           id: telephone_id,
           number,
         },
+        patient: {
+          id: patient_id,
+          marital_status,
+          career,
+        }
       },
     };
   }

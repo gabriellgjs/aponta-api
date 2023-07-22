@@ -9,8 +9,8 @@ export default class CreateEmployeeFactory {
     const { cpf } = request.body;
     const { gender } = request.body;
     const { hire_date } = request.body;
-    const { role_id } = request.body;
     const { pis_pasep } = request.body;
+
     const address = {
       street: request.body.address.street,
       number: request.body.address.number,
@@ -19,8 +19,14 @@ export default class CreateEmployeeFactory {
       postalCode: request.body.address.postalCode,
       state: request.body.address.state,
     };
+
     const telephone = {
       number: request.body.telephone.number,
+    };
+    
+    const patient = {
+      marital_status: request.body.patient.marital_status,
+      career: request.body.patient.career,
     };
 
     return new CreateEmployeeInputData(
@@ -31,9 +37,9 @@ export default class CreateEmployeeFactory {
       gender,
       hire_date,
       pis_pasep,
-      role_id,
       address,
       telephone,
+      patient,
     );
   }
 }

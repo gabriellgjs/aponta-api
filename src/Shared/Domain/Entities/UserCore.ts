@@ -3,6 +3,7 @@ interface UserProps {
   status?: string;
   email: string;
   password: string;
+  role_id: number;
 }
 
 export default class UserCore {
@@ -21,6 +22,14 @@ export default class UserCore {
 
   set email(email: string) {
     this.props.email = email;
+  }
+
+  get role_id(): number {
+    return this.props.role_id;
+  }
+
+  set role_id(role_id: number) {
+    this.props.role_id = role_id;
   }
 
   get password(): string {

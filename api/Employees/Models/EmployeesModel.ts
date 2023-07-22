@@ -33,6 +33,7 @@ export default class EmployeesModel {
             include: {
               address: true,              
               telephone: true,
+              patient: true,
             },
           },
         },

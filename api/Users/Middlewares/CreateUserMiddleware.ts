@@ -18,6 +18,7 @@ export default async function CreateUserMiddleware(
     password: z
       .string(GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired('password'))
       .min(6, GeneratorErrorResponse.generateErrorMessageMinLength('password', 6)),
+    role_id: z.number()
   });
 
   const isParseSuccess = createUserSchema.safeParse(request.body);

@@ -4,19 +4,20 @@ const prisma = new PrismaClient();
 
 const admRole = [
   {
-    status: 'ativo',
     name: 'admin',
+    description: 'Administrador'
   },
   {
-    status: 'ativo',
     name: 'dentista',
+    description: 'Dentista'
   },
 ];
 
 const user = {
   status: "ativo",
   email: "contato.gabrieljosesilva@gmail.com",
-  password: "$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy"
+  password: "$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy",
+  role_id: 1
 }
 
 async function run() {

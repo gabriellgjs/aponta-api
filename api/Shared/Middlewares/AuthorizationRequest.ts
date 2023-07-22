@@ -12,7 +12,9 @@ export default class AuthorizationRequest{
       const secret: string = process.env.JWT_SECRET ?? 'secret';
       const payload = verify(token.replace("Bearer ", ""), secret);
 
-      response.locals.user = payload;
+      response.locals.user= payload;
+
+      console.log(response.locals.user);
 
     } catch (error) {
       return response.status(401).json('Invalid Token');

@@ -1,5 +1,6 @@
 import Telephone from '@src/Employees/Domain/Entities/Telephone';
 import Employee from '../../Domain/Entities/Employee';
+import Patient from '../../Domain/Entities/Patient';
 import EmployeeRepository from '../../Infra/Repositories/EmployeeRepository';
 import UpdateEmployeeInputData from '../Dtos/UpdateEmployeeInputData';
 import Address from '@src/Employees/Domain/Entities/Address';
@@ -11,13 +12,11 @@ export default class UpdateEmployeeAction {
   ) {
     const employeeRepository = new EmployeeRepository();
 
-    
     const employee = new Employee({
       id: actual.id,
       status: input.status ?? actual.status,
       pis_pasep: input.pis_pasep ?? actual.pis_pasep,
       user_id: input.user_id ?? actual.user_id,
-      role_id: input.role_id ?? actual.role_id,
       hire_date: input.hire_date ?? actual.hire_date,
       termination_date: input.termination_date ?? actual.termination_date,
       people_id: input.people_id ?? actual.people_id,
@@ -38,6 +37,11 @@ export default class UpdateEmployeeAction {
         city: input.address.city ?? actual.address.city,
         postal_code: input.address.postal_code ?? actual.address.postal_code,
         state: input.address.state ?? actual.address.state,
+      }),
+      patient: new Patient({
+        id: actual.patient.id,
+        career: input.patient.career ?? actual.patient.career,
+        marital_status: input.patient.marital_status ?? actual.patient.marital_status,
       }),
     });
 

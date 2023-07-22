@@ -9,7 +9,6 @@ export default class UpdateEmployeeFactory {
     const { hire_date } = request.body;
     const { termination_date } = request.body;
     const { pis_pasep } = request.body;
-    const { role_id } = request.body;
     const { user_id } = request.body;
     const { people_id } = request.body;
     const { name } = request.body;
@@ -24,6 +23,8 @@ export default class UpdateEmployeeFactory {
     const { postal_code } = request.body.address;
     const { state } = request.body.address;
     const telephone_number = request.body.telephone.number;
+    const { marital_status } = request.body.patient.marital_status;
+    const { career } = request.body.patient;
 
     return new UpdateEmployeeInputData(
       Number(id),
@@ -31,7 +32,6 @@ export default class UpdateEmployeeFactory {
       hire_date,
       termination_date,
       pis_pasep,
-      role_id,
       user_id,
       people_id,
       name,
@@ -50,6 +50,10 @@ export default class UpdateEmployeeFactory {
       {
         number: telephone_number,
       },
+      {
+        marital_status,
+        career
+      }
     );
   }
 
@@ -64,6 +68,10 @@ export default class UpdateEmployeeFactory {
 
     const telephone_id = employee!.people.telephone[0].id;
     const telephone_number = employee!.people.telephone[0].number;
+    
+    const patient_id = employee!.people.patient[0].id;
+    const marital_status = employee!.people.patient[0].marital_status;
+    const career = employee!.people.patient[0].career;
 
     return new UpdateEmployeeInputData(
       employee!.id,
@@ -71,7 +79,6 @@ export default class UpdateEmployeeFactory {
       employee!.hire_date,
       employee?.termination_date,
       employee!.pis_pasep,
-      employee!.role_id,
       employee?.user_id,
       employee!.people_id,
       employee!.people.name,
@@ -91,7 +98,12 @@ export default class UpdateEmployeeFactory {
       {
         id: telephone_id,
         number: telephone_number,
-      },
+      }, 
+      {
+        id: patient_id,
+        marital_status,
+        career,
+      }     
     );
   }
 }

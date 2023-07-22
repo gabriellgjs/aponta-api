@@ -85,6 +85,20 @@ export default async function personValidatorZod(request: Request) {
         )
         .regex(regexTelephone, 'Telefone inválido.'),
     }),
+    patient: z.object({
+      marital_status: z
+      .string(
+        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
+          'marital_status',
+        ),
+      ),
+      career: z
+      .string(
+        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
+          'career',
+        ),
+      ),
+    })
   });
 
   const PersonSchemaZodVerify = verifyPersonSchema(PersonSchema, request);

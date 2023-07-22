@@ -10,6 +10,7 @@ export default class CreateUserAction {
     const user = new User({
       email: input.email,
       password: await this.generateHashPassword(input.password),
+      role_id: input.role_id,
     });
 
     return await userRepository.create(user);

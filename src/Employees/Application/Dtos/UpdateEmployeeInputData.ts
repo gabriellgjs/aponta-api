@@ -5,7 +5,6 @@ export default class UpdateEmployeeInputData {
     readonly hire_date: Date,
     readonly termination_date: Date | null | undefined,
     readonly pis_pasep: string,
-    readonly role_id: number,
     readonly user_id: number | null | undefined,
     readonly people_id: number,
     readonly name: string,
@@ -26,5 +25,10 @@ export default class UpdateEmployeeInputData {
       readonly id?: number;
       readonly number: string;
     },
+    readonly patient: {
+      readonly id?: number;
+      readonly marital_status: string;
+      readonly career: string;
+    }
   ) {}
 }

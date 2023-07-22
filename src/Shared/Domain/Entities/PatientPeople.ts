@@ -1,13 +1,13 @@
 import { People, PeopleProps } from "./People";
 
-interface PatientProps extends PeopleProps {
+export interface PatientProps extends PeopleProps {
   id?: number;
   status?: string;
   marital_status?: string;
   career?: string;
 }
 
-export default class PatientCore extends People{
+export default class PatientPeople extends People{
   protected props: PatientProps;
 
   constructor(props: PatientProps) {

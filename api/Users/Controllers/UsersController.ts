@@ -1,9 +1,8 @@
 import CreateUserAction from '@src/User/Application/Actions/CreateUserAction';
+import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 import { Request, Response } from 'express';
 import CreateUserFactory from '../Factories/CreateUserFactory';
 import UsersModel from '../Models/UserModel';
-import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
-import { ZodError } from 'zod';
 
 export default class UsersController {
   public async getUser(request: Request, response: Response) {

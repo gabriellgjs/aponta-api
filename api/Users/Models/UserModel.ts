@@ -13,6 +13,7 @@ export default class UsersModel {
         select: {
           id: true,
           email: true,
+          role_id: true,
         },
       });
     } catch (error) {
@@ -26,6 +27,11 @@ export default class UsersModel {
         where: {
           id: user_id,
         },
+        select: {
+          id: true,
+          email: true,
+          role_id: true,
+        }
       });
     } catch (error) {
       throw new InternalServerError("Erro ao listar o usuário.");

@@ -8,7 +8,7 @@ export default class CreateRoleAction {
 
     const role = new Role({
       name: input.name.trim(),
-      status: 'ativo',
+      description: input.description.trim(),
     });
 
     return await roleRepository.save(role);

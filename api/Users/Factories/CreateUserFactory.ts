@@ -6,7 +6,8 @@ export default class CreateUserFactory {
   static fromRequest(request: Request) {
     const { email } = request.body;
     const { password } = request.body;
+    const { role_id } = request.body;
 
-    return new CreateUserInputData(email, password);
+    return new CreateUserInputData(email, password, role_id);
   }
 }
