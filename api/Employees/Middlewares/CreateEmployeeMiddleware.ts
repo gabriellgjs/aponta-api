@@ -22,7 +22,7 @@ const verifyMiddlewaresEmployee = async (
   next: NextFunction,
 ) => {
   const Person = await personValidatorZod(request);
-  const Patient = await patientValidatorZod(request);
+  await patientValidatorZod(request);
   
   const EmployeeSchema = z.object({
     hire_date: z

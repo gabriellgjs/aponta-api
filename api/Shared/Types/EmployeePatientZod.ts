@@ -1,12 +1,16 @@
 import { z } from "zod";
 
 export type EmployeePatientZod =  z.ZodObject<{
-  marital_status: z.ZodString;
-  careerg: z.ZodString;
+  patient: z.ZodObject<{
+      marital_status: z.ZodString;
+      career: z.ZodString;
+  }, "strip", z.ZodTypeAny, {
+      marital_status: string;
+      career: string;
+  }, {
+      marital_status: string;
+      career: string;
+  }>;
 }, "strip", z.ZodTypeAny, {
-  marital_status: string;
-  careerg: string;
 }, {
-  marital_status: string;
-  careerg: string;
-}>;
+}>
