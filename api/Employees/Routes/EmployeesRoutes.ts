@@ -1,6 +1,7 @@
 import express, { Router } from 'express';
 import EmployeesController from '../Controllers/EmployeesController';
 import CreateEmployeeMiddleware from '../Middlewares/CreateEmployeeMiddleware';
+import { is } from 'api/Shared/Middlewares/AccessControlList';
 
 export default class EmployeesRoutes {
   private employeesController: EmployeesController;
@@ -34,14 +35,10 @@ export default class EmployeesRoutes {
     );
 
     this.employeesRoutes.get('/', getEmployees);
-
-    this.employeesRoutes.post('/', CreateEmployeeMiddleware, createEmployee);
-    
     this.employeesRoutes.get('/:id', getEmployee);
-
-    this.employeesRoutes.put('/:id', updateEmployee);
-
-    this.employeesRoutes.delete('/:id', deleteEmployee);
+    this.employeesRoutes.post('/', is(["admin", "manager"]), CreateEmployeeMiddleware, createEmployee);
+    this.employeesRoutes.put('/:id', is(["admin", "manager"]), updateEmployee);
+    this.employeesRoutes.delete('/:id', is(["admin", "manager"]), deleteEmployee);
   }
 
   get EmployeesRoutes() {

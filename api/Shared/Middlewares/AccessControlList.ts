@@ -1,7 +1,7 @@
 import { prismaConnection } from "@prisma/PrismaConnection";
 import { NextFunction, Request, Response } from "express";
 
-export function is(roleRouter: string) {
+export function is(roleRouter: string[]) {
   return async(request: Request, response: Response, next: NextFunction) => {
     const user_id  =  response.locals.user.id; 
 
@@ -14,7 +14,7 @@ export function is(roleRouter: string) {
       where: { id: roleUser?.role_id}, select: {name: true}
     })
 
-    const isEquals = roleRouter === String(roleName!.name);
+    const isEquals = roleRouter.includes(roleName!.name);
     if(isEquals) {
       return next();
     }

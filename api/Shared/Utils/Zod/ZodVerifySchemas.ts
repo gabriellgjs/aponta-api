@@ -6,6 +6,7 @@ import GeneratorErrorResponse from '../Error/Helpers/GeneratorErrorMessages';
 import { EmployeeSchemaZod } from 'api/Shared/Types/EmployeeZod';
 import { RoleSchemaZod } from 'api/Shared/Types/RoleZod';
 import { DeleteSchemaId } from 'api/Shared/Types/DeleteZod';
+import { EmployeePatientZod } from 'api/Shared/Types/EmployeePatientZod';
 
 export function verifyPersonSchema(schema: PersonSchemaZod, request: Request) {
   const isParseSuccess = schema.safeParse(request.body);
@@ -48,6 +49,22 @@ export function verifyDeleteSchema(schema: DeleteSchemaId, request: Request) {
 
 export function verifyEmployeeSchema(
   schema: EmployeeSchemaZod,
+  request: Request,
+) {
+  const isParseSuccess = schema.safeParse(request.body);
+
+  if (isParseSuccess.success) {
+    return isParseSuccess;
+  }
+
+  const { message } = fromZodError(isParseSuccess.error);
+  throw new BadRequestError(
+    GeneratorErrorResponse.messageResponseError(message),
+  );
+}
+
+export function verifyEmployeePatientSchema(
+  schema: EmployeePatientZod,
   request: Request,
 ) {
   const isParseSuccess = schema.safeParse(request.body);

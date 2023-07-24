@@ -6,6 +6,7 @@ import GeneratorErrorResponse from 'api/Shared/Utils/Error/Helpers/GeneratorErro
 import { verifyEmployeeSchema } from 'api/Shared/Utils/Zod/ZodVerifySchemas';
 import verifyHireDate from './VerifyHireDate';
 import verifyPisPasep from './VerifyPisPasep';
+import patientValidatorZod from 'api/Shared/Middlewares/PatientValidatorZod';
 
 export default async function CreateEmployeeMiddleware(
   request: Request,
@@ -21,6 +22,7 @@ const verifyMiddlewaresEmployee = async (
   next: NextFunction,
 ) => {
   const Person = await personValidatorZod(request);
+  const Patient = await patientValidatorZod(request);
   
   const EmployeeSchema = z.object({
     hire_date: z
