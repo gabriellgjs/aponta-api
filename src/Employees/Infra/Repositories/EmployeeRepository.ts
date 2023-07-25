@@ -35,4 +35,8 @@ export default class EmployeeRepository {
   async setUserId(employee_id: number, user_id: number) {
     return await this.employeesModel.setUserId(employee_id, user_id);
   }
+
+  async setTerminationDate(employee_id: number, dateOfTerminationDate: Date | null) {
+    return await this.employeesModel.setTerminationDate(employee_id, dateOfTerminationDate);
+  }
 }

@@ -168,7 +168,35 @@ export default class EmployeesModel {
         }});
         return;
     } catch (error) {
-      throw new InternalServerError('Erro ao criar um funcionário');
+      throw new InternalServerError('Erro ao setar o usuário em um funcionário');
+    }
+  }
+
+  async setTerminationDate(employee_id: number, dateOfTerminationDate: Date | null) {
+    try {
+      if(dateOfTerminationDate)  {
+        await this.prismaConnection.employee.update({
+          where: {
+            id: employee_id,
+          },
+          data: {
+            termination_date: dateOfTerminationDate,
+            status: "inativo"
+          }});
+          return;
+        }
+        await this.prismaConnection.employee.update({
+          where: {
+            id: employee_id,
+          },
+          data: {
+            termination_date: dateOfTerminationDate,
+            status: "ativo",
+          }});
+          return;
+
+    } catch (error) {
+      throw new InternalServerError('Erro ao definir data de desligamento do funcionário');
     }
   }
 }

@@ -24,7 +24,7 @@ export default class Routes {
     this.route = express.Router();
     
     this.route.use('/login', this.login);
-    this.route.use('/acl', this.authorizationRequest, is("admin"), this.acl);
+    this.route.use('/acl', this.authorizationRequest, is(["admin"]), this.acl);
     this.route.use('/roles', this.authorizationRequest, this.roles);
     this.route.use('/permissions', this.authorizationRequest, this.permissions);
     this.route.use('/employees', this.authorizationRequest, this.employees);

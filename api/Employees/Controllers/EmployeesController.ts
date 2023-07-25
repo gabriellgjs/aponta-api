@@ -12,6 +12,8 @@ import UpdateEmployeeFactory from '../Factories/UpdateEmployeeFactory';
 import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 import SetUserIdAction from '@src/Employees/Application/Actions/SetUserIdAction';
 import SetUserIdFactory from '../Factories/SetUserIdFactory';
+import SetTerminationDateAction from '@src/Employees/Application/Actions/SetTerminationDateAction';
+import SetTerminationDateFactory from '../Factories/SetTerminationDateFactory';
 
 export default class EmployeesController {
   public async getEmployee(request: Request, response: Response) {
@@ -93,9 +95,7 @@ export default class EmployeesController {
       const employeeAction = new DeleteEmployeeAction();
 
       const userDataInput = DeleteEmployeeFactory.fromRequest(request);
-      console.log("aqui")
       await employeeAction.execute(userDataInput);
-      console.log("aqui2")
       return response.status(204).json();
     } catch (error) {
       if (error instanceof InternalServerError)
@@ -109,6 +109,20 @@ export default class EmployeesController {
 
       const userDataInput = SetUserIdFactory.fromRequest(request);
 
+      const a = await employeeAction.execute(userDataInput);
+      
+      return response.status(200).end();
+    } catch (error) {
+      if (error instanceof InternalServerError)
+      throw new InternalServerError(error.message);
+    }
+  }
+
+  public async setTerminationDate(request: Request, response: Response) {
+    try {
+      const employeeAction = new SetTerminationDateAction();
+
+      const userDataInput = SetTerminationDateFactory.fromRequest(request);
       const a = await employeeAction.execute(userDataInput);
       
       return response.status(200).end();

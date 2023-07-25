@@ -1,5 +1,5 @@
 import GeneratorErrorResponse from "api/Shared/Utils/Error/Helpers/GeneratorErrorMessages";
-import { verifyEmployeeSchema, verifySetUserIdSchema } from "api/Shared/Utils/Zod/ZodVerifySchemas";
+import { verifySetUserIdSchema } from "api/Shared/Utils/Zod/ZodVerifySchemas";
 import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 
