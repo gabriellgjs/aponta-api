@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import VerifyInAndRoleExist from './VerifyIdAndRoleExist';
+import VerifyIdAndRoleExist from './VerifyIdAndRoleExist';
 
 export default async function DeleteRoleMiddleware  (
   request: Request,
@@ -16,7 +16,7 @@ const verifyMiddlewareDeleteRole = async (
 ) => {
   const { id } = request.params;
   
-  await VerifyInAndRoleExist(Number(id));
+  await VerifyIdAndRoleExist(Number(id));
 
   next();
 };

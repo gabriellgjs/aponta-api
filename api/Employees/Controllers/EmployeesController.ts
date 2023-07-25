@@ -93,8 +93,9 @@ export default class EmployeesController {
       const employeeAction = new DeleteEmployeeAction();
 
       const userDataInput = DeleteEmployeeFactory.fromRequest(request);
-
+      console.log("aqui")
       await employeeAction.execute(userDataInput);
+      console.log("aqui2")
       return response.status(204).json();
     } catch (error) {
       if (error instanceof InternalServerError)

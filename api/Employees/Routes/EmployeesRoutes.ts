@@ -4,6 +4,7 @@ import CreateEmployeeMiddleware from '../Middlewares/CreateEmployeeMiddleware';
 import { is } from 'api/Shared/Middlewares/AccessControlList';
 import SetUserIdMiddleware from '../Middlewares/SetUserIdMiddleware';
 import UpdateEmployeeMiddleware from '../Middlewares/UpdateEmployeeMiddleware';
+import DeleteEmployeeMiddleware from '../Middlewares/DeleteEmployeeMiddleware';
 
 export default class EmployeesRoutes {
   private employeesController: EmployeesController;
@@ -43,11 +44,11 @@ export default class EmployeesRoutes {
     this.employeesRoutes.get('/:id', getEmployee);
     this.employeesRoutes.post('/', is(["admin", "manager"]), CreateEmployeeMiddleware, createEmployee);
     this.employeesRoutes.put('/:id', is(["admin", "manager"]), UpdateEmployeeMiddleware, updateEmployee);
-    this.employeesRoutes.delete('/:id', is(["admin", "manager"]), deleteEmployee);
+    this.employeesRoutes.delete('/:id', is(["admin", "manager"]), DeleteEmployeeMiddleware, deleteEmployee);
     this.employeesRoutes.patch('/:employee_id/user', is(["admin", "manager"]), SetUserIdMiddleware, setUserId);
   }
 
   get EmployeesRoutes() {
-    return this.employeesRoutes;
+    return this.employeesRoutes; 
   }
 }

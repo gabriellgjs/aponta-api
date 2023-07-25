@@ -81,24 +81,12 @@ export default class EmployeesModel {
       });
 
       return await this.prismaConnection.$transaction([
-        this.prismaConnection.address.deleteMany({
-          where: {
-            people_id: employee!.people.id,
-          },
-        }),
-        this.prismaConnection.telephone.deleteMany({
-          where: {
-            people_id: employee!.people.id,
-          },
-        }),
-        this.prismaConnection.employee.delete({
+        this.prismaConnection.employee.update({
           where: {
             id: employee!.id,
           },
-        }),
-        this.prismaConnection.people.delete({
-          where: {
-            id: employee!.people.id,
+          data: {
+            status: "inativo"
           },
         }),
       ]);
