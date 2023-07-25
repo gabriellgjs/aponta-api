@@ -22,7 +22,7 @@ export default class EmployeesModel {
     }
   }
 
-  async getEmployeesById(employee_id: number): getEmployee {
+  async getEmployeeById(employee_id: number): getEmployee {
     try {
       return await this.prismaConnection.employee.findUnique({
         where: {

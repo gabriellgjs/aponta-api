@@ -10,6 +10,8 @@ import DeleteEmployeeFactory from '../Factories/DeleteEmployeeFactory';
 import UpdateEmployeeAction from '@src/Employees/Application/Actions/UpdateEmployeeAction';
 import UpdateEmployeeFactory from '../Factories/UpdateEmployeeFactory';
 import { InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
+import SetUserIdAction from '@src/Employees/Application/Actions/SetUserIdAction';
+import SetUserIdFactory from '../Factories/SetUserIdFactory';
 
 export default class EmployeesController {
   public async getEmployee(request: Request, response: Response) {
@@ -18,7 +20,7 @@ export default class EmployeesController {
 
       const { id } = request.params;
 
-      const employee = await employeesModel.getEmployeesById(Number(id));
+      const employee = await employeesModel.getEmployeeById(Number(id));
 
       return response
         .status(200)
@@ -71,14 +73,13 @@ export default class EmployeesController {
       const employeesModel = new EmployeesModel();
 
       const userDataInput = UpdateEmployeeFactory.fromRequest(request);
-
-      const actualEmployee = await employeesModel.getEmployeesById(
+      const actualEmployee = await employeesModel.getEmployeeById(
         userDataInput.id,
-      );
-
-      const actualEmployeesInput =
+        );
+        
+        const actualEmployeesInput =
         UpdateEmployeeFactory.fromCurrentRole(actualEmployee);
-
+        
       await employeeAction.execute(userDataInput, actualEmployeesInput);
       return response.status(204).json();
     } catch (error) {
@@ -98,6 +99,21 @@ export default class EmployeesController {
     } catch (error) {
       if (error instanceof InternalServerError)
         throw new InternalServerError(error.message);
+    }
+  }
+
+  public async setUserId(request: Request, response: Response) {
+    try {
+      const employeeAction = new SetUserIdAction();
+
+      const userDataInput = SetUserIdFactory.fromRequest(request);
+
+      const a = await employeeAction.execute(userDataInput);
+      
+      return response.status(200).end();
+    } catch (error) {
+      if (error instanceof InternalServerError)
+      throw new InternalServerError(error.message);
     }
   }
 }

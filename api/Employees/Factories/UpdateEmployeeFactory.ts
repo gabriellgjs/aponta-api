@@ -23,7 +23,7 @@ export default class UpdateEmployeeFactory {
     const { postal_code } = request.body.address;
     const { state } = request.body.address;
     const telephone_number = request.body.telephone.number;
-    const { marital_status } = request.body.patient.marital_status;
+    const { marital_status } = request.body.patient;
     const { career } = request.body.patient;
 
     return new UpdateEmployeeInputData(

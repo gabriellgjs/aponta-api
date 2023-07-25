@@ -31,4 +31,8 @@ export default class EmployeeRepository {
   async delete(employee_id: number): Promise<void> {
     await this.employeesModel.deleteEmployee(employee_id);
   }
+
+  async setUserId(employee_id: number, user_id: number) {
+    return await this.employeesModel.setUserId(employee_id, user_id);
+  }
 }

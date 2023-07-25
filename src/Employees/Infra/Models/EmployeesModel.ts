@@ -168,4 +168,19 @@ export default class EmployeesModel {
       throw new InternalServerError('Erro ao atualizar um funcionário');
     }
   }
+
+  async setUserId(employee_id: number, user_id: number) {
+    try {
+      await this.prismaConnection.employee.update({
+        where: {
+          id: employee_id,
+        },
+        data: {
+          user_id: user_id,
+        }});
+        return;
+    } catch (error) {
+      throw new InternalServerError('Erro ao criar um funcionário');
+    }
+  }
 }

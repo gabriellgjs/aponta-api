@@ -5,7 +5,6 @@ export default class ACLRolePermissionsFactory {
     const { role_id }  = request.params;
 
     const permissions : number[] = request.body.permissions;
-    console.log(role_id, permissions)
 
     return {
       role_id,

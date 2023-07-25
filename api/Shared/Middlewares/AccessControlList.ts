@@ -5,7 +5,6 @@ export function is(roleRouter: string[]) {
   return async(request: Request, response: Response, next: NextFunction) => {
     const user_id  =  response.locals.user.id; 
 
-    console.log(user_id);
     const roleUser = await prismaConnection.user.findUnique({
       where: { id: user_id}, select: {role_id: true} 
     });

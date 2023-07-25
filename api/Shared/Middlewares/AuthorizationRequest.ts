@@ -13,9 +13,6 @@ export default class AuthorizationRequest{
       const payload = verify(token.replace("Bearer ", ""), secret);
 
       response.locals.user= payload;
-
-      console.log(response.locals.user);
-
     } catch (error) {
       return response.status(401).json('Invalid Token');
     }

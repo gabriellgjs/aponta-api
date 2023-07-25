@@ -2,6 +2,8 @@ import express, { Router } from 'express';
 import EmployeesController from '../Controllers/EmployeesController';
 import CreateEmployeeMiddleware from '../Middlewares/CreateEmployeeMiddleware';
 import { is } from 'api/Shared/Middlewares/AccessControlList';
+import SetUserIdMiddleware from '../Middlewares/SetUserIdMiddleware';
+import UpdateEmployeeMiddleware from '../Middlewares/UpdateEmployeeMiddleware';
 
 export default class EmployeesRoutes {
   private employeesController: EmployeesController;
@@ -33,12 +35,16 @@ export default class EmployeesRoutes {
     const deleteEmployee = this.employeesController.deleteEmployee.bind(
       this.employeesController,
     );
+    const setUserId = this.employeesController.setUserId.bind(
+      this.employeesController,
+    );
 
     this.employeesRoutes.get('/', getEmployees);
     this.employeesRoutes.get('/:id', getEmployee);
     this.employeesRoutes.post('/', is(["admin", "manager"]), CreateEmployeeMiddleware, createEmployee);
-    this.employeesRoutes.put('/:id', is(["admin", "manager"]), updateEmployee);
+    this.employeesRoutes.put('/:id', is(["admin", "manager"]), UpdateEmployeeMiddleware, updateEmployee);
     this.employeesRoutes.delete('/:id', is(["admin", "manager"]), deleteEmployee);
+    this.employeesRoutes.patch('/:employee_id/user', is(["admin", "manager"]), SetUserIdMiddleware, setUserId);
   }
 
   get EmployeesRoutes() {
