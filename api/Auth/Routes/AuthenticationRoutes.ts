@@ -1,5 +1,6 @@
 import express, { Router } from 'express';
 import LoginController from '../Controllers/LoginController';
+import LoginMiddleware from '../Middlewares/LoginMiddleware';
 
 export default class AuthenticationRoutes {
   private loginController: LoginController;
@@ -14,7 +15,7 @@ export default class AuthenticationRoutes {
   public async routes() {
     const login = this.loginController.login.bind(this.loginController);
 
-    this.loginRoutes.post('/', login);
+    this.loginRoutes.post('/', LoginMiddleware, login);
   }
 
   get loginRoute() {

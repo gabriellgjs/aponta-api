@@ -1,15 +1,16 @@
-import PatientEmployee from './PatientEmployee';
+import Patient from './PatientEmployee';
 import { People, PeopleProps } from './People';
+import User from './UserCore';
 
 interface EmployeeProps extends PeopleProps {
   id?: number;
   status?: string;
-  user_id?: number | null;
+  user?: User | null;
   hire_date: Date;
   termination_date?: Date | null;
   people_id?: number;
   pis_pasep?: string;
-  patient: PatientEmployee;
+  patient: Patient;
 }
 
 export default class EmployeeCore extends People {
@@ -26,12 +27,12 @@ export default class EmployeeCore extends People {
     };
   }
 
-  get user_id(): number {
-    return this.props.user_id ? this.props.user_id : 0;
+  get user(): User | null {
+    return this.props.user ? this.props.user : null;
   }
 
-  set user_id(user_id: number) {
-    this.props.user_id = user_id;
+  set user(user: User | null) {
+    this.props.user = user;
   }
 
   get hire_date(): Date {
@@ -86,7 +87,7 @@ export default class EmployeeCore extends People {
     return this.props.patient;
   }
 
-  set patient(patient: PatientEmployee) {
+  set patient(patient: Patient) {
     this.props.patient = patient;
   }
 }

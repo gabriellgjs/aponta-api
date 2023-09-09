@@ -7,46 +7,99 @@ export default class EmployeesModel {
 
   async createEmployee(employee: Employee): Promise<number | undefined> {
     try {
-      const data = await this.prismaConnection.$transaction([
-        this.prismaConnection.people.create({
-          data: {
-            name: employee.name,
-            birth_date: employee.birth_date,
-            rg: employee.rg,
-            cpf: employee.cpf,
-            gender: employee.gender,
-            employee: {
-              create: {
-                status: employee.status,
-                hire_date: employee.hire_date,
-                pis_pasep: employee.pis_pasep,
+      let data;
+
+      if(employee.user?.email) {
+        data = await this.prismaConnection.$transaction([
+          this.prismaConnection.people.create({
+            data: {
+              name: employee.name,
+              birth_date: employee.birth_date,
+              rg: employee.rg,
+              cpf: employee.cpf,
+              gender: employee.gender,
+              employee: {
+                create: {
+                  user: {
+                    create: {
+                      status: employee.user.status,
+                      email: employee.user.email,
+                      password: employee.user.password,
+                      role_id: employee.user.role_id,
+                    },
+                  },
+                  status: employee.status,
+                  hire_date: employee.hire_date,
+                  pis_pasep: employee.pis_pasep,
+                },
               },
-            },
-            address: {
-              create: {
-                street: employee.address.street,
-                number: employee.address.number,
-                district: employee.address.district,
-                city: employee.address.city,
-                postal_code: employee.address.postal_code,
-                state: employee.address.state,
+              address: {
+                create: {
+                  street: employee.address.street,
+                  number: employee.address.number,
+                  district: employee.address.district,
+                  city: employee.address.city,
+                  postal_code: employee.address.postal_code,
+                  state: employee.address.state,
+                },
               },
-            },
-            telephone: {
-              create: {
-                number: employee.telephone.number,
+              telephone: {
+                create: {
+                  number: employee.telephone.number,
+                },
               },
-            },
-            patient: {
-              create: {
-                status: employee.patient.status,
-                marital_status: employee.patient.marital_status,
-                career: employee.patient.career,
+              patient: {
+                create: {
+                  status: employee.patient.status,
+                  marital_status: employee.patient.marital_status,
+                  career: employee.patient.career,
+                }
               }
-            }
-          },
-        }),
-      ]);
+            },
+          }),
+        ]);     
+      } else {
+        data = await this.prismaConnection.$transaction([
+          this.prismaConnection.people.create({
+            data: {
+              name: employee.name,
+              birth_date: employee.birth_date,
+              rg: employee.rg,
+              cpf: employee.cpf,
+              gender: employee.gender,
+              employee: {
+                create: {
+                  status: employee.status,
+                  hire_date: employee.hire_date,
+                  pis_pasep: employee.pis_pasep,
+                },
+              },
+              address: {
+                create: {
+                  street: employee.address.street,
+                  number: employee.address.number,
+                  district: employee.address.district,
+                  city: employee.address.city,
+                  postal_code: employee.address.postal_code,
+                  state: employee.address.state,
+                },
+              },
+              telephone: {
+                create: {
+                  number: employee.telephone.number,
+                },
+              },
+              patient: {
+                create: {
+                  status: employee.patient.status,
+                  marital_status: employee.patient.marital_status,
+                  career: employee.patient.career,
+                }
+              }
+            },
+          }),
+        ]);     
+      }
 
       const employee_recorded = await this.prismaConnection.employee.findFirst({
         where: {

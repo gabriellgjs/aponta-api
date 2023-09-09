@@ -21,6 +21,11 @@ export default class CreateEmployeeInputData {
     readonly patient: {
       readonly marital_status: string;
       readonly career: string;
+    }, 
+    readonly user : {
+      readonly email: string | null,
+      readonly password: string | null,
+      readonly role_id: number | null,
     }
   ) {}
 }

@@ -29,6 +29,12 @@ export default class UpdateEmployeeInputData {
       readonly id?: number;
       readonly marital_status: string;
       readonly career: string;
+    },
+    readonly user : {
+      readonly id?: number;
+      readonly email: string | null,
+      readonly password: string | null,
+      readonly role_id: number | null,
     }
   ) {}
 }

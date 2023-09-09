@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 
 import CreateEmployeeAction from '@src/Employees/Application/Actions/CreateEmployeeAction';
 import CreateEmployeeFactory from '../Factories/CreateEmployeeFactory';
-
 import EmployeesModel from '../Models/EmployeesModel';
 import EmployeeOutputData from '../Dtos/EmployeeOutputData';
 import DeleteEmployeeAction from '@src/Employees/Application/Actions/DeleteEmployeeAction';
