@@ -1,5 +1,5 @@
 import { prismaConnection } from '@prisma/PrismaConnection';
-import { BadRequestError } from 'api/Shared/Utils/Error/ApiErrors';
+import { UnauthorizedError } from 'api/Shared/Utils/Error/ApiErrors';
 import { compare } from 'bcryptjs';
 import { Request } from 'express';
 
@@ -8,7 +8,7 @@ export default async function verifyExistUser(request: Request) {
     where: { email: request.body.email},
   });
   
-  if (!user) throw new BadRequestError('Email ou senha inválidos.');
+  if (!user) throw new UnauthorizedError('Email ou senha inválidos.');
 
   console.log(user, "email")
   const passwordIsMatch = await compare(
@@ -17,5 +17,5 @@ export default async function verifyExistUser(request: Request) {
   );
 
   console.log(passwordIsMatch, "senha")
-  if (!passwordIsMatch) throw new BadRequestError('Email ou senha inválidos.');
+  if (!passwordIsMatch) throw new UnauthorizedError('Email ou senha inválidos.');
 }

@@ -8,6 +8,21 @@ export default class UsersModel {
       where: {
         email: user_email,
       },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        employees: {
+          select: {
+            people: {
+              select: {
+                name: true,
+              
+              }
+            }
+          }
+        }
+      }
     });
   }
 }

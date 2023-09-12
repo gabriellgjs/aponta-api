@@ -28,6 +28,15 @@ export default class UsersModel {
           id: user_id,
         },
         select: {
+          employees: {
+            select: {
+              people: {
+                select: {
+                  name: true,
+                }
+              }
+            }
+          },
           id: true,
           email: true,
           role_id: true,

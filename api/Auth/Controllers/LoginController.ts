@@ -1,5 +1,5 @@
 import { compare } from 'bcryptjs';
-import { Request, Response } from 'express';
+import { Request, Response, json } from 'express';
 import { sign } from 'jsonwebtoken';
 
 import { BadRequestError, InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
@@ -9,6 +9,7 @@ import LoginModel from '../Models/LoginModel';
 interface propsToken {
   id: number;
   email: string;
+  name: string;
 }
 
 export default class LoginController {
@@ -27,6 +28,7 @@ export default class LoginController {
       {
         id: user.id,
         email: user.email,
+        name: user.name,
       },
       this.secret,
       {
@@ -35,9 +37,7 @@ export default class LoginController {
       },
     );
 
-    return {
-      token,
-    };
+    return token
   }
 
   public async login(request: Request, response: Response) {
@@ -55,8 +55,21 @@ export default class LoginController {
   
       if (!passwordIsMatch) throw new BadRequestError('Email ou senha inválidos.');
   
-      return response.status(200)
-                      .json(this.generateTokenAuthenticationByUser(userExists));     
+      const responseUser = {
+        id: userExists.id,
+        email: userExists.email,
+        name: userExists.employees[0].people.name,
+      }
+
+      const res = {
+        user: {
+          ...responseUser,
+          token: this.generateTokenAuthenticationByUser(responseUser),
+        }
+      }      
+
+      return response.status(200).json(res)
+                       
     } catch (error) {
       if (error instanceof InternalServerError)
       throw new InternalServerError(error.message);
