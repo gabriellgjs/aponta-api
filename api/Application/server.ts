@@ -19,7 +19,6 @@ export default class App {
   private readonly documentationUrl = this.version + "/documentation";
 
   constructor() {
-    console.log(this.documentationUrl)
     this.server.use(express.json());
     this.server.use(cors({
       origin: '*',

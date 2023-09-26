@@ -5,7 +5,7 @@ import personValidatorZod from 'api/Shared/Middlewares/PersonValidatorZod';
 import GeneratorErrorResponse from 'api/Shared/Utils/Error/Helpers/GeneratorErrorMessages';
 import { verifyEmployeeSchema } from 'api/Shared/Utils/Zod/ZodVerifySchemas';
 import verifyHireDate from './VerifyHireDate';
-import verifyPisPasep from './VerifyPisPasep';
+import verifyPisPasep from './verifyPisPasep';
 import patientValidatorZod from 'api/Shared/Middlewares/PatientValidatorZod';
 
 export default async function CreateEmployeeMiddleware(

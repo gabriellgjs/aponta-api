@@ -4,7 +4,7 @@ export default class UsersModel {
   private prismaConnection = prismaConnection;
 
   async findUser(user_email: string) {
-    return await this.prismaConnection.user.findFirst({
+    return await this.prismaConnection.user.findUnique({
       where: {
         email: user_email,
       },

@@ -12,6 +12,5 @@ export default async function LoginMiddleware(
 const verifyLoginMiddleware = async (request: Request, response: Response, next:  NextFunction) => {
  await verifyExistUser(request)
 
- console.log('Login Middleware')
  next();
 }

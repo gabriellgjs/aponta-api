@@ -10,12 +10,10 @@ export default async function verifyExistUser(request: Request) {
   
   if (!user) throw new UnauthorizedError('Email ou senha inválidos.');
 
-  console.log(user, "email")
   const passwordIsMatch = await compare(
     request.body.password,
     user.password,
   );
 
-  console.log(passwordIsMatch, "senha")
   if (!passwordIsMatch) throw new UnauthorizedError('Email ou senha inválidos.');
 }

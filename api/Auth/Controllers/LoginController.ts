@@ -1,6 +1,6 @@
 import { compare } from 'bcryptjs';
-import { Request, Response, json } from 'express';
-import { sign } from 'jsonwebtoken';
+import { Request, Response } from 'express';
+import jwt, { sign } from 'jsonwebtoken';
 
 import { BadRequestError, InternalServerError } from 'api/Shared/Utils/Error/ApiErrors';
 import LoginUserFactory from '../Factories/LoginUserFactory';
@@ -24,7 +24,7 @@ export default class LoginController {
   }
 
   private generateTokenAuthenticationByUser(user: propsToken) {
-    const token = sign(
+    const token = jwt.sign(
       {
         id: user.id,
         email: user.email,
@@ -32,11 +32,11 @@ export default class LoginController {
       },
       this.secret,
       {
+        algorithm: "HS256",
         expiresIn: this.expiresIn,
-        subject: String(user.id),
       },
-    );
-
+      );
+      
     return token
   }
 
@@ -45,30 +45,31 @@ export default class LoginController {
       const userFactory = LoginUserFactory.fromRequest(request);
       const loginModel = new LoginModel();
       const userExists = await loginModel.findUser(userFactory.email);
-  
+      
       if (!userExists) throw new BadRequestError('Email ou senha inválidos.');
-  
+      
       const passwordIsMatch = await this.comparePassword(
         userExists.password,
         userFactory.password,
-      );
-  
-      if (!passwordIsMatch) throw new BadRequestError('Email ou senha inválidos.');
-  
-      const responseUser = {
-        id: userExists.id,
-        email: userExists.email,
-        name: userExists.employees[0].people.name,
-      }
+        );
+        
+        if (!passwordIsMatch) throw new BadRequestError('Email ou senha inválidos.');
+
+        const responseUser = {
+          id: userExists.id,
+          email: userExists.email,
+          name: userExists.employees[0].people.name,
+        }
+      
+      const token = this.generateTokenAuthenticationByUser(responseUser)
 
       const res = {
         user: {
           ...responseUser,
-          token: this.generateTokenAuthenticationByUser(responseUser),
-        }
+        },
+        token,
       }      
-
-      return response.status(200).json(res)
+      return response.status(200).json(res).end
                        
     } catch (error) {
       if (error instanceof InternalServerError)

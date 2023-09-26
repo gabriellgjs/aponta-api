@@ -2,31 +2,34 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-const admRole = [
+const admRole = 
   {
     name: 'admin',
     description: 'Administrador'
-  },
-  {
-    name: 'dentista',
-    description: 'Dentista'
-  },
-];
+  }
 
 const user = {
   status: "ativo",
-  email: "contato.gabrieljosesilva@gmail.com",
+  email: "gabrielgjs_2015@gmail.com",
   password: "$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy",
   role_id: 1
 }
 
 async function run() {
-  await prisma.role.createMany({
-    data: admRole,
+  await prisma.role.create({
+    data: {
+      name: admRole.name,
+      description: admRole.description,
+    },
   });
 
-  await prisma.user.createMany({
-    data: user,
+  await prisma.user.create({
+    data: {
+      status: user.status,
+      email: user.email,
+      password: user.password,
+      role_id: user.role_id
+    },
   });
 }
 
