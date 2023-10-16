@@ -13,6 +13,11 @@ export default class EmployeesModel {
           people: {
             select: {
               name: true,
+              telephone: {
+                select: {
+                  number: true,
+                }
+              }
             },
           },
         },

@@ -66,9 +66,10 @@ export default class LoginController {
       const res = {
         user: {
           ...responseUser,
+          token,
         },
-        token,
       }      
+      console.log(res)
       return response.status(200).json(res).end
                        
     } catch (error) {

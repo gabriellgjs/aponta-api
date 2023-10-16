@@ -75,15 +75,16 @@ export default class EmployeeOutputData {
     const response = employees.map((employee) => {
       const id = employee.id;
       const name = employee.people.name;
+      const telephone = employee.people.telephone[0].number;
       return {
         id,
         name,
-        url: `${process.env.BASE_URL}/employees/${id}`,
+        telephone,
       };
     });
 
     return {
-      results: response,
+      response,
     };
   }
 }

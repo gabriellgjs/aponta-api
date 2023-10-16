@@ -23,6 +23,7 @@ export default class EmployeesController {
 
       const employee = await employeesModel.getEmployeeById(Number(id));
 
+      console.log(EmployeeOutputData.responseGetEmployee(employee))
       return response
         .status(200)
         .json(
@@ -44,8 +45,7 @@ export default class EmployeesController {
       return response
         .status(200)
         .json(
-          EmployeeOutputData.responseGetEmployees(employees) ??
-            'Nenhum funcionário encontrado',
+          EmployeeOutputData.responseGetEmployees(employees)
         );
     } catch (error) {
       if (error instanceof InternalServerError)

@@ -34,5 +34,8 @@ export type responseGetEmployees = {
   id: number;
   people: {
     name: string;
+    telephone: {
+      number: string;
+  }[];
   };
 }[];
