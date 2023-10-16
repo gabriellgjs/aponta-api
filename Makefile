@@ -41,7 +41,7 @@ api-exec:
 
 .PHONY: api-install
 api-install:
-	@docker exec -it odonts-api bash -c "npm install"
+	@docker exec -it odonts-api bash -c "sudo yarn"
 
 .PHONY: api-log
 api-log:
