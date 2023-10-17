@@ -1,3 +1,5 @@
-import App from "./Application/server";
+import App from './application/server'
 
-new App();
+const Application = () => new App()
+
+Application()
