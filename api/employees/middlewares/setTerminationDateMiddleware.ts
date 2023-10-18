@@ -1,4 +1,3 @@
-import GeneratorErrorResponse from '@apiErrors/helpers/generatorErrorMessages'
 import { verifySetTerminationDateSchema } from '@sharedAPI/utils/zod/zodVerifySchemas'
 import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
@@ -18,21 +17,8 @@ const verifySetTerminationDateMiddleware = async (
   next: NextFunction,
 ) => {
   const SetTerminationDateSchema = z.object({
-    employeeId: z
-      .number(
-        GeneratorErrorResponse.generateErrorMessageInTypeNumberOrRequired(
-          'employeeId',
-        ),
-      )
-      .positive(),
-    terminationDate: z
-      .string(
-        GeneratorErrorResponse.generateErrorMessageInTypeDateOrRequired(
-          'terminationDate',
-        ),
-      )
-      .datetime()
-      .nullable(),
+    employeeId: z.number().positive(),
+    terminationDate: z.string().datetime().nullable(),
   })
 
   const { terminationDate, employeeId } = verifySetTerminationDateSchema(

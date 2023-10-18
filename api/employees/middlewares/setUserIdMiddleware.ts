@@ -1,4 +1,3 @@
-import GeneratorErrorResponse from '@apiErrors/helpers/generatorErrorMessages'
 import { verifySetUserIdSchema } from '@sharedAPI/utils/zod/zodVerifySchemas'
 import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
@@ -17,20 +16,8 @@ const verifySetUserIdMiddleware = async (
   next: NextFunction,
 ) => {
   const SetUserIdSchema = z.object({
-    employeeId: z
-      .number(
-        GeneratorErrorResponse.generateErrorMessageInTypeNumberOrRequired(
-          'employee_id',
-        ),
-      )
-      .positive(),
-    userId: z
-      .number(
-        GeneratorErrorResponse.generateErrorMessageInTypeNumberOrRequired(
-          'user_id',
-        ),
-      )
-      .positive(),
+    employeeId: z.number().positive(),
+    userId: z.number().positive(),
   })
 
   verifySetUserIdSchema(SetUserIdSchema, request)

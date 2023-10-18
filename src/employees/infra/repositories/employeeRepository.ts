@@ -32,10 +32,6 @@ export default class EmployeeRepository {
     await this.employeesModel.deleteEmployee(employeeId)
   }
 
-  async setUserId(employeeId: number, userId: number) {
-    return await this.employeesModel.setUserId(employeeId, userId)
-  }
-
   async setTerminationDate(
     employeeId: number,
     dateOfTerminationDate: string | null,

@@ -19,9 +19,8 @@ export default class CreateEmployeeInputData {
       readonly telephoneNumber: string
     },
     readonly user: {
-      readonly email: string | null
-      readonly password: string | null
-      readonly roleId: number | null
+      readonly email: string
+      readonly roleId: number
     },
   ) {}
 }

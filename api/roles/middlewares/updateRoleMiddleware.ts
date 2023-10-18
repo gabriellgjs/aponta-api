@@ -1,4 +1,3 @@
-import GeneratorErrorResponse from '@apiErrors/helpers/generatorErrorMessages'
 import regexName from '@sharedAPI/utils/regex/regexName'
 import { verifyRoleSchema } from '@sharedAPI/utils/zod/zodVerifySchemas'
 import { NextFunction, Request, Response } from 'express'
@@ -23,19 +22,11 @@ const verifyMiddlewareUpdateRole = async (
 ) => {
   const roleSchema = z.object({
     name: z
-      .string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'name',
-        ),
-      )
+      .string()
       .regex(regexName, 'Nome só pode ter letras e acentuações.')
       .trim(),
     description: z
-      .string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'description',
-        ),
-      )
+      .string()
       .regex(regexName, 'Descrição só pode ter letras e acentuações.')
       .trim(),
   })

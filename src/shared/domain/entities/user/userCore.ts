@@ -19,7 +19,7 @@ export default class UserCore {
   }
 
   get roleId(): number {
-    return this.props.roleId ?? 0
+    return this.props.roleId
   }
 
   set roleId(roleId: number) {
@@ -27,7 +27,7 @@ export default class UserCore {
   }
 
   get password(): string {
-    return this.props.password ?? ''
+    return this.props.password
   }
 
   set password(password: string) {

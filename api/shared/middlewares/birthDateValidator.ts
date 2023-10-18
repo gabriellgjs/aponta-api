@@ -1,7 +1,7 @@
 import { BadRequestError } from '@apiErrors/errors'
 import dayjs from 'dayjs'
 
-export function BirthDateValidator(birthDate: string) {
+export function birthDateValidator(birthDate: string) {
   const now = dayjs()
   const birthDayjs = dayjs(birthDate)
   const birthdayDateIsInTheFuture = birthDayjs.isBefore(now)

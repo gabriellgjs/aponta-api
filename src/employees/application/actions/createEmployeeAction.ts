@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs'
 import Address from '@employees/domain/entities/address'
 import Employee from '@employees/domain/entities/employee'
 import Telephone from '@employees/domain/entities/telephone'
@@ -9,9 +10,11 @@ export default class CreateEmployeeAction {
   async execute(input: CreateEmployeeInputData) {
     const employeeRepository = new EmployeeRepository()
 
+    const passwordInitial = input.birthDate.split('/').join('')
+
     const user = {
       email: input.user.email ?? '',
-      password: input.user.password ?? '',
+      password: await this.generateHashPassword(passwordInitial),
       roleId: input.user.roleId ?? 0,
     }
 
@@ -28,31 +31,22 @@ export default class CreateEmployeeAction {
       state: input.address.state,
     }
 
-    const employee =
-      input.user.email === null
-        ? new Employee({
-            name: input.name,
-            birthDate: input.birthDate,
-            rg: input.rg,
-            cpf: input.cpf,
-            gender: input.gender,
-            maritalStatus: input.maritalStatus,
-            telephone: new Telephone(telephoneNumber),
-            address: new Address(address),
-            hireDate: input.hireDate,
-          })
-        : new Employee({
-            name: input.name,
-            birthDate: input.birthDate,
-            rg: input.rg,
-            cpf: input.cpf,
-            gender: input.gender,
-            telephone: new Telephone(telephoneNumber),
-            address: new Address(address),
-            hireDate: input.hireDate,
-            user: new User(user),
-          })
+    const employee = new Employee({
+      name: input.name,
+      birthDate: input.birthDate,
+      hireDate: input.hireDate,
+      rg: input.rg,
+      cpf: input.cpf,
+      gender: input.gender,
+      telephone: new Telephone(telephoneNumber),
+      address: new Address(address),
+      user: new User(user),
+    })
 
     return await employeeRepository.save(employee)
+  }
+
+  private async generateHashPassword(password: string) {
+    return await bcrypt.hash(password, 10)
   }
 }

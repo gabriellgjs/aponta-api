@@ -3,7 +3,6 @@ import { z } from 'zod'
 import { fromZodError } from 'zod-validation-error'
 
 import { BadRequestError } from '@apiErrors/errors'
-import GeneratorErrorResponse from '@apiErrors/helpers/generatorErrorMessages'
 import PrismaConnection from '@prisma/prismaConnection'
 
 export default async function CreateUserMiddleware(
@@ -12,23 +11,8 @@ export default async function CreateUserMiddleware(
   next: NextFunction,
 ) {
   const createUserSchema = z.object({
-    email: z
-      .string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'email',
-        ),
-      )
-      .email(GeneratorErrorResponse.generateErrorMessageEmail()),
-    password: z
-      .string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'password',
-        ),
-      )
-      .min(
-        6,
-        GeneratorErrorResponse.generateErrorMessageMinLength('password', 6),
-      ),
+    email: z.string().email(),
+    password: z.string().min(6),
     role_id: z.number(),
   })
 
@@ -37,9 +21,7 @@ export default async function CreateUserMiddleware(
   if (!isParseSuccess.success) {
     const { message } = fromZodError(isParseSuccess.error)
 
-    throw new BadRequestError(
-      GeneratorErrorResponse.messageResponseError(message),
-    )
+    throw new BadRequestError({ message })
   }
 
   const userExist = await PrismaConnection.user.findFirst({
@@ -48,7 +30,7 @@ export default async function CreateUserMiddleware(
     },
   })
 
-  if (userExist) throw new BadRequestError('Usuário já existe!')
+  if (userExist) throw new BadRequestError({ message: 'Usuário já existe!' })
 
   next()
 }

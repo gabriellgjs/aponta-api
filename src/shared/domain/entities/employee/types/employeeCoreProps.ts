@@ -4,8 +4,7 @@ import UserCore from '@shared/domain/entities/user/userCore'
 
 export interface EmployeeProps extends PeopleProps {
   id?: number
-  status?: string
-  user?: UserCore | null
+  user: UserCore
   hireDate: string
   terminationDate?: string | null
   peopleId?: number

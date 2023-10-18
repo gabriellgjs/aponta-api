@@ -21,13 +21,12 @@ export default class CreateEmployeeFactory {
     }
 
     const telephone = {
-      telephoneNumber: request.body.telephone.number,
+      telephoneNumber: request.body.telephone.telephoneNumber,
     }
 
     const user = {
-      email: request.body.user.email,
-      password: request.body.user.password,
-      roleId: request.body.user.roleId,
+      email: request.body.email,
+      roleId: request.body.roleId,
     }
 
     return new CreateEmployeeInputData(

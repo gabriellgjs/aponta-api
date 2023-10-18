@@ -56,7 +56,7 @@ export default class LoginController {
       const responseUser = {
         id: userExists.id,
         email: userExists.email,
-        name: userExists.employees[0].people.name,
+        name: userExists.employee.people.name,
       }
 
       const token = this.generateTokenAuthenticationByUser(responseUser)
@@ -67,7 +67,6 @@ export default class LoginController {
           token,
         },
       }
-      console.log(res)
       return response.status(200).json(res).end
     } catch (error) {
       if (error instanceof InternalServerError)

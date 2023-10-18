@@ -12,7 +12,7 @@ export default class UsersModel {
         id: true,
         email: true,
         password: true,
-        employees: {
+        employee: {
           select: {
             people: {
               select: {

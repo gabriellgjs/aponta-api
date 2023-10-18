@@ -8,93 +8,51 @@ export default class EmployeesModel {
   async createEmployee(employee: Employee): Promise<number | undefined> {
     let data
     try {
-      if (employee.user?.email) {
-        data = await this.PrismaConnection.$transaction([
-          this.PrismaConnection.people.create({
-            data: {
-              name: employee.name,
-              birthDate: employee.birthDate,
-              rg: employee.rg,
-              cpf: employee.cpf,
-              gender: employee.gender,
-              maritalStatus: employee.maritalStatus,
-              employee: {
-                create: {
-                  user: {
-                    create: {
-                      status: employee.user.status,
-                      email: employee.user.email,
-                      password: employee.user.password,
-                      roleId: employee.user.roleId,
-                    },
+      data = await this.PrismaConnection.$transaction([
+        this.PrismaConnection.people.create({
+          data: {
+            name: employee.name,
+            birthDate: employee.birthDate,
+            rg: employee.rg,
+            cpf: employee.cpf,
+            gender: employee.gender,
+            maritalStatus: employee.maritalStatus,
+            address: {
+              create: {
+                street: employee.address.street,
+                number: employee.address.number,
+                district: employee.address.district,
+                city: employee.address.city,
+                postalCode: employee.address.postalCode,
+                state: employee.address.state,
+              },
+            },
+            telephone: {
+              create: {
+                telephoneNumber: employee.telephone.telephoneNumber,
+              },
+            },
+            patient: {
+              create: {
+                status: 'ativo',
+              },
+            },
+            employee: {
+              create: {
+                hireDate: employee.hireDate,
+                user: {
+                  create: {
+                    status: 'ativo',
+                    email: employee.user.email,
+                    password: employee.user.password,
+                    roleId: employee.user.roleId,
                   },
-                  status: employee.status,
-                  hireDate: employee.hireDate,
-                },
-              },
-              address: {
-                create: {
-                  street: employee.address.street,
-                  number: employee.address.number,
-                  district: employee.address.district,
-                  city: employee.address.city,
-                  postalCode: employee.address.postalCode,
-                  state: employee.address.state,
-                },
-              },
-              telephone: {
-                create: {
-                  telephoneNumber: employee.telephone.telephoneNumber,
-                },
-              },
-              patient: {
-                create: {
-                  status: 'ativo',
                 },
               },
             },
-          }),
-        ])
-      } else {
-        data = await this.PrismaConnection.$transaction([
-          this.PrismaConnection.people.create({
-            data: {
-              name: employee.name,
-              birthDate: employee.birthDate,
-              rg: employee.rg,
-              cpf: employee.cpf,
-              gender: employee.gender,
-              maritalStatus: employee.maritalStatus,
-              employee: {
-                create: {
-                  status: employee.status,
-                  hireDate: employee.hireDate,
-                },
-              },
-              address: {
-                create: {
-                  street: employee.address.street,
-                  number: employee.address.number,
-                  district: employee.address.district,
-                  city: employee.address.city,
-                  postalCode: employee.address.postalCode,
-                  state: employee.address.state,
-                },
-              },
-              telephone: {
-                create: {
-                  telephoneNumber: employee.telephone.telephoneNumber,
-                },
-              },
-              patient: {
-                create: {
-                  status: 'ativo',
-                },
-              },
-            },
-          }),
-        ])
-      }
+          },
+        }),
+      ])
 
       const employeeRecorded = await this.PrismaConnection.employee.findFirst({
         where: {
@@ -107,6 +65,7 @@ export default class EmployeesModel {
 
       return employeeRecorded?.id
     } catch (error) {
+      console.log(error)
       throw new InternalServerError('Erro ao criar um funcionário')
     }
   }
@@ -118,9 +77,7 @@ export default class EmployeesModel {
           id: employeeId,
         },
         select: {
-          id: true,
-          userId: true,
-          people: {
+          user: {
             select: {
               id: true,
             },
@@ -129,9 +86,9 @@ export default class EmployeesModel {
       })
 
       return await this.PrismaConnection.$transaction([
-        this.PrismaConnection.employee.update({
+        this.PrismaConnection.user.update({
           where: {
-            id: employee?.id,
+            id: employee?.user[0].id,
           },
           data: {
             status: 'inativo',
@@ -151,11 +108,10 @@ export default class EmployeesModel {
             id: employee.id,
           },
           data: {
-            status: employee.status,
             hireDate: employee.hireDate,
-            terminationDate: employee.terminationDate,
           },
         }),
+
         this.PrismaConnection.people.update({
           where: {
             id: employee.peopleId,
@@ -169,6 +125,7 @@ export default class EmployeesModel {
             maritalStatus: employee.maritalStatus,
           },
         }),
+
         this.PrismaConnection.address.update({
           where: {
             id: employee.address.id,
@@ -196,20 +153,7 @@ export default class EmployeesModel {
     }
   }
 
-  async setUserId(employeeId: number, userId: number) {
-    try {
-      await this.PrismaConnection.employee.update({
-        where: {
-          id: employeeId,
-        },
-        data: {
-          userId,
-        },
-      })
-    } catch (error) {
-      throw new InternalServerError('Erro ao setar o usuário em um funcionário')
-    }
-  }
+  // TODO colocar um metodo que aplica o termination date
 
   async setTerminationDate(
     employeeId: number,
@@ -223,7 +167,6 @@ export default class EmployeesModel {
           },
           data: {
             terminationDate: dateOfTerminationDate,
-            status: 'inativo',
           },
         })
         return
@@ -234,7 +177,6 @@ export default class EmployeesModel {
         },
         data: {
           terminationDate: dateOfTerminationDate,
-          status: 'ativo',
         },
       })
     } catch (error) {

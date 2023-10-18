@@ -13,15 +13,14 @@ export default class EmployeeCore extends PeopleCore {
 
     this.props = {
       ...props,
-      status: props.status ?? 'ativo',
     }
   }
 
-  get user(): UserCore | null {
-    return this.props.user ? this.props.user : null
+  get user(): UserCore {
+    return this.props.user
   }
 
-  set user(user: UserCore | null) {
+  set user(user: UserCore) {
     this.props.user = user
   }
 
@@ -39,14 +38,6 @@ export default class EmployeeCore extends PeopleCore {
 
   set terminationDate(date: string | null) {
     this.props.terminationDate = date
-  }
-
-  get status(): string {
-    return this.props.status ? this.props.status : 'ativo'
-  }
-
-  set status(status: string) {
-    this.props.status = status
   }
 
   set id(id: number) {

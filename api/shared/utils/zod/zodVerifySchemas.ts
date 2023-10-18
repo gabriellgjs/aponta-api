@@ -2,7 +2,6 @@ import { Request } from 'express'
 import { fromZodError } from 'zod-validation-error'
 import dayjs from 'dayjs'
 import { PersonSchemaZod } from '@sharedAPI/types/personZod'
-import GeneratorErrorResponse from '@sharedAPI/utils/errors/helpers/generatorErrorMessages'
 import { EmployeeSchemaZod } from '@sharedAPI/types/employeeZod'
 import { RoleSchemaZod } from '@sharedAPI/types/roleZod'
 import { DeleteSchemaId } from '@sharedAPI/types/deleteZod'
@@ -12,16 +11,7 @@ import { SetTerminationDateZod } from '@sharedAPI/types/setTerminationDateZod'
 import { BadRequestError } from '@apiErrors/errors'
 
 export function verifyPersonSchema(schema: PersonSchemaZod, request: Request) {
-  const isParseSuccess = schema.safeParse(request.body)
-
-  if (isParseSuccess.success) {
-    return isParseSuccess
-  }
-
-  const { message } = fromZodError(isParseSuccess.error)
-  throw new BadRequestError(
-    GeneratorErrorResponse.messageResponseError(message),
-  )
+  //
 }
 
 export function verifyRoleSchema(schema: RoleSchemaZod, request: Request) {
@@ -32,9 +22,7 @@ export function verifyRoleSchema(schema: RoleSchemaZod, request: Request) {
   }
 
   const { message } = fromZodError(isParseSuccess.error)
-  throw new BadRequestError(
-    GeneratorErrorResponse.messageResponseError(message),
-  )
+  throw new BadRequestError({ message })
 }
 
 export function verifyDeleteSchema(schema: DeleteSchemaId, request: Request) {
@@ -45,9 +33,7 @@ export function verifyDeleteSchema(schema: DeleteSchemaId, request: Request) {
   }
 
   const { message } = fromZodError(isParseSuccess.error)
-  throw new BadRequestError(
-    GeneratorErrorResponse.messageResponseError(message),
-  )
+  throw new BadRequestError({ message })
 }
 
 export function verifyEmployeeSchema(
@@ -61,9 +47,7 @@ export function verifyEmployeeSchema(
   }
 
   const { message } = fromZodError(isParseSuccess.error)
-  throw new BadRequestError(
-    GeneratorErrorResponse.messageResponseError(message),
-  )
+  throw new BadRequestError({ message })
 }
 
 export function verifySetUserIdSchema(schema: SetUserIdZod, request: Request) {
@@ -79,9 +63,7 @@ export function verifySetUserIdSchema(schema: SetUserIdZod, request: Request) {
   }
 
   const { message } = fromZodError(isParseSuccess.error)
-  throw new BadRequestError(
-    GeneratorErrorResponse.messageResponseError(message),
-  )
+  throw new BadRequestError({ message })
 }
 
 export function verifySetTerminationDateSchema(
@@ -105,9 +87,7 @@ export function verifySetTerminationDateSchema(
   }
 
   const { message } = fromZodError(isParseSuccess.error)
-  throw new BadRequestError(
-    GeneratorErrorResponse.messageResponseError(message),
-  )
+  throw new BadRequestError({ message })
 }
 
 export function verifyEmployeePatientSchema(
@@ -121,7 +101,5 @@ export function verifyEmployeePatientSchema(
   }
 
   const { message } = fromZodError(isParseSuccess.error)
-  throw new BadRequestError(
-    GeneratorErrorResponse.messageResponseError(message),
-  )
+  throw new BadRequestError({ message })
 }

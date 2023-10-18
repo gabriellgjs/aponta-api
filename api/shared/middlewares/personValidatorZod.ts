@@ -1,94 +1,124 @@
-import { Request } from 'express'
-import { z } from 'zod'
-import regexRG from '@sharedAPI/utils/regex/regexRG'
-import regexTelephone from '@sharedAPI/utils/regex/regexTelephone'
+import { BadRequestError } from '@apiErrors/errors'
+import { ErrorsProps } from '@apiErrors/types/errorsProps'
 import { PersonSchemaZod } from '@sharedAPI/types/personZod'
-import { verifyPersonSchema } from '@sharedAPI/utils/zod/zodVerifySchemas'
-import GeneratorErrorResponse from '@sharedAPI/utils/errors/helpers/generatorErrorMessages'
+import regexDate from '@sharedAPI/utils/regex/regexDate'
 import regexName from '@sharedAPI/utils/regex/regexName'
-import { BirthDateValidator } from './birthDateValidator'
-import CepValidator from './cepValidator'
-import CpfValidator from './cpfValidator'
+import regexTelephone from '@sharedAPI/utils/regex/regexTelephone'
+import { Request, Response } from 'express'
+import { ZodError, string, z } from 'zod'
 
-export default async function personValidatorZod(request: Request) {
+export default async function personValidatorZod(
+  request: Request,
+  response: Response,
+) {
   const PersonSchema: PersonSchemaZod = z.object({
     name: z
-      .string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'name',
-        ),
-      )
-      .regex(regexName, 'Nome só pode ter letras e acentuações.'),
-    birthDate: z.string(
-      GeneratorErrorResponse.generateErrorMessageInTypeDateOrRequired(
-        'birth_date',
-      ),
-    ),
+      .string({
+        required_error: 'Nome é obrigatório',
+        invalid_type_error: 'Nome inválido',
+      })
+      .trim()
+      .min(1, 'Nome é obrigatório')
+      .regex(regexName, 'name só pode conter letras'),
+    birthDate: z
+      .string({
+        required_error: 'Data de nascimento é obrigatória',
+        invalid_type_error: 'Data de nascimento inválida',
+      })
+      .min(1, 'Data de nascimento é obrigatória')
+      .regex(regexDate, 'Data inválida'),
     rg: z
-      .string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired('rg'),
-      )
-      .regex(regexRG, 'RG só pode conter números ou letras')
-      .max(15, 'RG não pode ter mais de 15 caracteres'),
-    cpf: z.string(
-      GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired('cpf'),
-    ),
-    gender: z.string(
-      GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-        'gender',
-      ),
-    ),
+      .string({
+        required_error: 'RG é obrigatório',
+        invalid_type_error: 'RG inválido',
+      })
+      .trim()
+      .min(1, 'RG é obrigatório')
+      .max(12, 'RG não pode ter mais de 12 caracteres'),
+    cpf: z
+      .string({
+        invalid_type_error: 'CPF inválido',
+        required_error: 'CPF é obrigatório',
+      })
+      .trim()
+      .min(1, 'CPF é obrigatório')
+      .max(14, 'CPF não pode ter mais de 14 caracteres'),
+    gender: z.string({
+      invalid_type_error: 'Gênero inválido',
+      required_error: 'Gênero é obrigatório',
+    }),
+    maritalStatus: z.string({
+      invalid_type_error: 'Estado civil inválido',
+      required_error: 'Estado civil é obrigatório',
+    }),
     address: z.object({
-      street: z.string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'street',
-        ),
-      ),
-      number: z.string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'number',
-        ),
-      ),
-      district: z.string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'district',
-        ),
-      ),
-      city: z.string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'city',
-        ),
-      ),
+      street: z.string({
+        invalid_type_error: 'Rua inválida',
+        required_error: 'Rua é obrigatório',
+      }),
+      number: z.string({
+        invalid_type_error: 'Número inválido',
+        required_error: 'Número é obrigatório',
+      }),
+      district: z.string({
+        invalid_type_error: 'Bairro inválido',
+        required_error: 'Bairro é obrigatório',
+      }),
+      city: z.string({
+        invalid_type_error: 'Cidade inválido',
+        required_error: 'Cidade é obrigatório',
+      }),
       postalCode: z
-        .string(
-          GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-            'postalCode',
-          ),
-        )
-        .min(8, 'CEP deve ter 8 caracteres.')
-        .max(8, 'CEP deve ter 8 caracteres.'),
-      state: z.string(
-        GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-          'state',
-        ),
-      ),
+        .string({
+          invalid_type_error: 'CEP inválido',
+          required_error: 'CEP é obrigatório',
+        })
+        .min(1, 'CEP é obrigatório')
+        .max(9, 'CEP deve ter 8 caracteres'),
+      state: z.string({
+        invalid_type_error: 'Estado inválido',
+        required_error: 'Estado é obrigatório',
+      }),
     }),
     telephone: z.object({
       telephoneNumber: z
-        .string(
-          GeneratorErrorResponse.generateErrorMessageInTypeStringOrRequired(
-            'telephone',
-          ),
-        )
-        .regex(regexTelephone, 'Telefone inválido.'),
+        .string({
+          invalid_type_error: 'Telefone inválido',
+          required_error: 'Telefone é obrigatório',
+        })
+        .regex(regexTelephone, 'Telefone inválido'),
     }),
   })
 
-  const PersonSchemaZodVerify = verifyPersonSchema(PersonSchema, request)
+  const isParseSuccess = PersonSchema.safeParse(request.body)
+  try {
+    if (isParseSuccess.success) {
+      return isParseSuccess
+    }
 
-  BirthDateValidator(PersonSchemaZodVerify.data.birthDate)
-  CpfValidator(PersonSchemaZodVerify.data.cpf)
-  await CepValidator(PersonSchemaZodVerify.data.address.postalCode)
-
-  return PersonSchemaZodVerify
+    console.log(isParseSuccess.error.errors.map((error) => error.message))
+    const ErrorMessage: ErrorsProps = {
+      message: 'true',
+      paths: isParseSuccess.error.errors.map((error) => error.path[0]),
+      messageByPath: isParseSuccess.error.errors.map((error) => error.message),
+    }
+    throw new BadRequestError(ErrorMessage)
+  } catch (error) {
+    if (error instanceof BadRequestError) {
+      console.log(error)
+      return response
+        .status(400)
+        .json({
+          error: error.message,
+          paths: error.paths,
+          messages: error.messageByPath,
+        })
+        .end()
+    }
+  }
+  // if (PersonSchemaZodVerify) {
+  //   birthDateValidator(PersonSchemaZodVerify?.data.birthDate)
+  //   cpfValidator(PersonSchemaZodVerify.data.cpf)
+  //   await cepValidator(PersonSchemaZodVerify.data.address.postalCode)
+  // }
 }
