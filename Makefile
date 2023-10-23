@@ -29,7 +29,7 @@ stop:
 
 .PHONY: api-build
 api-build:
-	@docker exec mens_api bash -c "npm run build"
+	@docker exec odonts_api bash -c "yarn run build"
 
 .PHONY: api-dev
 api-dev:
@@ -41,7 +41,7 @@ api-exec:
 
 .PHONY: api-install
 api-install:
-	@docker exec -it odonts-api bash -c "npm install"
+	@docker exec -it odonts-api bash -c "sudo yarn"
 
 .PHONY: api-log
 api-log:

@@ -1,0 +1,7 @@
+{
+  "extends": "@rocketseat/eslint-config/node",
+  "ignorePatterns": ["*.d.ts"],
+  "rules": {
+    "no-useless-constructor": "off"
+  }
+}
