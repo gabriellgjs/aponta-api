@@ -28,17 +28,7 @@ export default class EmployeeRepository {
     await this.employeesModel.updateEmployee(employee)
   }
 
-  async delete(employeeId: number): Promise<void> {
-    await this.employeesModel.deleteEmployee(employeeId)
-  }
-
-  async setTerminationDate(
-    employeeId: number,
-    dateOfTerminationDate: string | null,
-  ) {
-    return await this.employeesModel.setTerminationDate(
-      employeeId,
-      dateOfTerminationDate,
-    )
+  async status(employeeId: number): Promise<void> {
+    await this.employeesModel.statusEmployee(employeeId)
   }
 }

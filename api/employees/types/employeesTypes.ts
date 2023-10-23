@@ -1,11 +1,16 @@
-import { Address, Employee, Patient, People, Telephone } from '@prisma/client'
+import { Address, Employee, People, Telephone } from '@prisma/client'
 
 export type getEmployee = Promise<
   | (Employee & {
+      user: {
+        email: string
+        role: {
+          description: string
+        }
+      }[]
       people: People & {
         address: Address[]
         telephone: Telephone[]
-        patient: Patient[]
       }
     })
   | null
@@ -22,16 +27,26 @@ export type getEmployees = Promise<
 
 export type responseGetEmployee =
   | (Employee & {
+      user: {
+        id: number
+        email: string
+        roleId: number
+        role: {
+          description: string
+        }
+      }[]
       people: People & {
         address: Address[]
         telephone: Telephone[]
-        patient: Patient[]
       }
     })
   | null
 
 export type responseGetEmployees = {
   id: number
+  user: {
+    status: string
+  }[]
   people: {
     name: string
     telephone: {

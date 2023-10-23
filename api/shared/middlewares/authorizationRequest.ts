@@ -9,7 +9,7 @@ export default class AuthorizationRequest {
   ) {
     const token = request.headers.authorization
 
-    if (!token) return response.status(401).json('Access denied')
+    if (!token) return response.status(401).json('Access denied bla bla')
 
     try {
       const secret: string = process.env.JWT_SECRET ?? 'secret'

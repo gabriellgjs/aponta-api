@@ -7,7 +7,6 @@ import { RoleSchemaZod } from '@sharedAPI/types/roleZod'
 import { DeleteSchemaId } from '@sharedAPI/types/deleteZod'
 import { EmployeePatientZod } from '@sharedAPI/types/employeePatientZod'
 import { SetUserIdZod } from '@sharedAPI/types/setUserIdZod'
-import { SetTerminationDateZod } from '@sharedAPI/types/setTerminationDateZod'
 import { BadRequestError } from '@apiErrors/errors'
 
 export function verifyPersonSchema(schema: PersonSchemaZod, request: Request) {
@@ -54,30 +53,6 @@ export function verifySetUserIdSchema(schema: SetUserIdZod, request: Request) {
   const parse = {
     employeeId: Number(request.params.employeeId),
     userId: Number(request.body.userId),
-  }
-
-  const isParseSuccess = schema.safeParse(parse)
-
-  if (isParseSuccess.success) {
-    return isParseSuccess
-  }
-
-  const { message } = fromZodError(isParseSuccess.error)
-  throw new BadRequestError({ message })
-}
-
-export function verifySetTerminationDateSchema(
-  schema: SetTerminationDateZod,
-  request: Request,
-) {
-  const valueOfRequest =
-    request.query.termination_date === 'null'
-      ? null
-      : dayjs(String(request.query.termination_date)).toISOString()
-
-  const parse = {
-    employee_id: Number(request.params.employee_id),
-    termination_date: valueOfRequest,
   }
 
   const isParseSuccess = schema.safeParse(parse)

@@ -1,10 +1,7 @@
 export default class UpdateEmployeeInputData {
   constructor(
     readonly id: number,
-    readonly status: string,
     readonly hireDate: string,
-    readonly terminationDate: string | null | undefined,
-    readonly userId: number | null | undefined,
     readonly maritalStatus: string,
     readonly peopleId: number,
     readonly name: string,
@@ -27,9 +24,9 @@ export default class UpdateEmployeeInputData {
     },
     readonly user: {
       readonly id?: number
-      readonly email: string | null
-      readonly password: string | null
-      readonly roleId: number | null
+      readonly email: string
+      readonly password?: string
+      readonly roleId: number
     },
   ) {}
 }

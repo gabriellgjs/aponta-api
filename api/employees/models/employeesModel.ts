@@ -8,8 +8,18 @@ export default class EmployeesModel {
   async getEmployees() {
     try {
       return await this.PrismaConnection.employee.findMany({
+        orderBy: {
+          people: {
+            name: 'asc',
+          },
+        },
         select: {
           id: true,
+          user: {
+            select: {
+              status: true,
+            },
+          },
           people: {
             select: {
               name: true,
@@ -34,11 +44,20 @@ export default class EmployeesModel {
           id: employeeId,
         },
         include: {
+          user: {
+            select: {
+              email: true,
+              role: {
+                select: {
+                  description: true,
+                },
+              },
+            },
+          },
           people: {
             include: {
               address: true,
               telephone: true,
-              patient: true,
             },
           },
         },

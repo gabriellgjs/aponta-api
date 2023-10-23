@@ -3,14 +3,10 @@ import CreateEmployeeAction from '@employees/application/actions/createEmployeeA
 import CreateEmployeeFactory from '../factories/createEmployeeFactory'
 import EmployeesModel from '../models/employeesModel'
 import EmployeeOutputData from '../dtos/employeeOutputData'
-import DeleteEmployeeAction from '@employees/application/actions/deleteEmployeeAction'
-import DeleteEmployeeFactory from '../factories/deleteEmployeeFactory'
+import StatusEmployeeAction from '@employees/application/actions/statusEmployeeAction'
+import StatusEmployeeFactory from '../factories/statusEmployeeFactory'
 import UpdateEmployeeAction from '@employees/application/actions/updateEmployeeAction'
 import UpdateEmployeeFactory from '../factories/updateEmployeeFactory'
-import SetUserIdAction from '@employees/application/actions/setUserIdAction'
-import SetUserIdFactory from '../factories/setUserIdFactory'
-import SetTerminationDateAction from '@employees/application/actions/setTerminationDateAction'
-import SetTerminationDateFactory from '../factories/setTerminationDateFactory'
 import { BadRequestError, InternalServerError } from '@apiErrors/errors'
 
 export default class EmployeesController {
@@ -20,10 +16,12 @@ export default class EmployeesController {
 
       const { employeeId } = request.params
 
+      console.log(employeeId)
+
       const employee = await employeesModel.getEmployeeById(Number(employeeId))
 
       if (!employee) {
-        throw new BadRequestError('Nenhum funcionário encontrado')
+        throw new BadRequestError({ message: 'Nenhum funcionário encontrado' })
       }
 
       return response
@@ -41,7 +39,6 @@ export default class EmployeesController {
       const employeesModel = new EmployeesModel()
 
       const employees = await employeesModel.getEmployees()
-
       return response
         .status(200)
         .json(EmployeeOutputData.responseGetEmployees(employees))
@@ -88,42 +85,15 @@ export default class EmployeesController {
     }
   }
 
-  public async deleteEmployee(request: Request, response: Response) {
+  public async statusEmployee(request: Request, response: Response) {
     try {
-      const employeeAction = new DeleteEmployeeAction()
+      const employeeAction = new StatusEmployeeAction()
 
-      const userDataInput = DeleteEmployeeFactory.fromRequest(request)
+      const userDataInput = StatusEmployeeFactory.fromRequest(request)
+
       await employeeAction.execute(userDataInput)
+
       return response.status(204).json().end()
-    } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
-    }
-  }
-
-  public async setUserId(request: Request, response: Response) {
-    try {
-      const employeeAction = new SetUserIdAction()
-
-      const userDataInput = SetUserIdFactory.fromRequest(request)
-
-      await employeeAction.execute(userDataInput)
-
-      return response.status(200).end()
-    } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
-    }
-  }
-
-  public async setTerminationDate(request: Request, response: Response) {
-    try {
-      const employeeAction = new SetTerminationDateAction()
-
-      const userDataInput = SetTerminationDateFactory.fromRequest(request)
-      await employeeAction.execute(userDataInput)
-
-      return response.status(200).end()
     } catch (error) {
       if (error instanceof InternalServerError)
         throw new InternalServerError(error.message)

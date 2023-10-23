@@ -2,10 +2,8 @@ import express, { Router } from 'express'
 import EmployeesController from '../controllers/employeesController'
 import CreateEmployeeMiddleware from '../middlewares/createEmployeeMiddleware'
 import { is } from '@sharedAPI/middlewares/accessControlList'
-import SetUserIdMiddleware from '../middlewares/setUserIdMiddleware'
 import UpdateEmployeeMiddleware from '../middlewares/updateEmployeeMiddleware'
-import DeleteEmployeeMiddleware from '../middlewares/deleteEmployeeMiddleware'
-import SetTerminationDateMiddleware from '../middlewares/setTerminationDateMiddleware'
+import StatusEmployeeMiddleware from '../middlewares/statusEmployeeMiddleware'
 
 export default class EmployeesRoutes {
   private employeesController: EmployeesController
@@ -34,19 +32,12 @@ export default class EmployeesRoutes {
       this.employeesController,
     )
 
-    const deleteEmployee = this.employeesController.deleteEmployee.bind(
-      this.employeesController,
-    )
-    const setUserId = this.employeesController.setUserId.bind(
-      this.employeesController,
-    )
-
-    const setTerminationDate = this.employeesController.setTerminationDate.bind(
+    const statusEmployee = this.employeesController.statusEmployee.bind(
       this.employeesController,
     )
 
     this.employeesRoutes.get('/', getEmployees)
-    this.employeesRoutes.get('/:id', getEmployee)
+    this.employeesRoutes.get('/:employeeId', getEmployee)
     this.employeesRoutes.post(
       '/',
       is(['admin', 'manager']),
@@ -59,23 +50,11 @@ export default class EmployeesRoutes {
       UpdateEmployeeMiddleware,
       updateEmployee,
     )
-    this.employeesRoutes.delete(
+    this.employeesRoutes.patch(
       '/:id',
       is(['admin', 'manager']),
-      DeleteEmployeeMiddleware,
-      deleteEmployee,
-    )
-    this.employeesRoutes.patch(
-      '/:employee_id/user',
-      is(['admin', 'manager']),
-      SetUserIdMiddleware,
-      setUserId,
-    )
-    this.employeesRoutes.patch(
-      '/:employee_id',
-      is(['admin', 'manager']),
-      SetTerminationDateMiddleware,
-      setTerminationDate,
+      StatusEmployeeMiddleware,
+      statusEmployee,
     )
   }
 

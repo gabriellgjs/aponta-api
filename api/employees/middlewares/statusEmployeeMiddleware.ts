@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from 'express'
 import VerifyIdAndEmployeeExist from './verifyIdAndEmployeeExist'
 
-export default async function DeleteEmployeeMiddleware(
+export default async function StatusEmployeeMiddleware(
   request: Request,
   response: Response,
   next: NextFunction,
 ) {
-  await verifyMiddlewareDeleteEmployee(request, response, next)
+  await verifyMiddlewareStatusEmployee(request, response, next)
 }
 
-const verifyMiddlewareDeleteEmployee = async (
+const verifyMiddlewareStatusEmployee = async (
   request: Request,
   response: Response,
   next: NextFunction,

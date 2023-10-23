@@ -70,9 +70,10 @@ export default class EmployeesModel {
     }
   }
 
-  async deleteEmployee(employeeId: number) {
+  async statusEmployee(employeeId: number) {
+    let employee
     try {
-      const employee = await this.PrismaConnection.employee.findUnique({
+      employee = await this.PrismaConnection.employee.findUnique({
         where: {
           id: employeeId,
         },
@@ -80,6 +81,7 @@ export default class EmployeesModel {
           user: {
             select: {
               id: true,
+              status: true,
             },
           },
         },
@@ -91,12 +93,16 @@ export default class EmployeesModel {
             id: employee?.user[0].id,
           },
           data: {
-            status: 'inativo',
+            status: employee?.user[0].status === 'ativo' ? 'inativo' : 'ativo',
           },
         }),
       ])
     } catch (error) {
-      throw new InternalServerError('Erro ao deletar um funcionário')
+      throw new InternalServerError(
+        `Erro ao ${
+          employee?.user[0].status === 'ativo' ? 'inativar' : 'ativar'
+        } o funcionário`,
+      )
     }
   }
 
@@ -150,39 +156,6 @@ export default class EmployeesModel {
       ])
     } catch (error) {
       throw new InternalServerError('Erro ao atualizar um funcionário')
-    }
-  }
-
-  // TODO colocar um metodo que aplica o termination date
-
-  async setTerminationDate(
-    employeeId: number,
-    dateOfTerminationDate: string | null,
-  ) {
-    try {
-      if (dateOfTerminationDate) {
-        await this.PrismaConnection.employee.update({
-          where: {
-            id: employeeId,
-          },
-          data: {
-            terminationDate: dateOfTerminationDate,
-          },
-        })
-        return
-      }
-      await this.PrismaConnection.employee.update({
-        where: {
-          id: employeeId,
-        },
-        data: {
-          terminationDate: dateOfTerminationDate,
-        },
-      })
-    } catch (error) {
-      throw new InternalServerError(
-        'Erro ao definir data de desligamento do funcionário',
-      )
     }
   }
 }

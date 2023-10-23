@@ -5,10 +5,7 @@ import { responseGetEmployee } from '../types/employeesTypes'
 export default class UpdateEmployeeFactory {
   static fromRequest(request: Request) {
     const { employeeId } = request.params
-    const { status } = request.body
     const { hireDate } = request.body
-    const { terminationDate } = request.body
-    const { userId } = request.body
     const { peopleId } = request.body
     const { name } = request.body
     const { birthDate } = request.body
@@ -31,17 +28,14 @@ export default class UpdateEmployeeFactory {
     }
 
     const user = {
+      id: request.body.user.id,
       email: request.body.user.email,
-      password: request.body.user.password,
       roleId: request.body.user.roleId,
     }
 
     return new UpdateEmployeeInputData(
       Number(employeeId),
-      status,
       hireDate,
-      terminationDate,
-      userId,
       peopleId,
       name,
       birthDate,
@@ -70,13 +64,15 @@ export default class UpdateEmployeeFactory {
       id: employee?.people.telephone[0].id ?? 0,
       telephoneNumber: employee?.people.telephone[0].telephoneNumber ?? '',
     }
+    const user = {
+      id: employee?.user[0].id ?? 0,
+      email: employee?.people.telephone[0].telephoneNumber ?? '',
+      roleId: employee?.user[0].roleId ?? 0,
+    }
 
     return new UpdateEmployeeInputData(
       Number(employee?.id),
-      employee?.status ?? '',
       employee?.hireDate ?? '',
-      employee?.terminationDate ?? '',
-      employee?.userId ?? 0,
       employee?.people?.maritalStatus ?? '',
       employee?.peopleId ?? 0,
       employee?.people.name ?? '',
@@ -86,6 +82,7 @@ export default class UpdateEmployeeFactory {
       employee?.people.gender ?? '',
       address,
       telephone,
+      user,
     )
   }
 }

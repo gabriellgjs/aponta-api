@@ -6,7 +6,6 @@ export interface EmployeeProps extends PeopleProps {
   id?: number
   user: UserCore
   hireDate: string
-  terminationDate?: string | null
   peopleId?: number
   patient?: PatientCoreEmployee
 }

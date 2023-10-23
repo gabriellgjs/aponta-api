@@ -32,14 +32,6 @@ export default class EmployeeCore extends PeopleCore {
     this.props.hireDate = hireDate
   }
 
-  get terminationDate(): string | null {
-    return this.props.terminationDate ? this.props.terminationDate : null
-  }
-
-  set terminationDate(date: string | null) {
-    this.props.terminationDate = date
-  }
-
   set id(id: number) {
     this.props.id = id
   }

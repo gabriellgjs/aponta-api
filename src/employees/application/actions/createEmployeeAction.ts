@@ -41,6 +41,7 @@ export default class CreateEmployeeAction {
       telephone: new Telephone(telephoneNumber),
       address: new Address(address),
       user: new User(user),
+      maritalStatus: input.maritalStatus,
     })
 
     return await employeeRepository.save(employee)
