@@ -5,7 +5,7 @@ import regexDate from '@sharedAPI/utils/regex/regexDate'
 import regexName from '@sharedAPI/utils/regex/regexName'
 import regexTelephone from '@sharedAPI/utils/regex/regexTelephone'
 import { Request, Response } from 'express'
-import { ZodError, string, z } from 'zod'
+import { z } from 'zod'
 
 export default async function personValidatorZod(
   request: Request,
@@ -96,12 +96,12 @@ export default async function personValidatorZod(
       return isParseSuccess
     }
 
-    console.log(isParseSuccess.error.errors.map((error) => error.message))
     const ErrorMessage: ErrorsProps = {
       message: 'true',
       paths: isParseSuccess.error.errors.map((error) => error.path[0]),
       messageByPath: isParseSuccess.error.errors.map((error) => error.message),
     }
+
     throw new BadRequestError(ErrorMessage)
   } catch (error) {
     if (error instanceof BadRequestError) {

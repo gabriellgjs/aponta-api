@@ -37,7 +37,7 @@ export default class EmployeesRoutes {
     )
 
     this.employeesRoutes.get('/', getEmployees)
-    this.employeesRoutes.get('/:employeeId', getEmployee)
+    this.employeesRoutes.get('/:id', getEmployee)
     this.employeesRoutes.post(
       '/',
       is(['admin', 'manager']),

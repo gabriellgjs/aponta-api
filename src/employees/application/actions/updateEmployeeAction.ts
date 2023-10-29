@@ -14,10 +14,9 @@ export default class UpdateEmployeeAction {
 
     const employee = new Employee({
       id: actual.id,
+      name: input.name ?? actual.name,
       maritalStatus: input.maritalStatus ?? actual.maritalStatus,
       hireDate: input.hireDate ?? actual.hireDate,
-      peopleId: input.peopleId ?? actual.peopleId,
-      name: input.name ?? actual.name,
       birthDate: input.birthDate ?? actual.birthDate,
       rg: input.rg ?? actual.rg,
       cpf: input.cpf ?? actual.cpf,
@@ -38,10 +37,11 @@ export default class UpdateEmployeeAction {
       user: new User({
         id: actual.user.id,
         email: input.user.email ?? actual.user.email,
-        password: input.user.password ?? actual.user.password,
         roleId: input.user.roleId ?? actual.user.roleId,
       }),
     })
+
+    console.log(employee.address)
 
     return await employeeRepository.save(employee)
   }

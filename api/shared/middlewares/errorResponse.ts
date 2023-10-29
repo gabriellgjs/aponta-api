@@ -10,5 +10,6 @@ export const ErrorResponse = (
 ) => {
   const statusCode = error.statusCode ?? 500
   const message = error.statusCode ? error.message : 'Internal Server Error.'
+  console.log(statusCode)
   return res.status(statusCode).json({ messagem: message })
 }

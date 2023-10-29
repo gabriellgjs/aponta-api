@@ -1,13 +1,13 @@
-import { Request, Response } from 'express'
-import CreateEmployeeAction from '@employees/application/actions/createEmployeeAction'
-import CreateEmployeeFactory from '../factories/createEmployeeFactory'
-import EmployeesModel from '../models/employeesModel'
-import EmployeeOutputData from '../dtos/employeeOutputData'
-import StatusEmployeeAction from '@employees/application/actions/statusEmployeeAction'
-import StatusEmployeeFactory from '../factories/statusEmployeeFactory'
-import UpdateEmployeeAction from '@employees/application/actions/updateEmployeeAction'
-import UpdateEmployeeFactory from '../factories/updateEmployeeFactory'
 import { BadRequestError, InternalServerError } from '@apiErrors/errors'
+import CreateEmployeeAction from '@employees/application/actions/createEmployeeAction'
+import StatusEmployeeAction from '@employees/application/actions/statusEmployeeAction'
+import UpdateEmployeeAction from '@employees/application/actions/updateEmployeeAction'
+import { Request, Response } from 'express'
+import EmployeeOutputData from '../dtos/employeeOutputData'
+import CreateEmployeeFactory from '../factories/createEmployeeFactory'
+import StatusEmployeeFactory from '../factories/statusEmployeeFactory'
+import UpdateEmployeeFactory from '../factories/updateEmployeeFactory'
+import EmployeesModel from '../models/employeesModel'
 
 export default class EmployeesController {
   public async getEmployee(request: Request, response: Response) {
@@ -54,6 +54,7 @@ export default class EmployeesController {
       const employeeAction = new CreateEmployeeAction()
 
       const employeeFactory = CreateEmployeeFactory.fromRequest(request)
+      console.log(employeeFactory)
 
       const employeeId = (await employeeAction.execute(employeeFactory))?.id
 
@@ -74,11 +75,13 @@ export default class EmployeesController {
         userDataInput.id,
       )
 
-      const actualEmployeesInput =
-        UpdateEmployeeFactory.fromCurrentRole(actualEmployee)
+      if (actualEmployee) {
+        const actualEmployeesInput =
+          UpdateEmployeeFactory.fromCurrentRole(actualEmployee)
 
-      await employeeAction.execute(userDataInput, actualEmployeesInput)
-      return response.status(204).json().end()
+        await employeeAction.execute(userDataInput, actualEmployeesInput)
+        return response.status(204).json().end()
+      }
     } catch (error) {
       if (error instanceof InternalServerError)
         throw new InternalServerError(error.message)

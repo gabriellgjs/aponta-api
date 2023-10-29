@@ -27,7 +27,7 @@ export default class UserCore {
   }
 
   get password(): string {
-    return this.props.password
+    return this.props.password ?? ''
   }
 
   set password(password: string) {

@@ -22,15 +22,15 @@ const verifyMiddlewaresEmployee = async (
   response: Response,
   next: NextFunction,
 ) => {
-  const Person = await personValidatorZod(request)
+  const Person = await personValidatorZod(request, response)
 
   const EmployeeSchema = z.object({
-    hireDate: z.string().datetime(),
+    hireDate: z.string(),
   })
 
   const EmployeeSchemaZodVerify = verifyEmployeeSchema(EmployeeSchema, request)
 
-  verifyHireDate(EmployeeSchemaZodVerify.data.hireDate, Person.data.birthDate)
+  // verifyHireDate(EmployeeSchemaZodVerify.data.hireDate, Person.data.birthDate)
   next()
 }
 
