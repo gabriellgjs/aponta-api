@@ -1,10 +1,10 @@
-import { compare } from 'bcryptjs'
-import { Request, Response } from 'express'
+import {compare} from 'bcryptjs'
+import {Request, Response} from 'express'
 import jwt from 'jsonwebtoken'
 
 import LoginUserFactory from '../factories/loginUserFactory'
 import LoginModel from '../models/loginModel'
-import { BadRequestError, InternalServerError } from '@apiErrors/errors'
+import {InternalServerError, NotFoundError} from '@apiErrors/errors'
 
 interface propsToken {
   id: number
@@ -21,20 +21,18 @@ export default class LoginController {
   }
 
   private generateTokenAuthenticationByUser(user: propsToken) {
-    const token = jwt.sign(
-      {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-      },
-      this.secret,
-      {
-        algorithm: 'HS256',
-        expiresIn: this.expiresIn,
-      },
+    return jwt.sign(
+        {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        },
+        this.secret,
+        {
+          algorithm: 'HS256',
+          expiresIn: this.expiresIn,
+        },
     )
-
-    return token
   }
 
   public async login(request: Request, response: Response) {
@@ -43,7 +41,7 @@ export default class LoginController {
       const loginModel = new LoginModel()
       const userExists = await loginModel.findUser(userFactory.email)
 
-      if (!userExists) throw new BadRequestError('Email ou senha inválidos.')
+      if (!userExists) throw new NotFoundError('Email ou senha inválidos.')
 
       const passwordIsMatch = await this.comparePassword(
         userExists.password,
@@ -51,7 +49,7 @@ export default class LoginController {
       )
 
       if (!passwordIsMatch)
-        throw new BadRequestError('Email ou senha inválidos.')
+        throw new NotFoundError('Email ou senha inválidos.')
 
       const responseUser = {
         id: userExists.id,

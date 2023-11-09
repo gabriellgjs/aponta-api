@@ -1,5 +1,5 @@
-import { BadRequestError } from '@apiErrors/errors'
+import {NotFoundError} from '@apiErrors/errors'
 
 export default function VerifyId(id: string | number) {
-  if (!(Number(id) > 0)) throw new BadRequestError('Id inválido')
+  if (!(Number(id) > 0)) throw new NotFoundError('Employee nao encontrado')
 }

@@ -47,7 +47,7 @@ export default class UpdateEmployeeFactory {
     )
   }
 
-  static fromCurrentRole(employee: responseGetEmployee) {
+  static fromCurrentEmployee(employee: responseGetEmployee) {
     const address = {
       id: employee?.people.address[0].id ?? 0,
       street: employee?.people.address[0].street ?? '',

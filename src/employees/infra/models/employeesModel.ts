@@ -168,4 +168,67 @@ export default class EmployeesModel {
       throw new InternalServerError('Erro ao atualizar um funcionário')
     }
   }
+
+  async updatePersonDetails(employee: Employee) {
+    try {
+      return await this.PrismaConnection.$transaction([
+        this.PrismaConnection.employee.update({
+          where: {
+            id: employee.id,
+          },
+          data: {
+            hireDate: employee.hireDate,
+            people: {
+              update: {
+                name: employee.name,
+                birthDate: employee.birthDate,
+                rg: employee.rg,
+                cpf: employee.cpf,
+                gender: employee.gender,
+                maritalStatus: employee.maritalStatus,
+                address: {
+                  update: {
+                    where: {
+                      id: employee.address.id,
+                    },
+                    data: {
+                      street: employee.address.street,
+                      number: employee.address.number,
+                      district: employee.address.district,
+                      city: employee.address.city,
+                      postalCode: employee.address.postalCode,
+                      state: employee.address.state,
+                    },
+                  },
+                },
+                telephone: {
+                  update: {
+                    where: {
+                      id: employee.telephone.id,
+                    },
+                    data: {
+                      telephoneNumber: employee.telephone.telephoneNumber,
+                    },
+                  },
+                },
+              },
+            },
+            user: {
+              update: {
+                where: {
+                  id: employee.user.id,
+                },
+                data: {
+                  roleId: employee.user.roleId,
+                },
+              },
+            },
+          },
+        }),
+      ])
+    }  catch (error) {
+      throw new InternalServerError('Erro ao atualizar o funcionário')
+    }
+  }
 }
+

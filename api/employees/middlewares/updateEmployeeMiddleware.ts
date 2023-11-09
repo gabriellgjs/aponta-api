@@ -3,7 +3,6 @@ import { z } from 'zod'
 
 import personValidatorZod from '@sharedAPI/middlewares/personValidatorZod'
 import { verifyEmployeeSchema } from '@sharedAPI/utils/zod/zodVerifySchemas'
-import verifyHireDate from './verifyHireDate'
 import VerifyInAndEmployeeExist from './verifyIdAndEmployeeExist'
 export default async function UpdateEmployeeMiddleware(
   request: Request,
@@ -12,7 +11,7 @@ export default async function UpdateEmployeeMiddleware(
 ) {
   await verifyMiddlewaresEmployee(request, response, next)
 
-  const { id } = request.params
+  const {id} = request.params
 
   await VerifyInAndEmployeeExist(Number(id))
 }
@@ -22,13 +21,13 @@ const verifyMiddlewaresEmployee = async (
   response: Response,
   next: NextFunction,
 ) => {
-  const Person = await personValidatorZod(request, response)
+  await personValidatorZod(request, response)
 
   const EmployeeSchema = z.object({
     hireDate: z.string(),
   })
 
-  const EmployeeSchemaZodVerify = verifyEmployeeSchema(EmployeeSchema, request)
+  verifyEmployeeSchema(EmployeeSchema, request)
 
   // verifyHireDate(EmployeeSchemaZodVerify.data.hireDate, Person.data.birthDate)
   next()
