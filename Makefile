@@ -29,23 +29,23 @@ stop:
 
 .PHONY: api-build
 api-build:
-	@docker exec odonts_api bash -c "yarn run build"
+	@docker exec aponta-api bash -c "yarn run build"
 
 .PHONY: api-dev
 api-dev:
-	@docker exec -it odonts-api bash -c "sudo yarn run dev"
+	@docker exec -it aponta-api bash -c "sudo yarn run dev"
 
 .PHONY: api-exec
 api-exec:
-	@docker exec -it odonts-api bash
+	@docker exec -it aponta-api bash
 
 .PHONY: api-install
 api-install:
-	@docker exec -it odonts-api bash -c "sudo yarn"
+	@docker exec -it aponta-api bash -c "sudo yarn"
 
 .PHONY: api-log
 api-log:
-	@docker logs odonts-api --follow
+	@docker logs aponta-api --follow
 
 # ┌─────────────────────────────────────────────────────────────────────────────┐
 # │ DATABASE commands                                                           │
@@ -53,12 +53,12 @@ api-log:
 
 .PHONY: db-seed
 db-seed: db-migrate
-	@docker exec -it odonts-api bash -c "sudo npx prisma db seed"
+	@docker exec -it aponta-api bash -c "sudo npx prisma db seed"
 
 .PHONY: db-migrate
 db-migrate:
-	@docker exec -it odonts-api bash -c "sudo npx prisma migrate dev"
+	@docker exec -it aponta-api bash -c "sudo npx prisma migrate dev"
 
 .PHONY: prisma-studio
 prisma-studio:
-	@docker exec -it odonts-api bash -c "sudo npx prisma studio --browser none"
+	@docker exec -it aponta-api bash -c "sudo npx prisma studio --browser none"
