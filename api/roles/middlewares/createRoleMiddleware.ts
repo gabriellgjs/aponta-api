@@ -1,7 +1,7 @@
 import regexName from '@sharedAPI/utils/regex/regexName'
-import { verifyRoleSchema } from '@sharedAPI/utils/zod/zodVerifySchemas'
 import { NextFunction, Request, Response } from 'express'
 import { z } from 'zod'
+import { verifySchemaZod } from '@sharedAPI/middlewares/verifySchemaZod'
 
 export default async function CreateRoleMiddleware(
   request: Request,
@@ -11,23 +11,23 @@ export default async function CreateRoleMiddleware(
   await verifyMiddlewareCreateRole(request, response, next)
 }
 
+const roleSchema = z.object({
+  name: z
+    .string()
+    .regex(regexName, 'Nome só pode ter letras e acentuações.')
+    .trim(),
+  description: z
+    .string()
+    .regex(regexName, 'Descrição só pode ter letras e acentuações.')
+    .trim(),
+})
+
 const verifyMiddlewareCreateRole = async (
   request: Request,
   response: Response,
   next: NextFunction,
 ) => {
-  const roleSchema = z.object({
-    name: z
-      .string()
-      .regex(regexName, 'Nome só pode ter letras e acentuações.')
-      .trim(),
-    description: z
-      .string()
-      .regex(regexName, 'Descrição só pode ter letras e acentuações.')
-      .trim(),
-  })
-
-  verifyRoleSchema(roleSchema, request)
+  await verifySchemaZod(roleSchema, request, response)
 
   next()
 }

@@ -16,8 +16,8 @@ RUN apt-get update \
 RUN usermod -aG sudo node && \
     echo "node ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-RUN mkdir -p /var/www/odonts-api && \
-    chown -R node:node /var/www/odonts-api
+RUN mkdir -p /var/www/aponta-api && \
+    chown -R node:node /var/www/aponta-api
 
 RUN echo "pt_BR.UTF-8 UTF-8" >> /etc/locale.gen && \
     locale-gen "pt_BR.UTF-8" && \

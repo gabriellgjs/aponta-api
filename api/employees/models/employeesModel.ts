@@ -1,6 +1,5 @@
-import PrismaConnection from '@prisma/prismaConnection'
-import { getEmployee } from '../types/employeesTypes'
 import { InternalServerError } from '@apiErrors/errors'
+import PrismaConnection from '@prisma/prismaConnection'
 
 export default class EmployeesModel {
   private PrismaConnection = PrismaConnection
@@ -13,21 +12,24 @@ export default class EmployeesModel {
             name: 'asc',
           },
         },
-        select: {
-          id: true,
+        include: {
           user: {
             select: {
+              id: true,
               status: true,
+              email: true,
+              roleId: true,
+              role: {
+                select: {
+                  description: true,
+                },
+              },
             },
           },
           people: {
-            select: {
-              name: true,
-              telephone: {
-                select: {
-                  telephoneNumber: true,
-                },
-              },
+            include: {
+              telephone: true,
+              address: true,
             },
           },
         },
@@ -37,7 +39,7 @@ export default class EmployeesModel {
     }
   }
 
-  async getEmployeeById(employeeId: number): getEmployee {
+  async getEmployeeById(employeeId: number) {
     try {
       return await this.PrismaConnection.employee.findUnique({
         where: {
@@ -46,7 +48,10 @@ export default class EmployeesModel {
         include: {
           user: {
             select: {
+              id: true,
+              status: true,
               email: true,
+              roleId: true,
               role: {
                 select: {
                   description: true,

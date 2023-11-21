@@ -23,7 +23,7 @@ export default class CreateEmployeeAction {
     }
 
     const address = {
-      street: input.address.state,
+      street: input.address.street,
       number: input.address.number,
       district: input.address.district,
       city: input.address.city,

@@ -9,13 +9,11 @@ export default class AuthorizationRequest {
   ) {
     const token = request.headers.authorization
 
-    if (!token) return response.status(401).json('Access denied bla bla')
+    if (!token) return response.status(401).json('Access denied')
 
     try {
       const secret: string = process.env.JWT_SECRET ?? 'secret'
-      const payload = verify(token.replace('Bearer ', ''), secret)
-
-      response.locals.user = payload
+      response.locals.user = verify(token.replace('Bearer ', ''), secret)
     } catch (error) {
       return response.status(401).json('Invalid Token')
     }

@@ -1,72 +1,85 @@
 import { responseGetPatient, responseGetPatients } from '../types/patientTypes'
 
 export default class PatientsOutputData {
-  static responseGetPatients(patients: responseGetPatients) {
+  static responseGetPatients(patients: responseGetPatient[]) {
     const response = patients.map((patient) => {
-      const id = patient.id
-      const name = patient.people.name
+      const id = patient?.id
+      const status = patient?.status
+
+      const people = {
+        name: patient?.people.name,
+        birthDate: patient?.people.birthDate,
+        rg: patient?.people.rg,
+        cpf: patient?.people.cpf,
+        gender: patient?.people.gender,
+        maritalStatus: patient?.people.maritalStatus,
+      }
+
+      const telephone = {
+        id: patient?.people.telephone[0].id,
+        telephoneNumber: patient?.people.telephone[0].telephoneNumber,
+      }
+
+      const address = {
+        id: patient?.people.address[0].id,
+        street: patient?.people.address[0].street,
+        number: patient?.people.address[0].number,
+        district: patient?.people.address[0].district,
+        city: patient?.people.address[0].city,
+        postalCode: patient?.people.address[0].postalCode,
+        state: patient?.people.address[0].state,
+      }
+
       return {
         id,
-        name,
-        url: `${process.env.BASE_URL}/patients/${id}`,
+        patient: {
+          status,
+        },
+        ...people,
+        telephone,
+        address,
       }
     })
 
-    return {
-      results: response,
-    }
+    return [...response]
   }
 
   static responseGetPatient(patient: responseGetPatient) {
-    const peopleId = patient?.people.id
-    const name = patient?.people.name
-    const birthDate = patient?.people.birthDate
-    const rg = patient?.people.rg
-    const cpf = patient?.people.cpf
-    const gender = patient?.people.gender
+    const id = patient?.id
+    const status = patient?.status
 
-    const addressId = patient?.people.address[0].id
-    const street = patient?.people.address[0].street
-    const district = patient?.people.address[0].district
-    const city = patient?.people.address[0].city
-    const postalCode = patient?.people.address[0].postalCode
-    const state = patient?.people.address[0].state
+    const people = {
+      name: patient?.people.name,
+      birthDate: patient?.people.birthDate,
+      rg: patient?.people.rg,
+      cpf: patient?.people.cpf,
+      gender: patient?.people.gender,
+      maritalStatus: patient?.people.maritalStatus,
+    }
 
-    const telephoneId = patient?.people.telephone[0].id
-    const telephoneNumber = patient?.people.telephone[0].telephoneNumber
+    const telephone = {
+      id: patient?.people.telephone[0].id,
+      telephoneNumber: patient?.people.telephone[0].telephoneNumber,
+    }
 
-    const patientId = patient?.id
-    const patientStatus = patient?.status
-    const maritalStatus = patient?.people.maritalStatus
-    const career = patient?.career
+    const address = {
+      id: patient?.people.address[0].id,
+      street: patient?.people.address[0].street,
+      number: patient?.people.address[0].number,
+      district: patient?.people.address[0].district,
+      city: patient?.people.address[0].city,
+      postalCode: patient?.people.address[0].postalCode,
+      state: patient?.people.address[0].state,
+    }
 
     return {
+      id,
       patient: {
-        id: patientId,
-        status: patientStatus,
-        people: {
-          id: peopleId,
-          name,
-          birthDate,
-          rg,
-          cpf,
-          gender,
-          maritalStatus,
-          career,
-        },
-        address: {
-          id: addressId,
-          street,
-          district,
-          city,
-          postalCode,
-          state,
-        },
-        telephone: {
-          id: telephoneId,
-          telephoneNumber,
-        },
+        status,
       },
+      ...people,
+      address,
+      telephone,
     }
   }
 }

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import VerifyInAndRoleExist from './verifyIdAndRoleExist'
+import verifyRoleExist from '@rolesAPI/middlewares/verifyRoleExist'
 
 export default async function GetRoleMiddleware(
   request: Request,
@@ -8,7 +8,7 @@ export default async function GetRoleMiddleware(
 ) {
   const { id } = request.params
 
-  await VerifyInAndRoleExist(Number(id))
+  await verifyRoleExist(Number(id), response)
 
   next()
 }

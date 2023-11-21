@@ -7,11 +7,16 @@ export default class PatientsModel {
   async getPatients() {
     try {
       return await this.prismaConnection.patient.findMany({
-        select: {
-          id: true,
+        orderBy: {
           people: {
-            select: {
-              name: true,
+            name: 'asc',
+          },
+        },
+        include: {
+          people: {
+            include: {
+              telephone: true,
+              address: true,
             },
           },
         },

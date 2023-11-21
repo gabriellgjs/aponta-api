@@ -6,7 +6,6 @@ export default class CreatePatientInputData {
     readonly cpf: string,
     readonly gender: string,
     readonly maritalStatus: string,
-    readonly career: string,
     readonly address: {
       readonly street: string
       readonly number: string

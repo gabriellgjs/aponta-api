@@ -1,16 +1,26 @@
-import { UnauthorizedError } from '@apiErrors/errors'
-import prismaConnection from '@prisma/prismaConnection'
+import PrismaConnection from '@prisma/prismaConnection'
 import { compare } from 'bcryptjs'
-import { Request } from 'express'
+import { Request, Response } from 'express'
+import Sentry from '../../application/sentry'
+import { BadRequestError } from '@apiErrors/errors'
 
-export default async function verifyExistUser(request: Request) {
-  const user = await prismaConnection.user.findUnique({
-    where: { email: request.body.email },
-  })
+export default async function verifyExistUser(
+  request: Request,
+  response: Response,
+) {
+  try {
+    const user = await PrismaConnection.user.findUnique({
+      where: { email: request.body.email },
+    })
+    if (!user) throw new BadRequestError('Email ou senha inválidos.')
 
-  if (!user) throw new UnauthorizedError('Email ou senha inválidos.')
+    const passwordIsMatch = await compare(request.body.password, user.password)
 
-  const passwordIsMatch = await compare(request.body.password, user.password)
-
-  if (!passwordIsMatch) throw new UnauthorizedError('Email ou senha inválidos.')
+    if (!passwordIsMatch) throw new BadRequestError('Email ou senha inválidos.')
+  } catch (error) {
+    if (error instanceof BadRequestError) {
+      await Sentry.sendError(error.nameError, error.message)
+      return response.status(401).json({ message: error.message }).end()
+    }
+  }
 }

@@ -2,7 +2,7 @@ version: '3.5'
 
 services:  
   database-postgres:
-    container_name: odonts-database
+    container_name: aponta-database
     build:
       context: ../
       dockerfile: .docker/postgresql/Dockerfile
@@ -13,12 +13,12 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} 
     networks:
-      - odonts-network-api
+      - aponta-network-api
     restart: on-failure
     tty: true
     
-  odonts-api:
-    container_name: odonts-api
+  aponta-api:
+    container_name: aponta-api
     build: 
       context: ../
       dockerfile: .docker/node/Dockerfile
@@ -33,11 +33,11 @@ services:
     ports:
       - "${API_PORT}:3000"
       - "${PRISMA_STUDIO}:5555"
-    working_dir: /var/www/odonts-api
+    working_dir: /var/www/aponta-api
     volumes:
-      - ../:/var/www/odonts-api
+      - ../:/var/www/aponta-api
     networks:
-      - odonts-network-api
+      - aponta-network-api
     depends_on:
       - database-postgres
     links:
@@ -45,5 +45,5 @@ services:
     tty: true
 
 networks:
-  odonts-network-api:
-    name: odonts-network
+  aponta-network-api:
+    name: aponta-network

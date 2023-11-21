@@ -25,32 +25,21 @@ export type getEmployees = Promise<
   }[]
 >
 
-export type responseGetEmployee =
-  | (Employee & {
-      user: {
-        id: number
-        email: string
-        roleId: number
-        role: {
-          description: string
-        }
-      }[]
-      people: People & {
-        address: Address[]
-        telephone: Telephone[]
-      }
-    })
-  | null
-
-export type responseGetEmployees = {
+export type responseGetEmployee = {
   id: number
+  hireDate: string
+  peopleId: number
   user: {
+    id: number
     status: string
+    email: string
+    roleId: number
+    role: {
+      description: string
+    }
   }[]
-  people: {
-    name: string
-    telephone: {
-      telephoneNumber: string
-    }[]
+  people: People & {
+    address: Address[]
+    telephone: Telephone[]
   }
-}[]
+}

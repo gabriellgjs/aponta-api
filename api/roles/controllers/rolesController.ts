@@ -1,6 +1,9 @@
 import { Request, Response } from 'express'
-
-import { InternalServerError, NotFoundError } from '@apiErrors/errors'
+import {
+  BadRequestError,
+  InternalServerError,
+  NotFoundError,
+} from '@apiErrors/errors'
 import CreateRoleAction from '@roles/application/actions/createRoleAction'
 import DeleteRoleAction from '@roles/application/actions/deleteRoleAction'
 import UpdateRoleAction from '@roles/application/actions/updateRoleAction'
@@ -9,6 +12,7 @@ import DeleteRoleFactory from '@rolesAPI/factories/deleteRoleFactory'
 import UpdateRoleFactory from '@rolesAPI/factories/updateRoleFactory'
 import RolesModel from '@rolesAPI/models/rolesModel'
 import RoleOutputData from '../dtos/roleOutputData'
+import Sentry from '../../application/sentry'
 
 export default class RolesController {
   public async getRole(request: Request, response: Response) {
@@ -23,8 +27,18 @@ export default class RolesController {
 
       return response.status(200).json(role)
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (
+        error instanceof InternalServerError ||
+        error instanceof BadRequestError ||
+        error instanceof NotFoundError
+      ) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -36,8 +50,14 @@ export default class RolesController {
 
       return response.status(200).json(RoleOutputData.responseGetRoles(roles))
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -51,8 +71,14 @@ export default class RolesController {
 
       return response.status(201).json(roleId)
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -71,8 +97,14 @@ export default class RolesController {
 
       return response.status(204).json()
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -86,8 +118,14 @@ export default class RolesController {
 
       return response.status(204).json()
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 }

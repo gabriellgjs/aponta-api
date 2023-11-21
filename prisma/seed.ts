@@ -5,11 +5,19 @@ const prisma = new PrismaClient()
 const roles = [
   {
     name: 'admin',
-    description: 'Administrador',
+    description: 'Administrador(a)',
   },
   {
     name: 'tester',
-    description: 'Testador',
+    description: 'Testador(a)',
+  },
+  {
+    name: 'dentist',
+    description: 'Dentista',
+  },
+  {
+    name: 'secretary',
+    description: 'Secretário(a)',
   },
 ]
 
@@ -17,9 +25,9 @@ const user = {
   name: 'Gabriel José Silva',
   birthDate: '10/05/2002',
   rg: '14.862.714-8',
-  email: 'contato.gabrieljosesilva@gmail.com',
+  email: 'contato.gabrieljosesilva1@gmail.com',
   password: '$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy',
-  cpf: '077.862.979-10',
+  cpf: '077.862.978-10',
   maritalStatus: 'Solteiro (a)',
   gender: 'Masculino',
   hireDate: '16/11/2020',
@@ -29,7 +37,31 @@ const user = {
     number: '50',
     district: 'Jardim Panorama',
     city: 'Altônia',
-    postalCode: '88550-000',
+    postalCode: '87550-000',
+    state: 'PR',
+  },
+  telephone: {
+    telephoneNumber: '(44) 99873-9002',
+  },
+}
+
+const user2 = {
+  name: 'Gabriel José Silva',
+  birthDate: '10/05/2002',
+  rg: '14.862.714-8',
+  email: 'gabriel_lisa@hotmail.com',
+  password: '$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy',
+  cpf: '077.862.977-10',
+  maritalStatus: 'Solteiro (a)',
+  gender: 'Masculino',
+  hireDate: '16/11/2020',
+  roleId: 1,
+  address: {
+    street: 'Rua Floresta',
+    number: '50',
+    district: 'Jardim Panorama',
+    city: 'Altônia',
+    postalCode: '87550-000',
     state: 'PR',
   },
   telephone: {

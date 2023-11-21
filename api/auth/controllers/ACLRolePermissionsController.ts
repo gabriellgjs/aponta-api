@@ -14,10 +14,13 @@ export default class ACLRolePermissionsController {
         permissionsIds,
       })
 
-      return response.status(201).json(RolePermissions)
+      return response.status(201).json(RolePermissions).end()
     } catch (error) {
       if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
     }
   }
 }
