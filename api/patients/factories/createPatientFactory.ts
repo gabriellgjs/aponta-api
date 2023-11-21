@@ -9,7 +9,6 @@ export default class CreatePatientFactory {
     const { cpf } = request.body
     const { gender } = request.body
     const { maritalStatus } = request.body
-    const { career } = request.body
 
     const address = {
       street: request.body.address.street,
@@ -31,7 +30,6 @@ export default class CreatePatientFactory {
       cpf,
       gender,
       maritalStatus,
-      career,
       address,
       telephone,
     )

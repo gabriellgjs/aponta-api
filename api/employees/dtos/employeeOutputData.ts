@@ -39,7 +39,6 @@ export default class EmployeeOutputData {
       state: employee.people.address[0].state,
     }
 
-    console.log('aqui')
     return { id, ...people, user, telephone, address }
   }
 
@@ -94,5 +93,3 @@ export default class EmployeeOutputData {
     return [...response]
   }
 }
-
-// TODO tratar datas

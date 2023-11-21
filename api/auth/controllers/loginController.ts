@@ -1,10 +1,10 @@
-import {compare} from 'bcryptjs'
-import {Request, Response} from 'express'
+import { compare } from 'bcryptjs'
+import { Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-
 import LoginUserFactory from '../factories/loginUserFactory'
 import LoginModel from '../models/loginModel'
-import {InternalServerError, NotFoundError} from '@apiErrors/errors'
+import { InternalServerError } from '@apiErrors/errors'
+import Sentry from '../../application/sentry'
 
 interface propsToken {
   id: number
@@ -22,16 +22,16 @@ export default class LoginController {
 
   private generateTokenAuthenticationByUser(user: propsToken) {
     return jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        },
-        this.secret,
-        {
-          algorithm: 'HS256',
-          expiresIn: this.expiresIn,
-        },
+      {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      },
+      this.secret,
+      {
+        algorithm: 'HS256',
+        expiresIn: this.expiresIn,
+      },
     )
   }
 
@@ -41,20 +41,10 @@ export default class LoginController {
       const loginModel = new LoginModel()
       const userExists = await loginModel.findUser(userFactory.email)
 
-      if (!userExists) throw new NotFoundError('Email ou senha inválidos.')
-
-      const passwordIsMatch = await this.comparePassword(
-        userExists.password,
-        userFactory.password,
-      )
-
-      if (!passwordIsMatch)
-        throw new NotFoundError('Email ou senha inválidos.')
-
       const responseUser = {
-        id: userExists.id,
-        email: userExists.email,
-        name: userExists.employee.people.name,
+        id: userExists?.id ?? 0,
+        email: userExists?.email ?? '',
+        name: userExists?.employee.people.name ?? '',
       }
 
       const token = this.generateTokenAuthenticationByUser(responseUser)
@@ -67,8 +57,13 @@ export default class LoginController {
       }
       return response.status(200).json(res).end
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 }

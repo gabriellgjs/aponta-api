@@ -34,7 +34,7 @@ export default class EmployeesModel {
             },
             patient: {
               create: {
-                status: 'ativo',
+                status: employee.patient?.status ?? 'Ativo',
               },
             },
             employee: {
@@ -42,7 +42,7 @@ export default class EmployeesModel {
                 hireDate: employee.hireDate,
                 user: {
                   create: {
-                    status: 'ativo',
+                    status: employee.user.status,
                     email: employee.user.email,
                     password: employee.user.password,
                     roleId: employee.user.roleId,
@@ -226,9 +226,8 @@ export default class EmployeesModel {
           },
         }),
       ])
-    }  catch (error) {
+    } catch (error) {
       throw new InternalServerError('Erro ao atualizar o funcionário')
     }
   }
 }
-

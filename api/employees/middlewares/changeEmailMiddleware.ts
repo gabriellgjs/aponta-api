@@ -1,38 +1,38 @@
 import { NextFunction, Request, Response } from 'express'
-import {fromZodError} from "zod-validation-error";
-import {z} from "zod";
-import PrismaConnection from "@prisma/prismaConnection";
+import { z } from 'zod'
+import PrismaConnection from '@prisma/prismaConnection'
+import { BadRequestError } from '@apiErrors/errors'
+import { verifySchemaZod } from '@sharedAPI/middlewares/verifySchemaZod'
 
 const changeEmailSchema = z.object({
-    email: z.string().email()
+  email: z.string().email(),
 })
 
-const verifyChangeEmailSchema = (request: Request, response: Response) => {
-    const isParseSuccess = changeEmailSchema.safeParse(request.body)
-
-    if (isParseSuccess.success) {
-        return isParseSuccess
-    }
-
-    const { message } = fromZodError(isParseSuccess.error)
-    return response.status(401).json({message}).end()
-}
-
-const verifyEmailExist = async (email: string, response: Response) => {
+export const verifyEmailExist = async (email: string, response: Response) => {
+  try {
     const emailExist = await PrismaConnection.user.findUnique({
-        where: { email },
+      where: { email },
     })
 
-    if (emailExist) return response.status(404).json({message:'Email já cadastrado'}).end()
+    if (emailExist) {
+      throw new BadRequestError('Email já cadastrado')
+    }
+  } catch (error) {
+    if (error instanceof BadRequestError) {
+      return response
+        .status(error.statusCode)
+        .json({ message: error.message })
+        .end()
+    }
+  }
 }
 export default async function ChangeEmailMiddleware(
-    request: Request,
-    response: Response,
-    next: NextFunction,
+  request: Request,
+  response: Response,
+  next: NextFunction,
 ) {
-    verifyChangeEmailSchema(request, response)
-    await verifyEmailExist(request.body.email, response)
+  await verifySchemaZod(changeEmailSchema, request, response)
+  await verifyEmailExist(request.body.email, response)
 
-    next()
+  next()
 }
-

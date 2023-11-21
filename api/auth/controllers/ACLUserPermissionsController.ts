@@ -17,7 +17,10 @@ export default class ACLUserPermissionsController {
       return response.status(201).json(userPermissions)
     } catch (error) {
       if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
     }
   }
 }

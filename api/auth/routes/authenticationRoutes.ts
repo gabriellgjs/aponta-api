@@ -3,8 +3,8 @@ import LoginController from '../controllers/loginController'
 import LoginMiddleware from '../middlewares/loginMiddleware'
 
 export default class AuthenticationRoutes {
-  private loginController: LoginController
-  private loginRoutes: Router
+  private readonly loginController: LoginController
+  private readonly loginRoutes: Router
 
   constructor() {
     this.loginRoutes = express.Router()

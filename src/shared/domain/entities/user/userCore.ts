@@ -6,7 +6,7 @@ export default class UserCore {
   constructor(props: UserProps) {
     this.props = {
       ...props,
-      status: props.status ?? 'ativo',
+      status: props.status ?? 'Ativo',
     }
   }
 

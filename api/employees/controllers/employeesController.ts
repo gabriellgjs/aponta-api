@@ -1,4 +1,8 @@
-import { BadRequestError, InternalServerError } from '@apiErrors/errors'
+import {
+  BadRequestError,
+  InternalServerError,
+  NotFoundError,
+} from '@apiErrors/errors'
 import CreateEmployeeAction from '@employees/application/actions/createEmployeeAction'
 import StatusEmployeeAction from '@employees/application/actions/statusEmployeeAction'
 import UpdateEmployeeAction from '@employees/application/actions/updateEmployeeAction'
@@ -8,33 +12,42 @@ import CreateEmployeeFactory from '../factories/createEmployeeFactory'
 import StatusEmployeeFactory from '../factories/statusEmployeeFactory'
 import UpdateEmployeeFactory from '../factories/updateEmployeeFactory'
 import EmployeesModel from '../models/employeesModel'
-import UpdatePersonDetailsAction from "@employees/application/actions/updatePersonDetailsAction";
-import UpdatePersonDetailsFactory from "@employeesAPI/factories/updatePersonDetailsFactory";
-import ChangeEmailAction from "@employees/application/actions/changeEmailAction";
-import ChangeEmailFactory from "@employeesAPI/factories/changeEmailFactory";
-import ChangePasswordAction from "@employees/application/actions/changePasswordAction";
-import ChangePasswordFactory from "@employeesAPI/factories/changePasswordFactory";
+import UpdatePersonDetailsAction from '@employees/application/actions/updatePersonDetailsAction'
+import UpdatePersonDetailsFactory from '@employeesAPI/factories/updatePersonDetailsFactory'
+import ChangeEmailAction from '@employees/application/actions/changeEmailAction'
+import ChangeEmailFactory from '@employeesAPI/factories/changeEmailFactory'
+import ChangePasswordAction from '@employees/application/actions/changePasswordAction'
+import ChangePasswordFactory from '@employeesAPI/factories/changePasswordFactory'
+import Sentry from '../../application/sentry'
 
 export default class EmployeesController {
   public async getEmployee(request: Request, response: Response) {
     try {
       const employeesModel = new EmployeesModel()
 
-      const { id } = request.params
+      const employeeId = request.params.id
 
-      const employee = await employeesModel.getEmployeeById(Number(id))
+      const employee = await employeesModel.getEmployeeById(Number(employeeId))
 
-      if (!employee) {
-        throw new BadRequestError({ message: 'Nenhum funcionário encontrado' })
-      }
+      if (!employee) throw new NotFoundError('Usuário não encontrado')
 
       return response
         .status(200)
         .json(EmployeeOutputData.responseGetEmployee(employee))
         .end()
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (
+        error instanceof InternalServerError ||
+        error instanceof BadRequestError ||
+        error instanceof NotFoundError
+      ) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -43,13 +56,20 @@ export default class EmployeesController {
       const employeesModel = new EmployeesModel()
 
       const employees = await employeesModel.getEmployees()
+
       return response
         .status(200)
         .json(EmployeeOutputData.responseGetEmployees(employees))
         .end()
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -58,14 +78,19 @@ export default class EmployeesController {
       const employeeAction = new CreateEmployeeAction()
 
       const employeeFactory = CreateEmployeeFactory.fromRequest(request)
-      console.log(employeeFactory)
 
       const employeeId = (await employeeAction.execute(employeeFactory))?.id
 
       return response.status(201).json(employeeId).end()
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -87,8 +112,14 @@ export default class EmployeesController {
         return response.status(204).json().end()
       }
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -102,8 +133,14 @@ export default class EmployeesController {
 
       return response.status(204).json().end()
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -113,20 +150,28 @@ export default class EmployeesController {
       const employeesModel = new EmployeesModel()
 
       const userDataInput = UpdatePersonDetailsFactory.fromRequest(request)
+
       const actualEmployee = await employeesModel.getEmployeeById(
-          userDataInput.id,
+        userDataInput.id,
       )
 
       if (actualEmployee) {
         const actualEmployeesInput =
-            UpdatePersonDetailsFactory.fromCurrentEmployee(actualEmployee)
+          UpdatePersonDetailsFactory.fromCurrentEmployee(actualEmployee)
 
         await employeeAction.execute(userDataInput, actualEmployeesInput)
+
         return response.status(204).json().end()
       }
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -136,12 +181,18 @@ export default class EmployeesController {
 
       const userDataInput = ChangeEmailFactory.fromRequest(request)
 
-        await changeEmailAction.execute(userDataInput)
+      await changeEmailAction.execute(userDataInput)
 
-        return response.status(204).json().end()
-      } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      return response.status(204).json().end()
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 
@@ -155,8 +206,14 @@ export default class EmployeesController {
 
       return response.status(204).json().end()
     } catch (error) {
-      if (error instanceof InternalServerError)
-        throw new InternalServerError(error.message)
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
     }
   }
 }

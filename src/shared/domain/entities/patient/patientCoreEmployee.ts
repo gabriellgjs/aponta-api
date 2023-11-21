@@ -6,7 +6,7 @@ export default class PatientCoreEmployee {
   constructor(props: PatientEmployeeCoreProps) {
     this.props = {
       ...props,
-      status: props.status ?? 'ativo',
+      status: props.status ?? 'Ativo',
     }
   }
 

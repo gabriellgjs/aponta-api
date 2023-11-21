@@ -2,8 +2,8 @@ import express, { Router } from 'express'
 import PatientsController from '../controllers/patientsController'
 
 export default class PatientsRoutes {
-  private patientsController: PatientsController
-  private patientsRoutes: Router
+  private readonly patientsController: PatientsController
+  private readonly patientsRoutes: Router
 
   constructor() {
     this.patientsController = new PatientsController()

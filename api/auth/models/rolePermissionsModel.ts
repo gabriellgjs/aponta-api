@@ -6,13 +6,13 @@ interface RolePermissionsRequest {
 }
 
 export default class RolePermissionsModel {
-  private prismaConnection = PrismaConnection
+  private PrismaConnection = PrismaConnection
 
   async saveRolePermissions({
     roleId,
     permissionsIds,
   }: RolePermissionsRequest) {
-    const permissions = await this.prismaConnection.permissions.findMany({
+    const permissions = await this.PrismaConnection.permissions.findMany({
       where: {
         id: {
           in: permissionsIds,
@@ -27,10 +27,8 @@ export default class RolePermissionsModel {
       }
     })
 
-    await this.prismaConnection.rolePermissions.createMany({
+    await this.PrismaConnection.rolePermissions.createMany({
       data: rolePermissions,
     })
   }
 }
-
-// TODO corrigir tipagem

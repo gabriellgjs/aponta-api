@@ -3,9 +3,9 @@ import ACLRolePermissionsController from '../controllers/ACLRolePermissionsContr
 import ACLUserPermissionsController from '../controllers/ACLUserPermissionsController'
 
 export default class AccessListControlRoutes {
-  private ACLRolePermissionsController: ACLRolePermissionsController
-  private ACLUserPermissionsController: ACLUserPermissionsController
-  private ACLRoutes: Router
+  private readonly ACLRolePermissionsController: ACLRolePermissionsController
+  private readonly ACLUserPermissionsController: ACLUserPermissionsController
+  private readonly ACLRoutes: Router
 
   constructor() {
     this.ACLRoutes = express.Router()

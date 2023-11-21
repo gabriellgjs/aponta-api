@@ -43,7 +43,7 @@ model People {
   name          String @db.VarChar(255)
   birthDate     String @db.VarChar(50)
   rg            String @db.VarChar(20)
-  cpf           String @db.VarChar(20)
+  cpf           String @unique @db.VarChar(20)
   gender        String @db.VarChar(100)
   maritalStatus String @db.VarChar(100)
 
@@ -59,8 +59,8 @@ model People {
 }
 
 model Employee {
-  id              Int     @id @default(autoincrement())
-  hireDate        String  @db.VarChar(50)
+  id       Int    @id @default(autoincrement())
+  hireDate String @db.VarChar(50)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt

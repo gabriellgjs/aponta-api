@@ -51,7 +51,7 @@ export default class RolesModel {
 
       return patientRecorded?.id
     } catch (error) {
-      throw new InternalServerError('Erro ao criar um paciente.')
+      throw new InternalServerError('Erro ao criar um paciente')
     }
   }
 

@@ -6,15 +6,7 @@ export default async function LoginMiddleware(
   response: Response,
   next: NextFunction,
 ) {
-  await verifyLoginMiddleware(request, response, next)
-}
-
-const verifyLoginMiddleware = async (
-  request: Request,
-  response: Response,
-  next: NextFunction,
-) => {
-  await verifyExistUser(request)
+  await verifyExistUser(request, response)
 
   next()
 }
