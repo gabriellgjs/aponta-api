@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "APONTA",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -53,5 +53,5 @@
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
   },
-  "repository": "https://github.com/gabriellgjs/trabalho-de-curso-backend.git"
+  "repository": "https://github.com/gabriellgjs/aponta-api"
 }
