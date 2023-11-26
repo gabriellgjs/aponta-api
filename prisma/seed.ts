@@ -25,7 +25,7 @@ const user = {
   name: 'Gabriel José Silva',
   birthDate: '10/05/2002',
   rg: '14.862.714-8',
-  email: 'contato.gabrieljosesilva1@gmail.com',
+  email: 'contato.gabrieljosesilva@gmail.com',
   password: '$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy',
   cpf: '077.862.978-10',
   maritalStatus: 'Solteiro (a)',

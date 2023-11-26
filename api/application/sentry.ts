@@ -14,7 +14,9 @@ export default class Sentry {
     return sentry.Handlers.errorHandler()
   }
 
-  static async sendError(nameError: string | number, error: string) {
-    sentry.captureException(`${nameError}\nMensagem do erro: ${error} `)
+  static async sendError(nameStatus: string | number, error: string) {
+    sentry.captureException(
+      `${String(nameStatus)}\nMensagem do erro: ${error} `,
+    )
   }
 }

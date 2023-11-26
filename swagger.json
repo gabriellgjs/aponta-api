@@ -1,16 +1,66 @@
 {
-    "openapi":"3.0.2",
-    "info": {
-      "title":"API do app Odonts",
-      "description": "Essa API é um gerenciador de agendamentos para clínica odontológica, tendo em vista que está sendo elaborado como projeto de conclusão de curso de Gabriel José Silva.",
-      "contact": {
-        "email": "contato.gabrieljosesilva@gmail.com"
-      },
-      "version":"1.0"
+  "openapi":"3.0.2",
+
+  "info": {
+    "title":"API do app Odonts",
+    "description": "Essa API é um gerenciador de agendamentos para clínica odontológica, tendo em vista que está sendo elaborado como projeto de conclusão de curso de Gabriel José Silva.",
+    "contact": {
+      "email": "contato.gabrieljosesilva@gmail.com"
     },
-    "servers": [
-      {"url":"https://api.server.test/v1"}
-    ],
-    "paths": {
+    "version":"1.0"
+  },
+
+  "servers": [
+    {
+      "url":"http://localhost:3000"
     }
+  ],
+
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+
+  "paths": {
+
+    "/login": {
+      "post": {
+        "summary": "Realizar login",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Objeto de usuário, com informações e o token de acesso",
+            "content": {
+              "application/json": {
+                  }
+                }
+
+            }
+        }
+      }
+    }
+
   }
+}

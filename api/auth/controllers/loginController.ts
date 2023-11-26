@@ -55,6 +55,7 @@ export default class LoginController {
           token,
         },
       }
+
       return response.status(200).json(res).end
     } catch (error) {
       if (error instanceof InternalServerError) {
