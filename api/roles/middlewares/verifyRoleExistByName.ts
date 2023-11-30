@@ -2,6 +2,7 @@ import { BadRequestError } from '@apiErrors/errors'
 import PrismaConnection from '@prisma/prismaConnection'
 import { Response, Request } from 'express'
 import Sentry from '../../application/sentry'
+import { BaseMiddleware } from '../../core/baseMiddleware'
 
 export default async function verifyRoleExistByName(
   request: Request,
@@ -19,8 +20,10 @@ export default async function verifyRoleExistByName(
       await Sentry.sendError(error.nameError, error.message)
       return response
         .status(error.statusCode)
-        .json({ message: error.message })
+        .json({ status: error.statusCode, message: error.message })
         .end()
     }
+
+    await BaseMiddleware.checkConnection(error, response)
   }
 }

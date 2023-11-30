@@ -55,14 +55,14 @@
           "200": {
             "description": "Login realizado com sucesso"
             },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
           "401": {
             "description": "Email ou senha inválidos"
           },
           "500": {
             "description": "Erro do servidor"
-          },
-          "503": {
-            "description": "Serviço indisponível, tente novamente mais tarde"
           }
         }
       }
@@ -79,14 +79,8 @@
           "200": {
             "description": "Array de objeto dos cargos"
           },
-          "401": {
-            "description": "Acesso negado"
-          },
           "500": {
             "description": "Erro do servidor"
-          },
-          "503": {
-            "description": "Serviço indisponível, tente novamente mais tarde"
           }
         }
       },
@@ -118,13 +112,10 @@
             "description": "Id do cargo criado"
           },
           "400": {
-            "description": "Erros de validação"
+            "description": "Conteúdo inválido"
           },
           "401": {
             "description": "Acesso negado"
-          },
-          "503": {
-            "description": "Serviço indisponível, tente novamente mais tarde"
           }
         }
       }

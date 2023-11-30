@@ -12,7 +12,7 @@ export default class AuthorizationRequest {
     if (!token)
       return response.status(401).json({
         status: 401,
-        message: 'Acesso negado.',
+        message: 'Acesso negado',
       })
 
     try {
