@@ -1,5 +1,4 @@
 import * as sentry from '@sentry/node'
-import { Exception } from '@sentry/node'
 
 sentry.init({
   dsn: 'https://0e7a97e57560db6e43aadbb6d67258f4@o4506213216157696.ingest.sentry.io/4506213218189312',
