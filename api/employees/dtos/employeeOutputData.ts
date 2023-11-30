@@ -10,7 +10,7 @@ export default class EmployeeOutputData {
       email: employee.user[0].email,
       roleId: employee.user[0].roleId,
       role: {
-        description: employee?.user[0].role.description,
+        name: employee?.user[0].role.name,
       },
     }
 
@@ -52,7 +52,7 @@ export default class EmployeeOutputData {
         email: employee.user[0].email,
         roleId: employee.user[0].roleId,
         role: {
-          description: employee?.user[0].role.description,
+          name: employee?.user[0].role.name,
         },
       }
 

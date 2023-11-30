@@ -31,10 +31,7 @@ export default class EmployeesController {
 
       if (!employee) throw new NotFoundError('Usuário não encontrado')
 
-      return response
-        .status(200)
-        .json(EmployeeOutputData.responseGetEmployee(employee))
-        .end()
+      return response.status(200).json(employee).end()
     } catch (error) {
       if (
         error instanceof InternalServerError ||
@@ -57,10 +54,7 @@ export default class EmployeesController {
 
       const employees = await employeesModel.getEmployees()
 
-      return response
-        .status(200)
-        .json(EmployeeOutputData.responseGetEmployees(employees))
-        .end()
+      return response.status(200).json(employees).end()
     } catch (error) {
       if (error instanceof InternalServerError) {
         await Sentry.sendError(error.nameError, error.message)

@@ -24,12 +24,4 @@ export default class Role {
   set name(name: string) {
     this.props.name = name
   }
-
-  get description(): string {
-    return this.props.description
-  }
-
-  set description(description: string) {
-    this.props.description = description
-  }
 }

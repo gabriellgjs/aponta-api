@@ -1,39 +1,36 @@
 import PrismaConnection from '@prisma/prismaConnection'
 import { compare } from 'bcryptjs'
 import { Request, Response } from 'express'
-import { BadRequestError } from '@apiErrors/errors'
-import { PrismaClientInitializationError } from '@prisma/client/runtime/library'
-import { ControllerHandleException } from '../../exception/controller/controllerHandleException'
-import { ErrorTypes } from '../../exception/model/ErrorType'
-import ResponseException from '../../exception/responseException'
+import { UnauthorizedError } from '@apiErrors/errors'
+import Sentry from '../../application/sentry'
 
 export default async function verifyExistUser(
   request: Request,
   response: Response,
 ) {
   try {
-    const user = await PrismaConnection.user.findUnique({
+    const userExist = await PrismaConnection.user.findUnique({
       where: { email: request.body.email },
     })
-    if (!user) throw new BadRequestError('Email ou senha inválidos.')
-
-    const passwordIsMatch = await compare(request.body.password, user.password)
-
-    if (!passwordIsMatch) throw new BadRequestError('Email ou senha inválidos.')
-  } catch (error) {
-    if (error instanceof BadRequestError) {
-      const errorHandler = await ControllerHandleException.handlerError(
-        ErrorTypes.BadRequestError,
-        error.message,
-      )
-
-      return ResponseException({ response, errorHandler })
+    if (!userExist) {
+      throw new UnauthorizedError('Email ou senha inválidos')
     }
 
-    const errorHandler = await ControllerHandleException.handlerError(
-      ErrorTypes.ServiceUnavailable,
+    const passwordIsMatch = await compare(
+      request.body.password,
+      userExist.password,
     )
 
-    return ResponseException({ response, errorHandler })
+    if (!passwordIsMatch) {
+      throw new UnauthorizedError('Email ou senha inválidos')
+    }
+  } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      await Sentry.sendError(error.nameError, error.message)
+      return response
+        .status(error.statusCode)
+        .json({ status: error.statusCode, message: error.message })
+        .end()
+    }
   }
 }

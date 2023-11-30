@@ -1,37 +1,35 @@
 import { InternalServerError } from '@apiErrors/errors'
-import prismaConnection from '@prisma/prismaConnection'
+import PrismaConnection from '@prisma/prismaConnection'
 
 export default class RolesModel {
-  private prismaConnection = prismaConnection
+  private PrismaConnection = PrismaConnection
 
   async getRoles() {
     try {
-      return await this.prismaConnection.role.findMany({
+      return await this.PrismaConnection.role.findMany({
         select: {
           id: true,
           name: true,
-          description: true,
         },
       })
     } catch (error) {
-      throw new InternalServerError('Erro ao listar os cargos.')
+      throw new InternalServerError('Erro ao listar os cargos')
     }
   }
 
   async getRole(roleId: number) {
     try {
-      return await this.prismaConnection.role.findUnique({
+      return await this.PrismaConnection.role.findUnique({
         where: {
           id: roleId,
         },
         select: {
           id: true,
           name: true,
-          description: true,
         },
       })
     } catch (error) {
-      throw new InternalServerError('Erro ao listar o cargo.')
+      throw new InternalServerError('Erro ao listar o cargo')
     }
   }
 }

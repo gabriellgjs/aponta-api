@@ -5,6 +5,7 @@ import regexDate from '@sharedAPI/utils/regex/regexDate'
 import { verifySchemaZod } from '@sharedAPI/middlewares/verifySchemaZod'
 import { verifyEmailExist } from '@employeesAPI/middlewares/changeEmailMiddleware'
 import { verifyCPFExist } from '@sharedAPI/middlewares/verifyCPFExist'
+import { verifyRoleExist } from '@sharedAPI/middlewares/verifyRoleExist'
 
 const EmployeeSchema = z.object({
   hireDate: z
@@ -14,6 +15,19 @@ const EmployeeSchema = z.object({
     })
     .min(1, 'Data de admissão é obrigatória')
     .regex(regexDate, 'Data inválida'),
+  user: z.object({
+    email: z
+      .string({
+        required_error: 'Email é obrigatório',
+        invalid_type_error: 'Email inválido',
+      })
+      .email('Email inválido'),
+    password: z.string({
+      required_error: 'Senha é obrigatória',
+      invalid_type_error: 'Senha inválida',
+    }),
+    roleId: z.number(),
+  }),
 })
 export default async function CreateEmployeeMiddleware(
   request: Request,
@@ -30,8 +44,8 @@ const verifyMiddlewaresEmployee = async (
 ) => {
   await personValidatorZod(request, response)
   await verifySchemaZod(EmployeeSchema, request, response)
-  await verifyEmailExist(request.body.email, response)
+  await verifyEmailExist(request.body.user.email, response)
   await verifyCPFExist(request.body.cpf, response)
-
+  await verifyRoleExist(request.body.user.roleId, response)
   next()
 }

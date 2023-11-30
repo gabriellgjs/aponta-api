@@ -5,7 +5,7 @@ export type getEmployee = Promise<
       user: {
         email: string
         role: {
-          description: string
+          name: string
         }
       }[]
       people: People & {
@@ -27,7 +27,7 @@ export type getEmployees = Promise<
 
 export type responseGetEmployee = {
   id: number
-  hireDate: string
+  hireDate: Date
   peopleId: number
   user: {
     id: number
@@ -35,7 +35,7 @@ export type responseGetEmployee = {
     email: string
     roleId: number
     role: {
-      description: string
+      name: string
     }
   }[]
   people: People & {

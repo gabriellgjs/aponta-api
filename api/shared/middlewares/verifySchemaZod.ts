@@ -12,7 +12,9 @@ export const verifySchemaZod = async (
   const isParseSuccess = schema.safeParse(request.body)
   try {
     if (!isParseSuccess.success) {
-      throw new BadRequestError(fromZodError(isParseSuccess.error).message)
+      throw new BadRequestError(
+        fromZodError(isParseSuccess.error).details[0].message ?? '',
+      )
     }
 
     return isParseSuccess
@@ -22,7 +24,7 @@ export const verifySchemaZod = async (
 
       return response
         .status(error.statusCode)
-        .json({ message: error.message })
+        .json({ status: error.statusCode, message: error.message })
         .end()
     }
   }

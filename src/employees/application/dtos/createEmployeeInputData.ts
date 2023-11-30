@@ -1,11 +1,11 @@
 export default class CreateEmployeeInputData {
   constructor(
     readonly name: string,
-    readonly birthDate: string,
+    readonly birthDate: Date,
     readonly rg: string,
     readonly cpf: string,
     readonly gender: string,
-    readonly hireDate: string,
+    readonly hireDate: Date,
     readonly maritalStatus: string,
     readonly address: {
       readonly street: string
@@ -20,6 +20,7 @@ export default class CreateEmployeeInputData {
     },
     readonly user: {
       readonly email: string
+      readonly password: string
       readonly roleId: number
     },
   ) {}

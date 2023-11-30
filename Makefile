@@ -32,7 +32,7 @@ api-build:
 	@docker exec aponta-api bash -c "yarn run build"
 
 .PHONY: api-dev
-api-dev:
+api-dev: start
 	@docker exec -it aponta-api bash -c "sudo yarn run dev"
 
 .PHONY: api-exec

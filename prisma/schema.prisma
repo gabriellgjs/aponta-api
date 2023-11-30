@@ -39,13 +39,13 @@ model Telephone {
 }
 
 model People {
-  id            Int    @id @default(autoincrement())
-  name          String @db.VarChar(255)
-  birthDate     String @db.VarChar(50)
-  rg            String @db.VarChar(20)
-  cpf           String @unique @db.VarChar(20)
-  gender        String @db.VarChar(100)
-  maritalStatus String @db.VarChar(100)
+  id            Int      @id @default(autoincrement())
+  name          String   @db.VarChar(255)
+  birthDate     DateTime @db.Date
+  rg            String   @db.VarChar(20)
+  cpf           String   @unique @db.VarChar(20)
+  gender        String   @db.VarChar(100)
+  maritalStatus String   @db.VarChar(100)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -59,8 +59,8 @@ model People {
 }
 
 model Employee {
-  id       Int    @id @default(autoincrement())
-  hireDate String @db.VarChar(50)
+  id       Int      @id @default(autoincrement())
+  hireDate DateTime @db.Date
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -109,9 +109,8 @@ model User {
 }
 
 model Role {
-  id          Int    @id @default(autoincrement())
-  name        String @db.VarChar(100)
-  description String @db.VarChar(255)
+  id   Int    @id @default(autoincrement())
+  name String @db.VarChar(100)
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt

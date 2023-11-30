@@ -24,11 +24,11 @@ export default class EmployeeCore extends PeopleCore {
     this.props.user = user
   }
 
-  get hireDate(): string {
+  get hireDate(): Date {
     return this.props.hireDate
   }
 
-  set hireDate(hireDate: string) {
+  set hireDate(hireDate: Date) {
     this.props.hireDate = hireDate
   }
 

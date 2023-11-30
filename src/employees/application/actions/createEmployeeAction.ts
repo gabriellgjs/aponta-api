@@ -10,12 +10,10 @@ export default class CreateEmployeeAction {
   async execute(input: CreateEmployeeInputData) {
     const employeeRepository = new EmployeeRepository()
 
-    const passwordInitial = input.birthDate.split('/').join('')
-
     const user = {
-      email: input.user.email ?? '',
-      password: await this.generateHashPassword(passwordInitial),
-      roleId: input.user.roleId ?? 0,
+      email: input.user.email,
+      password: await this.generateHashPassword(input.user.password),
+      roleId: input.user.roleId,
     }
 
     const telephoneNumber = {

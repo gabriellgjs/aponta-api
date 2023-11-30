@@ -27,11 +27,11 @@ export default abstract class PeopleCore {
     this.props.maritalStatus = maritalStatus
   }
 
-  get birthDate(): string {
+  get birthDate(): Date {
     return this.props.birthDate
   }
 
-  set birthDate(date: string) {
+  set birthDate(date: Date) {
     this.props.birthDate = date
   }
 

@@ -1,9 +1,6 @@
 import PrismaConnection from '@prisma/prismaConnection'
 import { InternalServerError } from '@apiErrors/errors'
 import Sentry from '../../application/sentry'
-import { PrismaClientInitializationError } from '@prisma/client/runtime/library'
-import { ControllerHandleException } from '../../exception/controller/controllerHandleException'
-import { ErrorTypes } from '../../exception/model/ErrorType'
 
 export default class UsersModel {
   private PrismaConnection = PrismaConnection

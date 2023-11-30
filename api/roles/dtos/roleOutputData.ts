@@ -5,17 +5,12 @@ export default class RoleOutputData {
     const response = roles.map((role) => {
       const id = role.id
       const name = role.name
-      const description = role.description
       return {
         id,
         name,
-        description,
-        url: `${process.env.BASE_URL}/roles/${id}`,
       }
     })
 
-    return {
-      results: response,
-    }
+    return [...response]
   }
 }

@@ -25,8 +25,9 @@ export default class CreateEmployeeFactory {
     }
 
     const user = {
-      email: request.body.email,
-      roleId: request.body.roleId,
+      email: request.body.user.email,
+      password: request.body.user.password,
+      roleId: request.body.user.roleId,
     }
 
     return new CreateEmployeeInputData(

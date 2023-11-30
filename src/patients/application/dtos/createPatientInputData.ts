@@ -1,7 +1,7 @@
 export default class CreatePatientInputData {
   constructor(
     readonly name: string,
-    readonly birthDate: string,
+    readonly birthDate: Date,
     readonly rg: string,
     readonly cpf: string,
     readonly gender: string,

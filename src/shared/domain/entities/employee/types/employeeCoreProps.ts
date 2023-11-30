@@ -5,7 +5,7 @@ import UserCore from '@shared/domain/entities/user/userCore'
 export interface EmployeeProps extends PeopleProps {
   id?: number
   user: UserCore
-  hireDate: string
+  hireDate: Date
   peopleId?: number
   patient?: PatientCoreEmployee
 }
