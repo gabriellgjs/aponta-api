@@ -3,6 +3,7 @@ import { compare } from 'bcryptjs'
 import { Request, Response } from 'express'
 import { UnauthorizedError } from '@apiErrors/errors'
 import Sentry from '../../application/sentry'
+import { BaseMiddleware } from '../../core/baseMiddleware'
 
 export default async function verifyExistUser(
   request: Request,
@@ -32,5 +33,7 @@ export default async function verifyExistUser(
         .json({ status: error.statusCode, message: error.message })
         .end()
     }
+
+    await BaseMiddleware.checkConnection(error, response)
   }
 }
