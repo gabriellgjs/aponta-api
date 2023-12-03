@@ -20,8 +20,6 @@ export const verifySchemaZod = async (
     return isParseSuccess
   } catch (error) {
     if (error instanceof BadRequestError) {
-      await Sentry.sendError(error.nameError, error.message)
-
       return response
         .status(error.statusCode)
         .json({ status: error.statusCode, message: error.message })

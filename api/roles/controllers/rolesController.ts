@@ -19,9 +19,7 @@ export default class RolesController {
 
       const role = await rolesModel.getRole(Number(id))
 
-      if (!role) throw new NotFoundError('Cargo não encontrado')
-
-      return response.status(200).json(role)
+      return response.status(200).json(role ?? {})
     } catch (error) {
       if (error instanceof NotFoundError) {
         return response

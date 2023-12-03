@@ -33,9 +33,9 @@ export default class RolesRoutes {
 
     this.rolesRoutes.get('/', getRoles)
 
-    this.rolesRoutes.post('/', CreateRoleMiddleware, createRole)
-
     this.rolesRoutes.get('/:id', getRole)
+
+    this.rolesRoutes.post('/', CreateRoleMiddleware, createRole)
 
     this.rolesRoutes.put('/:id', UpdateRoleMiddleware, updateRole)
 
