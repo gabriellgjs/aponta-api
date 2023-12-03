@@ -1,9 +1,9 @@
 import PrismaConnection from '@prisma/prismaConnection'
 import { InternalServerError } from '@apiErrors/errors'
 
-export default async function verifyRoleExistById(roleId: string) {
+export default async function verifyRoleExistsInEmployees(roleId: string) {
   try {
-    return await PrismaConnection.role.findUnique({
+    return await PrismaConnection.employee.findMany({
       where: { id: Number(roleId) },
     })
   } catch (error) {
