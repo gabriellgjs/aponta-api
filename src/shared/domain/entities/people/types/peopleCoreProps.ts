@@ -3,7 +3,7 @@ import TelephoneCore from '@shared/domain/entities/telephone/telephoneCore'
 
 export interface PeopleProps {
   name: string
-  birthDate: string
+  birthDate: Date
   rg: string
   cpf: string
   gender: string

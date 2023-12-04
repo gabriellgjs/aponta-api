@@ -70,13 +70,13 @@ export default class UpdateEmployeeFactory {
 
     return new UpdateEmployeeInputData(
       Number(employee?.id),
-      employee?.hireDate ?? '',
-      employee?.people?.maritalStatus ?? '',
       employee?.people.name ?? '',
-      employee?.people.birthDate ?? '',
+      employee?.people?.birthDate ?? new Date(),
+      employee?.people.name ?? '',
+      employee?.people.cpf ?? '',
       employee?.people.rg ?? '',
       employee?.people.cpf ?? '',
-      employee?.people.gender ?? '',
+      employee?.people.birthDate ?? new Date(),
       address,
       telephone,
       user,

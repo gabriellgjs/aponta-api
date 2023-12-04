@@ -1,7 +1,6 @@
 import express, { Router } from 'express'
 import EmployeesController from '../controllers/employeesController'
 import CreateEmployeeMiddleware from '../middlewares/createEmployeeMiddleware'
-import { is } from '@sharedAPI/middlewares/accessControlList'
 import UpdateEmployeeMiddleware from '../middlewares/updateEmployeeMiddleware'
 import ChangeEmailMiddleware from '@employeesAPI/middlewares/changeEmailMiddleware'
 import ChangePasswordMiddleware from '@employeesAPI/middlewares/changePasswordMiddleware'
@@ -58,25 +57,14 @@ export default class EmployeesRoutes {
       ChangePasswordMiddleware,
       changePassword,
     )
-    this.employeesRoutes.post(
-      '/',
-      is(['admin', 'manager']),
-      CreateEmployeeMiddleware,
-      createEmployee,
-    )
-    this.employeesRoutes.put(
-      '/:id',
-      is(['admin', 'manager']),
-      UpdateEmployeeMiddleware,
-      updateEmployee,
-    )
+    this.employeesRoutes.post('/', CreateEmployeeMiddleware, createEmployee)
+    this.employeesRoutes.put('/:id', UpdateEmployeeMiddleware, updateEmployee)
     this.employeesRoutes.put(
       '/person-details/:id',
-      is(['admin', 'manager']),
       UpdateEmployeeMiddleware,
       updatePersonDetails,
     )
-    this.employeesRoutes.patch('/:id', is(['admin', 'manager']), statusEmployee)
+    this.employeesRoutes.patch('/:id', statusEmployee)
   }
 
   get EmployeesRoutes() {

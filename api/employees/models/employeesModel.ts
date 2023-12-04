@@ -21,7 +21,7 @@ export default class EmployeesModel {
               roleId: true,
               role: {
                 select: {
-                  description: true,
+                  name: true,
                 },
               },
             },
@@ -54,7 +54,7 @@ export default class EmployeesModel {
               roleId: true,
               role: {
                 select: {
-                  description: true,
+                  name: true,
                 },
               },
             },

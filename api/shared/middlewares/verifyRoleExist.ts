@@ -2,14 +2,16 @@ import PrismaConnection from '@prisma/prismaConnection'
 import { BadRequestError, InternalServerError } from '@apiErrors/errors'
 import { Response } from 'express'
 
-export const verifyCPFExist = async (cpf: string, response: Response) => {
+export const verifyRoleExist = async (role: number, response: Response) => {
   try {
-    const CPFExist = await PrismaConnection.people.findUnique({
-      where: { cpf },
+    const RoleExist = await PrismaConnection.role.findUnique({
+      where: {
+        id: role,
+      },
     })
 
-    if (CPFExist) {
-      throw new BadRequestError('CPF já cadastrado')
+    if (!RoleExist) {
+      throw new BadRequestError('RoleId não encontrado')
     }
   } catch (error) {
     if (

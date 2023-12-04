@@ -10,11 +10,10 @@ export default class RolesModel {
       return await this.PrismaConnection.role.create({
         data: {
           name: role.name,
-          description: role.description,
         },
       })
     } catch (error) {
-      throw new InternalServerError('Erro ao criar um cargo.')
+      throw new InternalServerError('Erro ao criar um cargo')
     }
   }
 
@@ -26,7 +25,7 @@ export default class RolesModel {
         },
       })
     } catch (error) {
-      throw new InternalServerError('Erro ao deletar um cargo.')
+      throw new InternalServerError('Erro ao deletar um cargo')
     }
   }
 
@@ -38,11 +37,10 @@ export default class RolesModel {
         },
         data: {
           name: role.name,
-          description: role.description,
         },
       })
     } catch (error) {
-      throw new InternalServerError('Erro ao atualizar um cargo.')
+      throw new InternalServerError('Erro ao atualizar um cargo')
     }
   }
 }

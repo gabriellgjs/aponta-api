@@ -4,33 +4,29 @@ const prisma = new PrismaClient()
 
 const roles = [
   {
-    name: 'admin',
-    description: 'Administrador(a)',
+    name: 'Administrador(a)',
   },
   {
-    name: 'tester',
-    description: 'Testador(a)',
+    name: 'Testador(a)',
   },
   {
-    name: 'dentist',
-    description: 'Dentista',
+    name: 'Dentista',
   },
   {
-    name: 'secretary',
-    description: 'Secretário(a)',
+    name: 'Secretário(a)',
   },
 ]
 
 const user = {
   name: 'Gabriel José Silva',
-  birthDate: '10/05/2002',
+  birthDate: new Date(2002, 5, 10),
   rg: '14.862.714-8',
-  email: 'contato.gabrieljosesilva1@gmail.com',
+  email: 'contato.gabrieljosesilva@gmail.com',
   password: '$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy',
   cpf: '077.862.978-10',
   maritalStatus: 'Solteiro (a)',
   gender: 'Masculino',
-  hireDate: '16/11/2020',
+  hireDate: new Date(2020, 11, 16),
   roleId: 1,
   address: {
     street: 'Rua Floresta',
@@ -47,14 +43,14 @@ const user = {
 
 const user2 = {
   name: 'Gabriel José Silva',
-  birthDate: '10/05/2002',
+  birthDate: '2002-05-10',
   rg: '14.862.714-8',
   email: 'gabriel_lisa@hotmail.com',
   password: '$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy',
   cpf: '077.862.977-10',
   maritalStatus: 'Solteiro (a)',
   gender: 'Masculino',
-  hireDate: '16/11/2020',
+  hireDate: '2020-11-16',
   roleId: 1,
   address: {
     street: 'Rua Floresta',

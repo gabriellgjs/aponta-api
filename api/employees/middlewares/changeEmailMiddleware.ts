@@ -21,7 +21,7 @@ export const verifyEmailExist = async (email: string, response: Response) => {
     if (error instanceof BadRequestError) {
       return response
         .status(error.statusCode)
-        .json({ message: error.message })
+        .json({ status: error.statusCode, message: error.message })
         .end()
     }
   }

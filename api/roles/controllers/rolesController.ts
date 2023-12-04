@@ -1,9 +1,5 @@
 import { Request, Response } from 'express'
-import {
-  BadRequestError,
-  InternalServerError,
-  NotFoundError,
-} from '@apiErrors/errors'
+import { InternalServerError, NotFoundError } from '@apiErrors/errors'
 import CreateRoleAction from '@roles/application/actions/createRoleAction'
 import DeleteRoleAction from '@roles/application/actions/deleteRoleAction'
 import UpdateRoleAction from '@roles/application/actions/updateRoleAction'
@@ -23,20 +19,12 @@ export default class RolesController {
 
       const role = await rolesModel.getRole(Number(id))
 
-      if (!role) throw new NotFoundError('Cargo não encontrado')
-
-      return response.status(200).json(role)
+      return response.status(200).json(role ?? {})
     } catch (error) {
-      if (
-        error instanceof InternalServerError ||
-        error instanceof BadRequestError ||
-        error instanceof NotFoundError
-      ) {
-        await Sentry.sendError(error.nameError, error.message)
-
+      if (error instanceof NotFoundError) {
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }

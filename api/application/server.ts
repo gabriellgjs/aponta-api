@@ -20,7 +20,7 @@ export default class App {
   private readonly errors = ErrorResponse
   private readonly version = '/v1'
   private readonly host = '0.0.0.0'
-  private readonly documentationUrl = this.version + '/documentation'
+  private readonly documentationUrl = this.version + '/api-docs'
 
   constructor() {
     this.server.use(express.json())

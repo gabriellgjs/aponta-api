@@ -3,7 +3,6 @@ import RolesController from '../controllers/rolesController'
 import CreateRoleMiddleware from '../middlewares/createRoleMiddleware'
 import DeleteRoleMiddleware from '../middlewares/deleteRoleMiddleware'
 import UpdateRoleMiddleware from '../middlewares/updateRoleMiddleware'
-import GetRoleMiddleware from '../middlewares/getRoleMiddleware'
 
 export default class RolesRoutes {
   private rolesController: RolesController
@@ -34,9 +33,9 @@ export default class RolesRoutes {
 
     this.rolesRoutes.get('/', getRoles)
 
-    this.rolesRoutes.post('/', CreateRoleMiddleware, createRole)
+    this.rolesRoutes.get('/:id', getRole)
 
-    this.rolesRoutes.get('/:id', GetRoleMiddleware, getRole)
+    this.rolesRoutes.post('/', CreateRoleMiddleware, createRole)
 
     this.rolesRoutes.put('/:id', UpdateRoleMiddleware, updateRole)
 
