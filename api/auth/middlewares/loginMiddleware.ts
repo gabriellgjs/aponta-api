@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express'
-import verifySchemaZod from '@sharedAPI/middlewares/verifySchemaZod'
+import { verifySchemaZod } from '@sharedAPI/middlewares/verifySchemaZod'
 import { loginSchema } from '@authAPI/schema/loginSchema'
 import { fromZodError } from 'zod-validation-error'
-import verifyExistUserByEmail from './verifyExistUserByEmail'
-import comparePassword from '@authAPI/middlewares/comparePassword'
+import { comparePassword } from '@sharedAPI/middlewares/comparePassword'
+import { verifyEmailExist } from '@sharedAPI/middlewares/verifyEmailExist'
 
 export default async function LoginMiddleware(
   request: Request,
@@ -22,7 +22,7 @@ export default async function LoginMiddleware(
 
   const { email, password } = request.body
 
-  const userExist = await verifyExistUserByEmail(email)
+  const userExist = await verifyEmailExist(email)
 
   if (!userExist) {
     return response

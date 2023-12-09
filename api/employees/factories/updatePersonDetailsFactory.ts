@@ -1,5 +1,4 @@
 import { Request } from 'express'
-import { responseGetEmployee } from '../types/employeesTypes'
 import UpdatePersonDetailsInputData from '@employees/application/dtos/updatePersonDetailsInputData'
 
 export default class UpdatePersonDetailsFactory {
@@ -46,7 +45,7 @@ export default class UpdatePersonDetailsFactory {
     )
   }
 
-  static fromCurrentEmployee(employee: responseGetEmployee) {
+  static fromCurrentEmployee(employee: any) {
     const address = {
       id: employee?.people.address[0].id ?? 0,
       street: employee?.people.address[0].street ?? '',

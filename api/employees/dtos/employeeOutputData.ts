@@ -1,7 +1,12 @@
-import { responseGetEmployee } from '../types/employeesTypes'
+import dayjs from 'dayjs'
+import CustomParseFormat from 'dayjs/plugin/customParseFormat'
+import es from 'dayjs/locale/es'
+
+dayjs.extend(CustomParseFormat)
+dayjs.locale(es)
 
 export default class EmployeeOutputData {
-  static responseGetEmployee(employee: responseGetEmployee) {
+  static responseGetEmployee(employee: any) {
     const id = employee.id
 
     const user = {
@@ -16,12 +21,14 @@ export default class EmployeeOutputData {
 
     const people = {
       name: employee.people.name,
-      birthDate: employee.people.birthDate,
+      birthDate: dayjs(employee.people.birthDate)
+        .set('hours', 24)
+        .format('DD/MM/YYYY'),
       rg: employee.people.rg,
       cpf: employee.people.cpf,
       gender: employee.people.gender,
       maritalStatus: employee.people.maritalStatus,
-      hireDate: employee.hireDate,
+      hireDate: dayjs(employee.hireDate).set('hours', 24).format('DD/MM/YYYY'),
     }
 
     const telephone = {
@@ -42,10 +49,9 @@ export default class EmployeeOutputData {
     return { id, ...people, user, telephone, address }
   }
 
-  static responseGetEmployees(employees: responseGetEmployee[]) {
+  static responseGetEmployees(employees: any[]) {
     const response = employees.map((employee) => {
       const id = employee.id
-
       const user = {
         id: employee.user[0].id,
         status: employee.user[0].status,
@@ -55,15 +61,18 @@ export default class EmployeeOutputData {
           name: employee?.user[0].role.name,
         },
       }
-
       const people = {
         name: employee.people.name,
-        birthDate: employee.people.birthDate,
+        birthDate: dayjs(employee.people.birthDate)
+          .set('hours', 24)
+          .format('DD/MM/YYYY'),
         rg: employee.people.rg,
         cpf: employee.people.cpf,
         gender: employee.people.gender,
         maritalStatus: employee.people.maritalStatus,
-        hireDate: employee.hireDate,
+        hireDate: dayjs(employee.hireDate)
+          .set('hours', 24)
+          .format('DD/MM/YYYY'),
       }
 
       const telephone = {

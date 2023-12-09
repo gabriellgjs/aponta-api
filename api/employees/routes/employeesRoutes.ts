@@ -4,6 +4,7 @@ import CreateEmployeeMiddleware from '../middlewares/createEmployeeMiddleware'
 import UpdateEmployeeMiddleware from '../middlewares/updateEmployeeMiddleware'
 import ChangeEmailMiddleware from '@employeesAPI/middlewares/changeEmailMiddleware'
 import ChangePasswordMiddleware from '@employeesAPI/middlewares/changePasswordMiddleware'
+import StatusEmployeeMiddleware from '@employeesAPI/middlewares/statusEmployeeMiddleware'
 
 export default class EmployeesRoutes {
   private readonly employeesController: EmployeesController
@@ -64,7 +65,7 @@ export default class EmployeesRoutes {
       UpdateEmployeeMiddleware,
       updatePersonDetails,
     )
-    this.employeesRoutes.patch('/:id', statusEmployee)
+    this.employeesRoutes.patch('/:id', StatusEmployeeMiddleware, statusEmployee)
   }
 
   get EmployeesRoutes() {

@@ -16,10 +16,6 @@ export default class LoginController {
   private secret: string = process.env.JWT_SECRET ?? 'secret'
   private expiresIn: string = process.env.EXPIRES_IN ?? '24h'
 
-  private async comparePassword(passwordHash: string, passwordRequest: string) {
-    return await compare(passwordRequest, passwordHash)
-  }
-
   private generateTokenAuthenticationByUser(user: propsToken) {
     return jwt.sign(
       {

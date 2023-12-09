@@ -5,6 +5,7 @@ import Telephone from '@employees/domain/entities/telephone'
 import User from '@employees/domain/entities/user'
 import EmployeeRepository from '@employees/infra/repositories/employeeRepository'
 import CreateEmployeeInputData from '@employees/application/dtos/createEmployeeInputData'
+import dayjs from 'dayjs'
 
 export default class CreateEmployeeAction {
   async execute(input: CreateEmployeeInputData) {
@@ -31,8 +32,8 @@ export default class CreateEmployeeAction {
 
     const employee = new Employee({
       name: input.name,
-      birthDate: input.birthDate,
-      hireDate: input.hireDate,
+      birthDate: dayjs(input.birthDate).toDate(),
+      hireDate: dayjs(input.hireDate).toDate(),
       rg: input.rg,
       cpf: input.cpf,
       gender: input.gender,

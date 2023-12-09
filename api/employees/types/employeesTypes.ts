@@ -1,45 +1,37 @@
-import { Address, Employee, People, Telephone } from '@prisma/client'
-
-export type getEmployee = Promise<
-  | (Employee & {
-      user: {
-        email: string
-        role: {
-          name: string
-        }
-      }[]
-      people: People & {
-        address: Address[]
-        telephone: Telephone[]
-      }
-    })
-  | null
->
-
-export type getEmployees = Promise<
-  {
-    id: number
-    people: {
-      name: string
-    }
-  }[]
->
-
-export type responseGetEmployee = {
+export type Employee = {
   id: number
-  hireDate: Date
-  peopleId: number
+  people: {
+    id: number
+    name: string
+    birthDate: string
+    cpf: string
+    gender: string
+    role: string
+    hireDate: string
+    maritalStatus: string
+    rg: string
+    telephone: {
+      id: number
+      telephoneNumber: string
+    }
+    address: {
+      id: number
+      city: string
+      district: string
+      number: string
+      postalCode: string
+      state: string
+      street: string
+    }
+  }
   user: {
     id: number
     status: string
     email: string
+    password?: string
     roleId: number
     role: {
-      name: string
+      description: string
     }
-  }[]
-  people: People & {
-    address: Address[]
-    telephone: Telephone[]
   }
 }
