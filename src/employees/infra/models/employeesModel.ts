@@ -93,7 +93,7 @@ export default class EmployeesModel {
             id: employee?.user[0].id,
           },
           data: {
-            status: employee?.user[0].status === 'ativo' ? 'inativo' : 'ativo',
+            status: employee?.user[0].status === 'Ativo' ? 'Inativo' : 'Ativo',
           },
         }),
       ])

@@ -15,17 +15,37 @@ export default class Routes {
   private employees = new EmployeesRoutes().EmployeesRoutes
   private patients = new PatientsRoutes().PatientsRoutes
   private permissions = new PermissionsRoutes().PermissionsRoutes
-  private authorizationRequest = AuthorizationRequest.validateAuthorization
+  private authorizationRequest = new AuthorizationRequest()
 
   constructor() {
     this.route = express.Router()
 
     this.route.use('/login', this.login)
-    this.route.use('/acl', this.authorizationRequest, this.acl)
-    this.route.use('/roles', this.authorizationRequest, this.roles)
-    this.route.use('/permissions', this.authorizationRequest, this.permissions)
-    this.route.use('/employees', this.authorizationRequest, this.employees)
-    this.route.use('/patients', this.authorizationRequest, this.patients)
+    this.route.use(
+      '/acl',
+      this.authorizationRequest.validateAuthorization,
+      this.acl,
+    )
+    this.route.use(
+      '/roles',
+      this.authorizationRequest.validateAuthorization,
+      this.roles,
+    )
+    this.route.use(
+      '/permissions',
+      this.authorizationRequest.validateAuthorization,
+      this.permissions,
+    )
+    this.route.use(
+      '/employees',
+      this.authorizationRequest.validateAuthorization,
+      this.employees,
+    )
+    this.route.use(
+      '/patients',
+      this.authorizationRequest.validateAuthorization,
+      this.patients,
+    )
   }
 
   get routes() {
