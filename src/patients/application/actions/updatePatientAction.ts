@@ -1,5 +1,4 @@
 import Telephone from '@employees/domain/entities/telephone'
-import User from '@employees/domain/entities/user'
 import Address from '@employees/domain/entities/address'
 import UpdatePatientInputData from '@patients/application/dtos/updatePatientInputData'
 import PatientRepository from '@patients/infra/repositories/patientRepository'
