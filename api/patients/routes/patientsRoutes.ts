@@ -1,5 +1,8 @@
 import express, { Router } from 'express'
 import PatientsController from '../controllers/patientsController'
+import CreatePatientMiddleware from '@patientsAPI/middlewares/createPatientMiddleware'
+import StatusPatientMiddleware from '@patientsAPI/middlewares/statusPatientMiddleware'
+import UpdatePatientMiddleware from '@patientsAPI/middlewares/updatePatientMiddleware'
 
 export default class PatientsRoutes {
   private readonly patientsController: PatientsController
@@ -24,11 +27,23 @@ export default class PatientsRoutes {
       this.patientsController,
     )
 
-    this.patientsRoutes.post('/', createPatient)
+    const statusPatient = this.patientsController.statusPatient.bind(
+      this.patientsController,
+    )
+
+    const updatePatient = this.patientsController.updatePatient.bind(
+      this.patientsController,
+    )
+
+    this.patientsRoutes.post('/', CreatePatientMiddleware, createPatient)
 
     this.patientsRoutes.get('/', getPatients)
 
     this.patientsRoutes.get('/:id', getPatient)
+
+    this.patientsRoutes.patch('/:id', StatusPatientMiddleware, statusPatient)
+
+    this.patientsRoutes.put('/:id', UpdatePatientMiddleware, updatePatient)
   }
 
   get PatientsRoutes() {

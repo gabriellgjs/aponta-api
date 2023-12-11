@@ -5,6 +5,9 @@ export const verifyCPFExist = async (cpf: string) => {
   try {
     return await PrismaConnection.people.findUnique({
       where: { cpf },
+      select: {
+        patient: true,
+      },
     })
   } catch (error) {
     throw new InternalServerError('Erro ao realizar login')

@@ -9,7 +9,7 @@ export default class PatientCore extends PeopleCore {
 
     this.props = {
       ...props,
-      status: props.status ?? 'ativo',
+      status: props.status ?? 'Ativo',
     }
   }
 

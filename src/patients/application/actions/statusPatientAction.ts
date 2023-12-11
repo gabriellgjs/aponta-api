@@ -1,10 +1,10 @@
 import PatientRepository from '@patients/infra/repositories/patientRepository'
-import DeletePatientInputData from '../dtos/deletePatientInputData'
+import DeletePatientInputData from '../dtos/statusPatientInputData'
 
-export default class DeletePatientAction {
+export default class StatusPatientAction {
   async execute(input: DeletePatientInputData): Promise<void> {
     const patientRepository = new PatientRepository()
 
-    return await patientRepository.delete(input.id)
+    return await patientRepository.status(input.id)
   }
 }
