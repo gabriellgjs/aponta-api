@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { verifySchemaEmployee } from '@employeesAPI/middlewares/verifySchemaEmployee'
-import { verifyEmailExist } from '@sharedAPI/middlewares/verifyEmailExist'
 import { verifyCPFExist } from '@sharedAPI/middlewares/verifyCPFExist'
-import { verifyRoleExist } from '@sharedAPI/middlewares/verifyRoleExist'
 import { verifyEmployeeExist } from '@sharedAPI/middlewares/verifyEmployeeExist'
 
 export default async function UpdateEmployeePersonDetailsMiddleware(
