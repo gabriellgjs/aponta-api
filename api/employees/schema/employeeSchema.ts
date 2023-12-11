@@ -17,19 +17,21 @@ export const employeeSchema = z
       .refine((value) => !dayjs(value).isSameOrAfter(dayjs()), {
         message: 'Data de contratação não pode ser maior que hoje',
       }),
-    user: z.object({
-      email: z
-        .string({
-          required_error: 'Email é obrigatório',
-          invalid_type_error: 'Email inválido',
-        })
-        .email('Email inválido'),
-      password: z.string({
-        required_error: 'Senha é obrigatória',
-        invalid_type_error: 'Senha inválida',
-      }),
-      roleId: z.number(),
-    }),
+    user: z
+      .object({
+        email: z
+          .string({
+            required_error: 'Email é obrigatório',
+            invalid_type_error: 'Email inválido',
+          })
+          .email('Email inválido'),
+        password: z.string({
+          required_error: 'Senha é obrigatória',
+          invalid_type_error: 'Senha inválida',
+        }),
+        roleId: z.number(),
+      })
+      .optional(),
     birthDate: z
       .string({
         required_error: 'Data de nascimento é obrigatória',

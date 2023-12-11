@@ -150,6 +150,7 @@ export default class EmployeesController {
       const employeesModel = new EmployeesModel()
 
       const userDataInput = UpdatePersonDetailsFactory.fromRequest(request)
+      console.log('teste')
 
       const actualEmployee = await employeesModel.getEmployeeById(
         userDataInput.id,

@@ -4,6 +4,7 @@ import User from '@employees/domain/entities/user'
 import Address from '@employees/domain/entities/address'
 import EmployeeRepository from '@employees/infra/repositories/employeeRepository'
 import UpdateEmployeeInputData from '@employees/application/dtos/updateEmployeeInputData'
+import dayjs from 'dayjs'
 
 export default class UpdateEmployeeAction {
   async execute(
@@ -16,8 +17,10 @@ export default class UpdateEmployeeAction {
       id: actual.id,
       name: input.name ?? actual.name,
       maritalStatus: input.maritalStatus ?? actual.maritalStatus,
-      hireDate: input.hireDate ?? actual.hireDate,
-      birthDate: input.birthDate ?? actual.birthDate,
+      hireDate:
+        dayjs(input.hireDate).toDate() ?? dayjs(actual.hireDate).toDate(),
+      birthDate:
+        dayjs(input.birthDate).toDate() ?? dayjs(actual.birthDate).toDate(),
       rg: input.rg ?? actual.rg,
       cpf: input.cpf ?? actual.cpf,
       gender: input.gender ?? actual.gender,

@@ -21,9 +21,5 @@ export default class UpdatePersonDetailsInputData {
       readonly id?: number
       readonly telephoneNumber: string
     },
-    readonly user: {
-      readonly id?: number
-      readonly roleId: number
-    },
   ) {}
 }

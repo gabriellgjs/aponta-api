@@ -12,8 +12,8 @@ export default async function StatusPatientMiddleware(
 
   if (!patientExist) {
     return response
-      .status(400)
-      .json({ status: 400, message: 'Paciente não encontrado' })
+      .status(404)
+      .json({ status: 404, message: 'Paciente não encontrado' })
   }
   next()
 }

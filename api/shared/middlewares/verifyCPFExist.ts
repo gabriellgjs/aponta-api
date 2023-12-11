@@ -6,7 +6,9 @@ export const verifyCPFExist = async (cpf: string) => {
     return await PrismaConnection.people.findUnique({
       where: { cpf },
       select: {
+        id: true,
         patient: true,
+        employee: true,
       },
     })
   } catch (error) {

@@ -16,8 +16,8 @@ export default async function ChangeEmailMiddleware(
 
   if (!employeeExist) {
     return response
-      .status(400)
-      .json({ status: 400, message: 'Funcionário não encontrado' })
+      .status(404)
+      .json({ status: 404, message: 'Funcionário não encontrado' })
   }
 
   const emailSchema = await verifySchemaZod(changeEmailSchema, request)

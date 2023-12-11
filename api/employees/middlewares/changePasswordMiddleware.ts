@@ -15,8 +15,8 @@ export default async function ChangePasswordMiddleware(
   const hashExist = await verifyPassword(Number(id))
 
   if (!hashExist) {
-    return response.status(400).json({
-      status: 400,
+    return response.status(404).json({
+      status: 404,
       message: 'Funcionário não encontrado',
     })
   }

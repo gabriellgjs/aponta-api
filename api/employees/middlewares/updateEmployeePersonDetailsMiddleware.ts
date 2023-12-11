@@ -5,7 +5,7 @@ import { verifyCPFExist } from '@sharedAPI/middlewares/verifyCPFExist'
 import { verifyRoleExist } from '@sharedAPI/middlewares/verifyRoleExist'
 import { verifyEmployeeExist } from '@sharedAPI/middlewares/verifyEmployeeExist'
 
-export default async function UpdateEmployeeMiddleware(
+export default async function UpdateEmployeePersonDetailsMiddleware(
   request: Request,
   response: Response,
   next: NextFunction,
@@ -22,19 +22,7 @@ export default async function UpdateEmployeeMiddleware(
 
   await verifySchemaEmployee(request, response)
 
-  const {
-    user: { email, roleId },
-    cpf,
-  } = request.body
-
-  const emailExist = await verifyEmailExist(email)
-  const isSameUserEmail = emailExist?.id !== Number(id)
-
-  if (emailExist && isSameUserEmail) {
-    return response
-      .status(400)
-      .json({ status: 400, message: 'Email já cadastrado' })
-  }
+  const { cpf } = request.body
 
   const cpfExist = await verifyCPFExist(cpf)
   const isSameCPF = cpfExist?.id !== Number(id)
@@ -43,14 +31,6 @@ export default async function UpdateEmployeeMiddleware(
     return response
       .status(400)
       .json({ status: 400, message: 'CPF já cadastrado' })
-  }
-
-  const roleExist = await verifyRoleExist(roleId)
-
-  if (!roleExist) {
-    return response
-      .status(404)
-      .json({ status: 404, message: 'Cargo não encontrado' })
   }
 
   next()

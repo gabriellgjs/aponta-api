@@ -1,7 +1,7 @@
 import PrismaConnection from '@prisma/prismaConnection'
 import { InternalServerError } from '@apiErrors/errors'
 
-export const verifyPatientExist = async (patientId: string) => {
+export const verifyPatientExist = async (patientId: string | number) => {
   try {
     return await PrismaConnection.patient.findUnique({
       where: {
