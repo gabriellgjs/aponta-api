@@ -1,25 +1,17 @@
 import PrismaConnection from '@prisma/prismaConnection'
-import { BadRequestError, InternalServerError } from '@apiErrors/errors'
-import { Response } from 'express'
+import { InternalServerError } from '@apiErrors/errors'
 
-export const verifyCPFExist = async (cpf: string, response: Response) => {
+export const verifyCPFExist = async (cpf: string) => {
   try {
-    const CPFExist = await PrismaConnection.people.findUnique({
+    return await PrismaConnection.people.findUnique({
       where: { cpf },
+      select: {
+        id: true,
+        patient: true,
+        employee: true,
+      },
     })
-
-    if (CPFExist) {
-      throw new BadRequestError('CPF já cadastrado')
-    }
   } catch (error) {
-    if (
-      error instanceof BadRequestError ||
-      error instanceof InternalServerError
-    ) {
-      return response
-        .status(error.statusCode)
-        .json({ status: error.statusCode, message: error.message })
-        .end()
-    }
+    throw new InternalServerError('Erro ao realizar login')
   }
 }

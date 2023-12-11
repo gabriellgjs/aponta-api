@@ -1,14 +1,21 @@
-import { responseGetPatient, responseGetPatients } from '../types/patientTypes'
+import dayjs from 'dayjs'
+import CustomParseFormat from 'dayjs/plugin/customParseFormat'
+import es from 'dayjs/locale/es'
+
+dayjs.extend(CustomParseFormat)
+dayjs.locale(es)
 
 export default class PatientsOutputData {
-  static responseGetPatients(patients: responseGetPatient[]) {
+  static responseGetPatients(patients: any[]) {
     const response = patients.map((patient) => {
       const id = patient?.id
       const status = patient?.status
 
       const people = {
         name: patient?.people.name,
-        birthDate: patient?.people.birthDate,
+        birthDate: dayjs(patient.people.birthDate)
+          .set('hours', 24)
+          .format('DD/MM/YYYY'),
         rg: patient?.people.rg,
         cpf: patient?.people.cpf,
         gender: patient?.people.gender,
@@ -16,12 +23,10 @@ export default class PatientsOutputData {
       }
 
       const telephone = {
-        id: patient?.people.telephone[0].id,
         telephoneNumber: patient?.people.telephone[0].telephoneNumber,
       }
 
       const address = {
-        id: patient?.people.address[0].id,
         street: patient?.people.address[0].street,
         number: patient?.people.address[0].number,
         district: patient?.people.address[0].district,
@@ -32,25 +37,27 @@ export default class PatientsOutputData {
 
       return {
         id,
-        patient: {
-          status,
-        },
         ...people,
         telephone,
         address,
+        patient: {
+          status,
+        },
       }
     })
 
     return [...response]
   }
 
-  static responseGetPatient(patient: responseGetPatient) {
+  static responseGetPatient(patient: any) {
     const id = patient?.id
     const status = patient?.status
 
     const people = {
       name: patient?.people.name,
-      birthDate: patient?.people.birthDate,
+      birthDate: dayjs(patient.people.birthDate)
+        .set('hours', 24)
+        .format('DD/MM/YYYY'),
       rg: patient?.people.rg,
       cpf: patient?.people.cpf,
       gender: patient?.people.gender,
@@ -58,12 +65,10 @@ export default class PatientsOutputData {
     }
 
     const telephone = {
-      id: patient?.people.telephone[0].id,
       telephoneNumber: patient?.people.telephone[0].telephoneNumber,
     }
 
     const address = {
-      id: patient?.people.address[0].id,
       street: patient?.people.address[0].street,
       number: patient?.people.address[0].number,
       district: patient?.people.address[0].district,
@@ -74,12 +79,12 @@ export default class PatientsOutputData {
 
     return {
       id,
-      patient: {
-        status,
-      },
       ...people,
       address,
       telephone,
+      patient: {
+        status,
+      },
     }
   }
 }

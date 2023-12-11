@@ -1,7 +1,7 @@
 import Patient from '@patients/domain/entities/patient'
 import PatientsModel from '../models/patientsModel'
 
-export default class UserRepository {
+export default class PatientRepository {
   private patientsModel: PatientsModel
 
   constructor() {
@@ -10,27 +10,24 @@ export default class UserRepository {
 
   async save(patient: Patient) {
     if (patient.id) {
-      // return this.update(role);
+      return this.update(patient)
     }
-
     return this.create(patient)
   }
 
   async create(patient: Patient) {
-    try {
-      const id = await this.patientsModel.createPatient(patient)
+    const id = await this.patientsModel.createPatient(patient)
 
-      patient.id = id ?? 0
+    patient.id = id ?? 0
 
-      return patient
-    } catch (error) {}
+    return patient
   }
 
-  /* async update(user: User): Promise<void> {
-    await this.patientsModel.updateUser(user);
-  } */
+  async update(patient: Patient): Promise<void> {
+    await this.patientsModel.updatePatient(patient)
+  }
 
-  async delete(patientId: number): Promise<void> {
-    await this.patientsModel.deletePatient(patientId)
+  async status(patientId: number): Promise<void> {
+    await this.patientsModel.statusPatient(patientId)
   }
 }

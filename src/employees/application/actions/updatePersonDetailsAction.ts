@@ -4,6 +4,7 @@ import User from '@employees/domain/entities/user'
 import Address from '@employees/domain/entities/address'
 import EmployeeRepository from '@employees/infra/repositories/employeeRepository'
 import UpdatePersonDetailsInputData from '@employees/application/dtos/updatePersonDetailsInputData'
+import dayjs from 'dayjs'
 
 export default class UpdatePersonDetailsAction {
   async execute(
@@ -12,12 +13,15 @@ export default class UpdatePersonDetailsAction {
   ) {
     const employeeRepository = new EmployeeRepository()
 
+    console.log('aqui')
     const employee = new Employee({
       id: actual.id,
       name: input.name ?? actual.name,
       maritalStatus: input.maritalStatus ?? actual.maritalStatus,
-      hireDate: input.hireDate ?? actual.hireDate,
-      birthDate: input.birthDate ?? actual.birthDate,
+      hireDate:
+        dayjs(input.hireDate).toDate() ?? dayjs(actual.hireDate).toDate(),
+      birthDate:
+        dayjs(input.birthDate).toDate() ?? dayjs(actual.birthDate).toDate(),
       rg: input.rg ?? actual.rg,
       cpf: input.cpf ?? actual.cpf,
       gender: input.gender ?? actual.gender,
@@ -35,9 +39,9 @@ export default class UpdatePersonDetailsAction {
         state: input.address.state ?? actual.address.state,
       }),
       user: new User({
-        id: actual.user.id,
+        id: 0,
         email: '',
-        roleId: input.user.roleId ?? actual.user.roleId,
+        roleId: 0,
       }),
     })
 

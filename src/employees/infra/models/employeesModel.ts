@@ -93,7 +93,7 @@ export default class EmployeesModel {
             id: employee?.user[0].id,
           },
           data: {
-            status: employee?.user[0].status === 'ativo' ? 'inativo' : 'ativo',
+            status: employee?.user[0].status === 'Ativo' ? 'Inativo' : 'Ativo',
           },
         }),
       ])
@@ -170,6 +170,7 @@ export default class EmployeesModel {
   }
 
   async updatePersonDetails(employee: Employee) {
+    console.log(employee)
     try {
       return await this.PrismaConnection.$transaction([
         this.PrismaConnection.employee.update({
@@ -210,16 +211,6 @@ export default class EmployeesModel {
                       telephoneNumber: employee.telephone.telephoneNumber,
                     },
                   },
-                },
-              },
-            },
-            user: {
-              update: {
-                where: {
-                  id: employee.user.id,
-                },
-                data: {
-                  roleId: employee.user.roleId,
                 },
               },
             },

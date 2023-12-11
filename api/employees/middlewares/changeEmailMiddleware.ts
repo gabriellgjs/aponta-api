@@ -1,38 +1,43 @@
 import { NextFunction, Request, Response } from 'express'
-import { z } from 'zod'
-import PrismaConnection from '@prisma/prismaConnection'
-import { BadRequestError } from '@apiErrors/errors'
 import { verifySchemaZod } from '@sharedAPI/middlewares/verifySchemaZod'
+import { verifyEmailExist } from '@sharedAPI/middlewares/verifyEmailExist'
+import { changeEmailSchema } from '@employeesAPI/schema/changeEmailSchema'
+import { fromZodError } from 'zod-validation-error'
+import { verifyEmployeeExist } from '@sharedAPI/middlewares/verifyEmployeeExist'
 
-const changeEmailSchema = z.object({
-  email: z.string().email(),
-})
-
-export const verifyEmailExist = async (email: string, response: Response) => {
-  try {
-    const emailExist = await PrismaConnection.user.findUnique({
-      where: { email },
-    })
-
-    if (emailExist) {
-      throw new BadRequestError('Email já cadastrado')
-    }
-  } catch (error) {
-    if (error instanceof BadRequestError) {
-      return response
-        .status(error.statusCode)
-        .json({ status: error.statusCode, message: error.message })
-        .end()
-    }
-  }
-}
 export default async function ChangeEmailMiddleware(
   request: Request,
   response: Response,
   next: NextFunction,
 ) {
-  await verifySchemaZod(changeEmailSchema, request, response)
-  await verifyEmailExist(request.body.email, response)
+  const id = request.params.id
+
+  const employeeExist = await verifyEmployeeExist(id)
+
+  if (!employeeExist) {
+    return response
+      .status(404)
+      .json({ status: 404, message: 'Funcionário não encontrado' })
+  }
+
+  const emailSchema = await verifySchemaZod(changeEmailSchema, request)
+
+  if (!emailSchema.success) {
+    return response.status(400).json({
+      status: 400,
+      message: fromZodError(emailSchema.error).details[0].message ?? '',
+    })
+  }
+
+  const { email } = request.body
+
+  const emailExist = await verifyEmailExist(email)
+
+  if (emailExist) {
+    return response
+      .status(400)
+      .json({ status: 400, message: 'Email já está em uso' })
+  }
 
   next()
 }

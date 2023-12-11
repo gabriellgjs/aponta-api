@@ -1,4 +1,4 @@
-export default class UpdatePersonDetailsInputData {
+export default class UpdatePatientInputData {
   constructor(
     readonly id: number,
     readonly name: string,
@@ -7,7 +7,6 @@ export default class UpdatePersonDetailsInputData {
     readonly cpf: string,
     readonly maritalStatus: string,
     readonly gender: string,
-    readonly hireDate: Date,
     readonly address: {
       readonly id?: number
       readonly street: string

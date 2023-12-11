@@ -79,6 +79,9 @@
           "200": {
             "description": "Array de objeto dos cargos"
           },
+          "401": {
+            "description": "Acesso negado"
+          },
           "500": {
             "description": "Erro do servidor"
           }
@@ -211,8 +214,105 @@
           "401": {
             "description": "Acesso negado"
           },
-          "503": {
-            "description": "Serviço indisponível, tente novamente mais tarde"
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Criar um novo funcionário",
+        "tags": ["Funcionário"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Maria Silva"
+                  },
+
+                  "birthDate": {
+                    "type": "string",
+                    "example": "2002-12-31"
+                  },
+
+
+                  "rg": {
+                    "type": "string",
+                    "example": "123456890"
+                  },
+
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-10"
+                  },
+
+                  "maritalStatus": {
+                    "type": "string",
+                    "example": "Solteiro (a)"
+                  },
+
+                  "gender": {
+                    "type": "string",
+                    "example": "Masculino"
+                  },
+
+                  "hireDate": {
+                    "type": "string",
+                    "example": "2022-12-31"
+                  },
+
+                  "user": {
+                    "type": "object",
+                    "example":  {
+                      "email": "abc@gmail.com",
+                      "password": "123456",
+                      "roleId": 1
+                    }
+                  },
+
+                  "address": {
+                    "type": "object",
+                    "example":  {
+                      "street": "Rua Floresta",
+                      "number": "50",
+                      "district": "Jardim Panorama",
+                      "city": "Altônia",
+                      "postalCode": "87550-000",
+                      "state": "PR"
+                    }
+                  },
+
+                  "telephone": {
+                    "type": "object",
+                    "example":  {
+                      "telephoneNumber": "(44) 99873-9002"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Id do funcionário criado"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
           }
         }
       }
@@ -239,12 +339,568 @@
           "401": {
             "description": "Acesso negado"
           },
-          "503": {
-            "description": "Serviço indisponível, tente novamente mais tarde"
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "tags": ["Funcionário"],
+        "summary": "Alterar o status funcionário pelo id",
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+
+      "put": {
+        "summary": "Atualizar um funcionário",
+        "tags": ["Funcionário"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Maria Silva"
+                  },
+
+                  "birthDate": {
+                    "type": "string",
+                    "example": "2002-12-31"
+                  },
+
+
+                  "rg": {
+                    "type": "string",
+                    "example": "123456890"
+                  },
+
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-10"
+                  },
+
+                  "maritalStatus": {
+                    "type": "string",
+                    "example": "Solteiro (a)"
+                  },
+
+                  "gender": {
+                    "type": "string",
+                    "example": "Masculino"
+                  },
+
+                  "hireDate": {
+                    "type": "string",
+                    "example": "2022-12-31"
+                  },
+
+                  "user": {
+                    "type": "object",
+                    "example":  {
+                      "email": "abc@gmail.com",
+                      "roleId": 1
+                    }
+                  },
+
+                  "address": {
+                    "type": "object",
+                    "example":  {
+                      "street": "Rua Floresta",
+                      "number": "50",
+                      "district": "Jardim Panorama",
+                      "city": "Altônia",
+                      "postalCode": "87550-000",
+                      "state": "PR"
+                    }
+                  },
+
+                  "telephone": {
+                    "type": "object",
+                    "example":  {
+                      "telephoneNumber": "(44) 99873-9002"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
+    "/employees/email/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Buscar pelo id"
+        }
+      ],
+      "put": {
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "tags": ["Funcionário"],
+        "summary": "Alterar o email funcionário pelo id",
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "testantoesseemail@email.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
+    "/employees/person-details/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Buscar pelo id"
+        }
+      ],
+      "put": {
+        "summary": "Atualizar os dados pessoais de um funcionário",
+        "tags": ["Funcionário"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Maria Silva"
+                  },
+
+                  "birthDate": {
+                    "type": "string",
+                    "example": "2002-12-31"
+                  },
+
+
+                  "rg": {
+                    "type": "string",
+                    "example": "123456890"
+                  },
+
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-10"
+                  },
+
+                  "maritalStatus": {
+                    "type": "string",
+                    "example": "Solteiro (a)"
+                  },
+
+                  "gender": {
+                    "type": "string",
+                    "example": "Masculino"
+                  },
+
+                  "hireDate": {
+                    "type": "string",
+                    "example": "2022-01-01"
+                  },
+
+                  "address": {
+                    "type": "object",
+                    "example":  {
+                      "street": "Rua Floresta",
+                      "number": "50",
+                      "district": "Jardim Panorama",
+                      "city": "Altônia",
+                      "postalCode": "87550-000",
+                      "state": "PR"
+                    }
+                  },
+
+                  "telephone": {
+                    "type": "object",
+                    "example":  {
+                      "telephoneNumber": "(44) 99873-9002"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
+    "/employees/password/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Buscar pelo id"
+        }
+      ],
+      "put": {
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "tags": ["Funcionário"],
+        "summary": "Alterar o senha funcionário pelo id",
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "currentPassword": {
+                    "type": "string",
+                    "example": "123456"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "example": "a1b2c3d4"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
+
+    "/patients": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": [
+              "BearerAuth"
+            ]
+          }
+        ],
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Buscar todos os pacientes",
+        "responses": {
+          "200": {
+            "description": "Array de objeto dos pacientes"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Criar um novo paciente",
+        "tags": ["Paciente"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Maria Silva"
+                  },
+
+                  "birthDate": {
+                    "type": "string",
+                    "example": "2002-12-31"
+                  },
+
+
+                  "rg": {
+                    "type": "string",
+                    "example": "123456890"
+                  },
+
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-10"
+                  },
+
+                  "maritalStatus": {
+                    "type": "string",
+                    "example": "Solteiro (a)"
+                  },
+
+                  "gender": {
+                    "type": "string",
+                    "example": "Masculino"
+                  },
+
+                  "address": {
+                    "type": "object",
+                    "example":  {
+                      "street": "Rua Floresta",
+                      "number": "50",
+                      "district": "Jardim Panorama",
+                      "city": "Altônia",
+                      "postalCode": "87550-000",
+                      "state": "PR"
+                    }
+                  },
+
+                  "telephone": {
+                    "type": "object",
+                    "example":  {
+                      "telephoneNumber": "(44) 99873-9002"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Id do paciente criado"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+  },
+
+    "/patients/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Buscar pelo id"
+        }
+      ],
+      "get": {
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "tags": ["Paciente"],
+        "summary": "Buscar paciente pelo id",
+        "responses": {
+          "200": {
+            "description": "Um objeto do paciente"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "tags": ["Paciente"],
+        "summary": "Alterar o status paciente pelo id",
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+
+      "put": {
+        "summary": "Atualizar um paciente",
+        "tags": ["Paciente"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Maria Silva"
+                  },
+
+                  "birthDate": {
+                    "type": "string",
+                    "example": "2002-12-31"
+                  },
+
+
+                  "rg": {
+                    "type": "string",
+                    "example": "123456890"
+                  },
+
+                  "cpf": {
+                    "type": "string",
+                    "example": "123.456.789-10"
+                  },
+
+                  "maritalStatus": {
+                    "type": "string",
+                    "example": "Solteiro (a)"
+                  },
+
+                  "gender": {
+                    "type": "string",
+                    "example": "Masculino"
+                  },
+
+                  "address": {
+                    "type": "object",
+                    "example":  {
+                      "street": "Rua Floresta",
+                      "number": "50",
+                      "district": "Jardim Panorama",
+                      "city": "Altônia",
+                      "postalCode": "87550-000",
+                      "state": "PR"
+                    }
+                  },
+
+                  "telephone": {
+                    "type": "object",
+                    "example":  {
+                      "telephoneNumber": "(44) 99873-9002"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
           }
         }
       }
     }
-
   }
 }

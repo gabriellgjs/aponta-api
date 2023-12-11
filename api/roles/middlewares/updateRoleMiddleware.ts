@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import verifyRoleExistByName from '@rolesAPI/middlewares/verifyRoleExistByName'
-import verifySchemaZod from '@sharedAPI/middlewares/verifySchemaZod'
+import { verifySchemaZod } from '@sharedAPI/middlewares/verifySchemaZod'
 import verifyRoleExistById from '@rolesAPI/middlewares/verifyRoleExistById'
 import { roleSchema } from '@rolesAPI/schema/roleSchema'
 import { fromZodError } from 'zod-validation-error'

@@ -3,6 +3,7 @@ import Telephone from '@patients/domain/entities/telephone'
 import Patient from '@patients/domain/entities/patient'
 import PatientRepository from '@patients/infra/repositories/patientRepository'
 import CreatePatientInputData from '../dtos/createPatientInputData'
+import dayjs from 'dayjs'
 
 export default class CreatePatientAction {
   async execute(input: CreatePatientInputData): Promise<Patient | void> {
@@ -23,7 +24,7 @@ export default class CreatePatientAction {
 
     const patient = new Patient({
       name: input.name,
-      birthDate: input.birthDate,
+      birthDate: dayjs(input.birthDate).toDate(),
       rg: input.rg,
       cpf: input.cpf,
       gender: input.gender,

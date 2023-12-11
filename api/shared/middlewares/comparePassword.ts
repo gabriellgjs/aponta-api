@@ -1,6 +1,6 @@
 import { compare } from 'bcryptjs'
 
-export default async function comparePassword(
+export async function comparePassword(
   requestPassword: string,
   userHash: string,
 ) {

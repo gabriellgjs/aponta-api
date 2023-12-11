@@ -20,7 +20,7 @@ export default class CreatePatientFactory {
     }
 
     const telephone = {
-      telephoneNumber: request.body.telephone.number,
+      telephoneNumber: request.body.telephone.telephoneNumber,
     }
 
     return new CreatePatientInputData(

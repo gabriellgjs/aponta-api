@@ -1,5 +1,4 @@
 import { Request } from 'express'
-import { responseGetEmployee } from '../types/employeesTypes'
 import UpdatePersonDetailsInputData from '@employees/application/dtos/updatePersonDetailsInputData'
 
 export default class UpdatePersonDetailsFactory {
@@ -26,11 +25,6 @@ export default class UpdatePersonDetailsFactory {
       telephoneNumber: request.body.telephone.telephoneNumber,
     }
 
-    const user = {
-      id: request.body.user.id,
-      roleId: request.body.user.roleId,
-    }
-
     return new UpdatePersonDetailsInputData(
       Number(employeeId),
       name,
@@ -42,11 +36,10 @@ export default class UpdatePersonDetailsFactory {
       hireDate,
       address,
       telephone,
-      user,
     )
   }
 
-  static fromCurrentEmployee(employee: responseGetEmployee) {
+  static fromCurrentEmployee(employee: any) {
     const address = {
       id: employee?.people.address[0].id ?? 0,
       street: employee?.people.address[0].street ?? '',
@@ -61,10 +54,6 @@ export default class UpdatePersonDetailsFactory {
       id: employee?.people.telephone[0].id ?? 0,
       telephoneNumber: employee?.people.telephone[0].telephoneNumber ?? '',
     }
-    const user = {
-      id: employee?.user[0].id ?? 0,
-      roleId: employee?.user[0].roleId ?? 0,
-    }
 
     return new UpdatePersonDetailsInputData(
       Number(employee?.id),
@@ -77,7 +66,6 @@ export default class UpdatePersonDetailsFactory {
       employee?.hireDate ?? new Date(),
       address,
       telephone,
-      user,
     )
   }
 }

@@ -1,3 +1,4 @@
+import { Request, Response } from 'express'
 import {
   BadRequestError,
   InternalServerError,
@@ -6,7 +7,6 @@ import {
 import CreateEmployeeAction from '@employees/application/actions/createEmployeeAction'
 import StatusEmployeeAction from '@employees/application/actions/statusEmployeeAction'
 import UpdateEmployeeAction from '@employees/application/actions/updateEmployeeAction'
-import { Request, Response } from 'express'
 import EmployeeOutputData from '../dtos/employeeOutputData'
 import CreateEmployeeFactory from '../factories/createEmployeeFactory'
 import StatusEmployeeFactory from '../factories/statusEmployeeFactory'
@@ -31,7 +31,10 @@ export default class EmployeesController {
 
       if (!employee) throw new NotFoundError('Usuário não encontrado')
 
-      return response.status(200).json(employee).end()
+      return response
+        .status(200)
+        .json(EmployeeOutputData.responseGetEmployee(employee))
+        .end()
     } catch (error) {
       if (
         error instanceof InternalServerError ||
@@ -42,7 +45,7 @@ export default class EmployeesController {
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
@@ -54,14 +57,17 @@ export default class EmployeesController {
 
       const employees = await employeesModel.getEmployees()
 
-      return response.status(200).json(employees).end()
+      return response
+        .status(200)
+        .json(EmployeeOutputData.responseGetEmployees(employees))
+        .end()
     } catch (error) {
       if (error instanceof InternalServerError) {
         await Sentry.sendError(error.nameError, error.message)
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
@@ -82,7 +88,7 @@ export default class EmployeesController {
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
@@ -111,7 +117,7 @@ export default class EmployeesController {
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
@@ -132,7 +138,7 @@ export default class EmployeesController {
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
@@ -144,6 +150,7 @@ export default class EmployeesController {
       const employeesModel = new EmployeesModel()
 
       const userDataInput = UpdatePersonDetailsFactory.fromRequest(request)
+      console.log('teste')
 
       const actualEmployee = await employeesModel.getEmployeeById(
         userDataInput.id,
@@ -163,7 +170,7 @@ export default class EmployeesController {
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
@@ -184,7 +191,7 @@ export default class EmployeesController {
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
@@ -205,7 +212,7 @@ export default class EmployeesController {
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
