@@ -35,7 +35,9 @@ export default class AppointmentController {
 
       const query = request.query.day
 
-      const appointments = await appointmentsModel.getAppointmentsByDay(query)
+      const appointments = await appointmentsModel.getAppointmentsByDay(
+        String(query),
+      )
 
       return response.status(200).json(appointments)
     } catch (error) {

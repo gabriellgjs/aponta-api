@@ -12,7 +12,6 @@ export default class AppointmentsModel {
           status: appointment.status,
           dataTimeStart: appointment.dataTimeStart,
           dataTimeEnd: appointment.dataTimeEnd,
-          employeeId: appointment.userId,
           dentistId: appointment.dentistId,
           patientId: appointment.patientId,
         },

@@ -50,14 +50,6 @@ export default class Appointment {
     this.props.canceledAt = canceledAt
   }
 
-  get userId(): number {
-    return this.props.userId
-  }
-
-  set userId(userId: number) {
-    this.props.userId = userId
-  }
-
   get dentistId(): number {
     return this.props.dentistId
   }

@@ -5,7 +5,6 @@ export interface AppointmentsProps {
   dataTimeEnd: string
   canceledAt?: string
 
-  userId: number
   dentistId: number
   patientId: number
 

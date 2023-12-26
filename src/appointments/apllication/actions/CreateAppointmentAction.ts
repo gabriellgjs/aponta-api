@@ -11,7 +11,6 @@ export default class CreateAppointmentAction {
       dataTimeEnd: input.dataTimeEnd,
       patientId: input.patientId,
       dentistId: input.dentistId,
-      userId: input.userId,
     })
 
     console.log(appointment)
