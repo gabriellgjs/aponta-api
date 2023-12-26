@@ -4,10 +4,7 @@ const prisma = new PrismaClient()
 
 const roles = [
   {
-    name: 'Administrador(a)',
-  },
-  {
-    name: 'Testador(a)',
+    name: 'Administrador',
   },
   {
     name: 'Dentista',
@@ -27,30 +24,6 @@ const user = {
   maritalStatus: 'Solteiro (a)',
   gender: 'Masculino',
   hireDate: new Date(2020, 11, 16),
-  roleId: 1,
-  address: {
-    street: 'Rua Floresta',
-    number: '50',
-    district: 'Jardim Panorama',
-    city: 'Altônia',
-    postalCode: '87550-000',
-    state: 'PR',
-  },
-  telephone: {
-    telephoneNumber: '(44) 99873-9002',
-  },
-}
-
-const user2 = {
-  name: 'Gabriel José Silva',
-  birthDate: '2002-05-10',
-  rg: '14.862.714-8',
-  email: 'gabriel_lisa@hotmail.com',
-  password: '$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy',
-  cpf: '077.862.977-10',
-  maritalStatus: 'Solteiro (a)',
-  gender: 'Masculino',
-  hireDate: '2020-11-16',
   roleId: 1,
   address: {
     street: 'Rua Floresta',
