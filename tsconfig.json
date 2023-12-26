@@ -5,6 +5,7 @@
     "paths": {
       "@src/*": ["./src/*"],
       "@employees/*": ["./src/employees/*"],
+      "@appointments/*": ["./src/appointments/*"],
       "@patients/*": ["./src/patients/*"],
       "@users/*": ["./src/users/*"],
       "@roles/*": ["./src/roles/*"],
@@ -12,6 +13,7 @@
       "@shared/*": ["./src/shared/*"],
       "@prisma/*": ["./prisma/*"],
       "@apiErrors/*": ["./api/shared/utils/errors/*"],
+      "@appointmentsAPI/*": ["./api/appointments/*"],
       "@employeesAPI/*": ["./api/employees/*"],
       "@authAPI/*": ["./api/auth/*"],
       "@usersAPI/*": ["./api/users/*"],
