@@ -67,9 +67,7 @@ model Employee {
 
   peopleId Int
   people   People @relation(fields: [peopleId], references: [id])
-
-  appointments Appointments[]
-  user         User[]
+  user     User[]
 
   @@map("employees")
 }
@@ -164,12 +162,10 @@ model Appointments {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime? @updatedAt
 
-  employeeId Int
-  user       User     @relation(fields: [employeeId], references: [id])
-  dentistId  Int
-  employee   Employee @relation(fields: [dentistId], references: [id])
-  patientId  Int
-  patient    Patient  @relation(fields: [patientId], references: [id])
+  dentistId Int
+  user      User    @relation(fields: [dentistId], references: [id])
+  patientId Int
+  patient   Patient @relation(fields: [patientId], references: [id])
 
   appointmentId Int?          @unique
   appointment   Appointments? @relation("ParentAppointment", fields: [appointmentId], references: [id])
