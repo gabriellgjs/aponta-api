@@ -5,7 +5,6 @@ import { appointmentSchema } from '@appointmentsAPI/schema/appointmentSchema'
 import { verifyDentist } from '@sharedAPI/middlewares/verifyDentist'
 import { verifyConflictsTime } from '@appointmentsAPI/middlewares/verifyConflictsTime'
 import { verifyIsRequestSameDates } from '@appointmentsAPI/middlewares/verifyIsRequestSameDates'
-import { Appointments } from '@prisma/client'
 import { verifyIsSamePatientAndDentist } from '@appointmentsAPI/middlewares/verifyIsSamePatientAndDentist'
 
 export default async function CreateAppointmentMiddleware(
