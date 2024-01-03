@@ -53,7 +53,7 @@ async function run() {
       gender: user.gender,
       patient: {
         create: {
-          status: 'ativo',
+          status: 'Ativo',
         },
       },
       address: {
@@ -78,7 +78,7 @@ async function run() {
             create: {
               email: user.email,
               password: user.password,
-              status: 'ativo',
+              status: 'Ativo',
               roleId: 1,
             },
           },
