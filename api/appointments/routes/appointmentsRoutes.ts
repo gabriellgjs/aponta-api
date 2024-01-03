@@ -1,6 +1,7 @@
 import express, { Router } from 'express'
 import AppointmentController from '@appointmentsAPI/controllers/appointmentController'
 import CreateAppointmentMiddleware from '@appointmentsAPI/middlewares/createAppointmentMiddleware'
+import DeleteAndCancelMiddleware from '@appointmentsAPI/middlewares/deleteAndCancelMiddleware'
 
 export default class AppointmentsRoutes {
   private readonly appointmentController: AppointmentController
@@ -17,8 +18,23 @@ export default class AppointmentsRoutes {
       this.appointmentController,
     )
 
-    const getAppointmentByDay =
-      this.appointmentController.getAppointmentByDay.bind(
+    const deleteAppointment =
+      this.appointmentController.deleteAppointmentById.bind(
+        this.appointmentController,
+      )
+
+    const cancelAppointment =
+      this.appointmentController.cancelAppointmentById.bind(
+        this.appointmentController,
+      )
+
+    const getAppointmentActivesByDay =
+      this.appointmentController.getAppointmentActivesByDay.bind(
+        this.appointmentController,
+      )
+
+    const getAppointmentCanceledByDay =
+      this.appointmentController.getAppointmentCanceledByDay.bind(
         this.appointmentController,
       )
 
@@ -27,7 +43,22 @@ export default class AppointmentsRoutes {
       CreateAppointmentMiddleware,
       createAppointment,
     )
-    this.appointmentsRoutes.get('/', getAppointmentByDay)
+
+    this.appointmentsRoutes.get('/', getAppointmentActivesByDay)
+
+    this.appointmentsRoutes.get('/canceled/', getAppointmentCanceledByDay)
+
+    this.appointmentsRoutes.delete(
+      '/:id',
+      DeleteAndCancelMiddleware,
+      deleteAppointment,
+    )
+
+    this.appointmentsRoutes.patch(
+      '/:id',
+      DeleteAndCancelMiddleware,
+      cancelAppointment,
+    )
   }
 
   get AppointmentsRoutes() {

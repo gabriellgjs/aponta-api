@@ -30,6 +30,10 @@ export default class AppointmentRepository {
   }
 
   async delete(appointmentId: number): Promise<void> {
-    await this.appointmentsModel.deleteAppointments(appointmentId)
+    await this.appointmentsModel.deleteAppointment(appointmentId)
+  }
+
+  async cancel(appointmentId: number): Promise<void> {
+    await this.appointmentsModel.cancelAppointment(appointmentId)
   }
 }

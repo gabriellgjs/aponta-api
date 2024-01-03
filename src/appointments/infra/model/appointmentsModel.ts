@@ -1,6 +1,7 @@
 import PrismaConnection from '@prisma/prismaConnection'
 import { InternalServerError } from '@apiErrors/errors'
 import Appointment from '@appointments/domain/entities/appointment'
+import dayjs from 'dayjs'
 
 export default class AppointmentsModel {
   private PrismaConnection = PrismaConnection
@@ -21,11 +22,27 @@ export default class AppointmentsModel {
     }
   }
 
-  async deleteAppointments(appointmentId: number) {
+  async deleteAppointment(appointmentId: number) {
     try {
-      return await this.PrismaConnection.role.delete({
+      return await this.PrismaConnection.appointments.delete({
         where: {
           id: appointmentId,
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro ao deletar o agendamento')
+    }
+  }
+
+  async cancelAppointment(appointmentId: number) {
+    try {
+      return await this.PrismaConnection.appointments.update({
+        where: {
+          id: appointmentId,
+        },
+        data: {
+          status: 'Cancelado',
+          canceledAt: dayjs().format(),
         },
       })
     } catch (error) {
