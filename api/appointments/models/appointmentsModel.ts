@@ -5,19 +5,20 @@ import dayjs from 'dayjs'
 export default class AppointmentsModel {
   private PrismaConnection = PrismaConnection
 
-  async getAppointmentsByDay(date?: string | undefined) {
+  async getAppointmentsByDay(date: string) {
     try {
-      if (!date) {
+      if (date.length === 0) {
         return await this.PrismaConnection
-          .$queryRaw`SELECT * FROM appointments where aponta.public.appointments ."dataTimeStart"  between current_date and  (current_date  + 1)`
+          .$queryRaw`SELECT * FROM appointments where aponta.public.appointments ."dataTimeStart"  between current_date and  (current_date  + 1) `
       }
 
       const nextDay = dayjs(date).add(1, 'day').format('YYYY-MM-DD')
 
-      const sql = `SELECT * FROM appointments where aponta.public.appointments ."dataTimeStart" between '${date}' and '${nextDay}'`
+      const sql = `SELECT * FROM appointments where aponta.public.appointments ."dataTimeStart" between '${date}' and '${nextDay}' order by "dataTimeStart"`
 
       return await this.PrismaConnection.$queryRawUnsafe(sql)
     } catch (error) {
+      console.log(error)
       throw new InternalServerError('Erro ao listar os agendamentos')
     }
   }

@@ -29,6 +29,12 @@ export default async function UpdateRoleMiddleware(
       .json({ status: 400, message: 'Cargo não encontrado' })
   }
 
+  if (roleExistById.name === 'Dentista' || roleExistById.id === 2) {
+    return response
+      .status(400)
+      .json({ status: 400, message: `Cargo 'Dentista' não pode ser alterado` })
+  }
+
   const { name } = request.body
 
   const roleExistByName = await verifyRoleExistByName(name)

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import { InternalServerError } from '@apiErrors/errors'
 import Sentry from '../../application/sentry'
-import CreateAppointmentAction from '@appointments/apllication/actions/CreateAppointmentAction'
+import CreateAppointmentAction from '@appointments/apllication/actions/createAppointmentAction'
 import CreateAppointmentFactory from '@appointmentsAPI/factories/createAppointmentFactory'
-import AppointmentsModel from '@appointmentsAPI/models/AppointmentsModel'
+import AppointmentsModel from '@appointmentsAPI/models/appointmentsModel'
 
 export default class AppointmentController {
   public async createAppointment(request: Request, response: Response) {
@@ -11,7 +11,6 @@ export default class AppointmentController {
       const createAppointmentAction = new CreateAppointmentAction()
 
       const appointmentFactory = CreateAppointmentFactory.fromRequest(request)
-      // console.log(appointmentFactory)
       const appointmentId = (
         await createAppointmentAction.execute(appointmentFactory)
       )?.id
@@ -33,7 +32,7 @@ export default class AppointmentController {
     try {
       const appointmentsModel = new AppointmentsModel()
 
-      const query = request.query.day
+      const query = request.query.day ? request.query.day : ''
 
       const appointments = await appointmentsModel.getAppointmentsByDay(
         String(query),

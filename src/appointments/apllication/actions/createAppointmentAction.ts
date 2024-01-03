@@ -13,7 +13,6 @@ export default class CreateAppointmentAction {
       dentistId: input.dentistId,
     })
 
-    console.log(appointment)
     return await appointmentRepository.save(appointment)
   }
 }

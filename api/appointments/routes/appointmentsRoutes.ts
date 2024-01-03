@@ -1,5 +1,6 @@
 import express, { Router } from 'express'
 import AppointmentController from '@appointmentsAPI/controllers/appointmentController'
+import CreateAppointmentMiddleware from '@appointmentsAPI/middlewares/createAppointmentMiddleware'
 
 export default class AppointmentsRoutes {
   private readonly appointmentController: AppointmentController
@@ -21,7 +22,11 @@ export default class AppointmentsRoutes {
         this.appointmentController,
       )
 
-    this.appointmentsRoutes.post('/', createAppointment)
+    this.appointmentsRoutes.post(
+      '/',
+      CreateAppointmentMiddleware,
+      createAppointment,
+    )
     this.appointmentsRoutes.get('/', getAppointmentByDay)
   }
 
