@@ -25,6 +25,21 @@ export default class AppointmentRepository {
     return appointment
   }
 
+  async reschedule(
+    dataTimeStart: string,
+    dataTimeEnd: string,
+    appointmentId: number,
+  ) {
+    const appointmentCreated =
+      await this.appointmentsModel.rescheduleAppointment(
+        dataTimeStart,
+        dataTimeEnd,
+        appointmentId,
+      )
+
+    return appointmentCreated
+  }
+
   async update(appointment: Appointment): Promise<void> {
     await this.appointmentsModel.updateAppointments(appointment)
   }

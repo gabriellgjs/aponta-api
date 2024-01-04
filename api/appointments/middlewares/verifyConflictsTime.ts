@@ -29,6 +29,6 @@ export async function verifyConflictsTime(
     return existConflict(interval, dataTimeStart, dataTimeEnd)
   } catch (error) {
     console.log(error)
-    throw new InternalServerError('Erro ao buscar dentista')
+    throw new InternalServerError('Erro ao buscar os agendamentos')
   }
 }

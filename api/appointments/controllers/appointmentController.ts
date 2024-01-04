@@ -8,6 +8,8 @@ import DeleteAppointmentAction from '@appointments/apllication/actions/deleteApp
 import DeleteAppointmentFactory from '@appointmentsAPI/factories/deleteAppointmentFactory'
 import CancelAppointmentFactory from '@appointmentsAPI/factories/cancelAppointmentFactory'
 import CancelAppointmentAction from '@appointments/apllication/actions/cancelAppointmentAction'
+import RescheduleAppointmentAction from '@appointments/apllication/actions/rescheduleAppointmentAction'
+import RescheduleAppointmentFactory from '@appointmentsAPI/factories/rescheduleAppointmentFactory'
 
 export default class AppointmentController {
   public async createAppointment(request: Request, response: Response) {
@@ -15,9 +17,33 @@ export default class AppointmentController {
       const createAppointmentAction = new CreateAppointmentAction()
 
       const appointmentFactory = CreateAppointmentFactory.fromRequest(request)
+
       const appointmentId = (
         await createAppointmentAction.execute(appointmentFactory)
       )?.id
+
+      return response.status(201).json(appointmentId)
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
+    }
+  }
+
+  public async rescheduleAppointment(request: Request, response: Response) {
+    try {
+      const rescheduleAppointmentAction = new RescheduleAppointmentAction()
+
+      const appointmentFactory =
+        RescheduleAppointmentFactory.fromRequest(request)
+
+      const appointmentId =
+        await rescheduleAppointmentAction.execute(appointmentFactory)
 
       return response.status(201).json(appointmentId)
     } catch (error) {

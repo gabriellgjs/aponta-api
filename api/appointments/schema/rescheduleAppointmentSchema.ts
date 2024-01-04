@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 
 dayjs.extend(IsSameOrAfter)
 
-export const appointmentSchema = z
+export const rescheduleAppointmentSchema = z
   .object({
     dataTimeStart: z
       .string({
@@ -21,9 +21,6 @@ export const appointmentSchema = z
         invalid_type_error: 'Data e hora de término deve ser uma String',
       })
       .datetime('Formato incorreto da data de término'),
-    dentistId: z.number(),
-    patientId: z.number(),
-    appointmentId: z.optional(z.number()),
   })
   .superRefine(({ dataTimeStart, dataTimeEnd }, ctx) => {
     if (!dayjs(dataTimeEnd).isAfter(dayjs(dataTimeStart))) {
