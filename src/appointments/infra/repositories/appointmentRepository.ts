@@ -30,14 +30,11 @@ export default class AppointmentRepository {
     dataTimeEnd: string,
     appointmentId: number,
   ) {
-    const appointmentCreated =
-      await this.appointmentsModel.rescheduleAppointment(
-        dataTimeStart,
-        dataTimeEnd,
-        appointmentId,
-      )
-
-    return appointmentCreated
+    return await this.appointmentsModel.rescheduleAppointment(
+      dataTimeStart,
+      dataTimeEnd,
+      appointmentId,
+    )
   }
 
   async update(appointment: Appointment): Promise<void> {
