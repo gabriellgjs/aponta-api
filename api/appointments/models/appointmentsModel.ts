@@ -93,4 +93,17 @@ export default class AppointmentsModel {
       )
     }
   }
+
+  async getAppointmentById(appointmentId: number) {
+    try {
+      return await PrismaConnection.appointments.findUnique({
+        where: {
+          id: appointmentId,
+        },
+      })
+    } catch (error) {
+      console.log(error)
+      throw new InternalServerError('Erro ao buscar agendamento')
+    }
+  }
 }

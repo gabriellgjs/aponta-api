@@ -20,6 +20,11 @@ export default class AppointmentsRoutes {
       this.appointmentController,
     )
 
+    const getAppointmentById =
+      this.appointmentController.getAppointmentById.bind(
+        this.appointmentController,
+      )
+
     const rescheduleAppointment =
       this.appointmentController.rescheduleAppointment.bind(
         this.appointmentController,
@@ -63,6 +68,8 @@ export default class AppointmentsRoutes {
     )
 
     this.appointmentsRoutes.get('/', getAppointmentActivesByDay)
+
+    this.appointmentsRoutes.get('/:id', getAppointmentById)
 
     this.appointmentsRoutes.get('/cancel/', getAppointmentCanceledByDay)
 

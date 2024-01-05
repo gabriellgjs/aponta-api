@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { InternalServerError } from '@apiErrors/errors'
+import { InternalServerError, NotFoundError } from '@apiErrors/errors'
 import Sentry from '../../application/sentry'
 import CreateAppointmentAction from '@appointments/apllication/actions/createAppointmentAction'
 import CreateAppointmentFactory from '@appointmentsAPI/factories/createAppointmentFactory'
@@ -144,6 +144,30 @@ export default class AppointmentController {
         return response
           .status(error.statusCode)
           .json({ message: error.message })
+          .end()
+      }
+    }
+  }
+
+  public async getAppointmentById(request: Request, response: Response) {
+    try {
+      const appointmentsModel = new AppointmentsModel()
+
+      const { id } = request.params
+
+      const appointment = await appointmentsModel.getAppointmentById(Number(id))
+
+      if (!appointment) {
+        return response
+          .status(404)
+          .json({ status: 404, message: 'Agendamento não encontrado' })
+      }
+      return response.status(200).json(appointment)
+    } catch (error) {
+      if (error instanceof NotFoundError) {
+        return response
+          .status(error.statusCode)
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
