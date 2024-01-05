@@ -4,7 +4,7 @@ import { fromZodError } from 'zod-validation-error'
 import { verifyConflictsTime } from '@appointmentsAPI/middlewares/verifyConflictsTime'
 import { verifyIsRequestSameDates } from '@appointmentsAPI/middlewares/verifyIsRequestSameDates'
 import { rescheduleAppointmentSchema } from '@appointmentsAPI/schema/rescheduleAppointmentSchema'
-import { VerifyAppointment } from '@appointmentsAPI/middlewares/verifyAppointment'
+import { verifyAppointmentExistById } from '@appointmentsAPI/middlewares/verifyAppointmentExistById'
 
 export default async function RescheduleAppointmentMiddleware(
   request: Request,
@@ -23,7 +23,9 @@ export default async function RescheduleAppointmentMiddleware(
     })
   }
 
-  const appointmentExist = await VerifyAppointment(Number(request.params.id))
+  const appointmentExist = await verifyAppointmentExistById(
+    Number(request.params.id),
+  )
 
   if (!appointmentExist) {
     return response.status(400).json({

@@ -1,8 +1,9 @@
 import express, { Router } from 'express'
 import AppointmentController from '@appointmentsAPI/controllers/appointmentController'
 import CreateAppointmentMiddleware from '@appointmentsAPI/middlewares/createAppointmentMiddleware'
-import DeleteAndCancelMiddleware from '@appointmentsAPI/middlewares/deleteAndCancelMiddleware'
+import CancelAppointmentMiddleware from '@appointmentsAPI/middlewares/cancelAppointmentMiddleware'
 import RescheduleAppointmentMiddleware from '@appointmentsAPI/middlewares/rescheduleAppointmentMiddleware'
+import DeleteAppointmentMiddleware from '@appointmentsAPI/middlewares/deleteAppointmentMiddleware'
 
 export default class AppointmentsRoutes {
   private readonly appointmentController: AppointmentController
@@ -58,17 +59,17 @@ export default class AppointmentsRoutes {
 
     this.appointmentsRoutes.get('/', getAppointmentActivesByDay)
 
-    this.appointmentsRoutes.get('/canceled/', getAppointmentCanceledByDay)
+    this.appointmentsRoutes.get('/cancel/', getAppointmentCanceledByDay)
 
     this.appointmentsRoutes.delete(
       '/:id',
-      DeleteAndCancelMiddleware,
+      DeleteAppointmentMiddleware,
       deleteAppointment,
     )
 
     this.appointmentsRoutes.patch(
-      '/:id',
-      DeleteAndCancelMiddleware,
+      '/cancel/:id',
+      CancelAppointmentMiddleware,
       cancelAppointment,
     )
   }
