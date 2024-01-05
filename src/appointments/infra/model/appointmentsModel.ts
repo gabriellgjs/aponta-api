@@ -104,14 +104,14 @@ export default class AppointmentsModel {
     }
   }
 
-  async updateAppointments(appointment: Appointment) {
+  async updatePatientInAppointment(appointmentId: number, patientId: number) {
     try {
-      return await this.PrismaConnection.role.update({
+      return await this.PrismaConnection.appointments.update({
         where: {
-          id: appointment.id,
+          id: appointmentId,
         },
         data: {
-          name: appointment.status,
+          patientId,
         },
       })
     } catch (error) {

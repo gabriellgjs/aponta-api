@@ -10,6 +10,8 @@ import CancelAppointmentFactory from '@appointmentsAPI/factories/cancelAppointme
 import CancelAppointmentAction from '@appointments/apllication/actions/cancelAppointmentAction'
 import RescheduleAppointmentAction from '@appointments/apllication/actions/rescheduleAppointmentAction'
 import RescheduleAppointmentFactory from '@appointmentsAPI/factories/rescheduleAppointmentFactory'
+import UpdatePatientInAppointmentAction from '@appointments/apllication/actions/updatePatientInAppointmentAction'
+import UpdateAppointmentFactory from '@appointmentsAPI/factories/updateAppointmentFactory'
 
 export default class AppointmentController {
   public async createAppointment(request: Request, response: Response) {
@@ -200,7 +202,6 @@ export default class AppointmentController {
 
       const data = CancelAppointmentFactory.fromRequest(request)
 
-      console.log(data)
       await appointmentCancelAction.execute(data)
 
       return response.status(204).json()
@@ -211,6 +212,47 @@ export default class AppointmentController {
         return response
           .status(error.statusCode)
           .json({ message: error.message })
+          .end()
+      }
+    }
+  }
+
+  public async updatePatientInAppointment(
+    request: Request,
+    response: Response,
+  ) {
+    try {
+      const updatePatientInAppointmentAction =
+        new UpdatePatientInAppointmentAction()
+      const appointmentsModel = new AppointmentsModel()
+
+      const userDataInput = UpdateAppointmentFactory.fromRequest(request)
+
+      const appointment = await appointmentsModel.getAppointmentById(
+        userDataInput.id,
+      )
+      if (!appointment) {
+        return response
+          .status(404)
+          .json({ status: 404, message: 'Agendamento não encontrado' })
+      }
+
+      const actualAppointmentInput =
+        UpdateAppointmentFactory.fromCurrentAppointment(appointment)
+
+      await updatePatientInAppointmentAction.execute(
+        userDataInput,
+        actualAppointmentInput,
+      )
+
+      return response.status(204).json().end()
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }

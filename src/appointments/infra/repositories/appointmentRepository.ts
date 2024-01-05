@@ -8,14 +8,6 @@ export default class AppointmentRepository {
     this.appointmentsModel = new AppointmentsModel()
   }
 
-  async save(appointment: Appointment) {
-    if (appointment.id) {
-      return this.update(appointment)
-    }
-
-    return this.create(appointment)
-  }
-
   async create(appointment: Appointment): Promise<Appointment> {
     const appointmentCreated =
       await this.appointmentsModel.createAppointment(appointment)
@@ -37,8 +29,11 @@ export default class AppointmentRepository {
     )
   }
 
-  async update(appointment: Appointment): Promise<void> {
-    await this.appointmentsModel.updateAppointments(appointment)
+  async updatePatient(appointmentId: number, patientId: number): Promise<void> {
+    await this.appointmentsModel.updatePatientInAppointment(
+      appointmentId,
+      patientId,
+    )
   }
 
   async delete(appointmentId: number): Promise<void> {

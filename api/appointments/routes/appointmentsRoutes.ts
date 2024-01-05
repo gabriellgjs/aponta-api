@@ -4,6 +4,7 @@ import CreateAppointmentMiddleware from '@appointmentsAPI/middlewares/createAppo
 import CancelAppointmentMiddleware from '@appointmentsAPI/middlewares/cancelAppointmentMiddleware'
 import RescheduleAppointmentMiddleware from '@appointmentsAPI/middlewares/rescheduleAppointmentMiddleware'
 import DeleteAppointmentMiddleware from '@appointmentsAPI/middlewares/deleteAppointmentMiddleware'
+import updatePatientInAppointment from '@appointmentsAPI/middlewares/updatePatientInAppointment'
 
 export default class AppointmentsRoutes {
   private readonly appointmentController: AppointmentController
@@ -55,6 +56,11 @@ export default class AppointmentsRoutes {
         this.appointmentController,
       )
 
+    const updateAppointment =
+      this.appointmentController.updatePatientInAppointment.bind(
+        this.appointmentController,
+      )
+
     this.appointmentsRoutes.post(
       '/',
       CreateAppointmentMiddleware,
@@ -70,6 +76,12 @@ export default class AppointmentsRoutes {
     this.appointmentsRoutes.get('/', getAppointmentActivesByDay)
 
     this.appointmentsRoutes.get('/:id', getAppointmentById)
+
+    this.appointmentsRoutes.put(
+      '/:id',
+      updatePatientInAppointment,
+      updateAppointment,
+    )
 
     this.appointmentsRoutes.get('/cancel/', getAppointmentCanceledByDay)
 
