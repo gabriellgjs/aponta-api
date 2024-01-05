@@ -901,6 +901,321 @@
           }
         }
       }
+    },
+
+    "/appointments": {
+      "get": {
+        "summary": "Busca os agendamentos ativos do dia, sem query params",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "day",
+            "description": "Busca os agendamentos com a data do query params"
+          },
+          {
+            "in": "query",
+            "name": "dentistId",
+            "description": "Busca os agendamentos com o id do dentista do query params"
+          }
+        ],
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "responses": {
+          "200": {
+            "description": "Array de objeto dos agendamentos"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Criar um novo agendamento",
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dataTimeStart": {
+                    "type": "string",
+                    "example": "2024-03-16T14:30:00Z"
+                  },
+                  "dataTimeEnd": {
+                    "type": "string",
+                    "example": "2024-03-16T15:00:00Z"
+                  },
+
+                  "dentistId": {
+                    "type": "number",
+                    "example": "2"
+                  },
+
+                  "patientId": {
+                    "type": "number",
+                    "example": "3"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Id do agendamento criado"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+    "/appointments/cancel": {
+      "get": {
+        "summary": "Busca os agendamentos cancelados do dia, sem query params",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "day",
+            "description": "Busca os agendamentos com a data do query params"
+          },
+          {
+            "in": "query",
+            "name": "dentistId",
+            "description": "Busca os agendamentos com o id do dentista do query params"
+          }
+        ],
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "responses": {
+          "200": {
+            "description": "Array de objeto dos agendamentos"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+    "/appointments/cancel/{id}": {
+      "patch": {
+        "summary": "Cancela um agendamento ativo pelo id do agendamento",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Insira o id"
+          }
+        ],
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+    "/appointments/reschedule": {
+      "get": {
+        "summary": "Busca os agendamentos que foram reagendados do dia, sem query params",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "day",
+            "description": "Busca os agendamentos com a data do query params"
+          },
+          {
+            "in": "query",
+            "name": "dentistId",
+            "description": "Busca os agendamentos com o id do dentista do query params"
+          }
+        ],
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "responses": {
+          "200": {
+            "description": "Array de objeto dos agendamentos"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+    "/appointments/reschedule/{id}": {
+      "patch": {
+        "summary": "Reagenda um agendamento ativo pelo id do agendamento original",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Insira o id"
+          }
+        ],
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dataTimeStart": {
+                    "type": "string",
+                    "example": "2024-03-16T14:30:00Z"
+                  },
+                  "dataTimeEnd": {
+                    "type": "string",
+                    "example": "2024-03-16T15:00:00Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Id do novo agendamento"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
+    "/appointments/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Buscar pelo id"
+        }
+      ],
+      "get": {
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "tags": ["Agendamentos"],
+        "summary": "Busca um agendamento pelo id",
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "404": {
+            "description": "Não encontrado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "tags": ["Agendamentos"],
+        "summary": "Exclui um agendamento pelo id",
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza o paciente no agendamento pelo id",
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "patientId": {
+                    "type": "number",
+                    "example": "3"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "404": {
+            "description": "Não encontrado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
     }
   }
 }
