@@ -5,7 +5,7 @@ import { Appointments } from '@prisma/client'
 export async function verifyIsRequestSameDates(
   dataTimeStart: string,
   dataTimeEnd: string,
-  dentistId: string,
+  dentistId: number,
 ) {
   try {
     const sql = `

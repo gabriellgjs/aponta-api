@@ -1,7 +1,10 @@
 import express, { Router } from 'express'
 import AppointmentController from '@appointmentsAPI/controllers/appointmentController'
 import CreateAppointmentMiddleware from '@appointmentsAPI/middlewares/createAppointmentMiddleware'
-import DeleteAndCancelMiddleware from '@appointmentsAPI/middlewares/deleteAndCancelMiddleware'
+import CancelAppointmentMiddleware from '@appointmentsAPI/middlewares/cancelAppointmentMiddleware'
+import RescheduleAppointmentMiddleware from '@appointmentsAPI/middlewares/rescheduleAppointmentMiddleware'
+import DeleteAppointmentMiddleware from '@appointmentsAPI/middlewares/deleteAppointmentMiddleware'
+import updatePatientInAppointment from '@appointmentsAPI/middlewares/updatePatientInAppointment'
 
 export default class AppointmentsRoutes {
   private readonly appointmentController: AppointmentController
@@ -17,6 +20,16 @@ export default class AppointmentsRoutes {
     const createAppointment = this.appointmentController.createAppointment.bind(
       this.appointmentController,
     )
+
+    const getAppointmentById =
+      this.appointmentController.getAppointmentById.bind(
+        this.appointmentController,
+      )
+
+    const rescheduleAppointment =
+      this.appointmentController.rescheduleAppointment.bind(
+        this.appointmentController,
+      )
 
     const deleteAppointment =
       this.appointmentController.deleteAppointmentById.bind(
@@ -38,25 +51,51 @@ export default class AppointmentsRoutes {
         this.appointmentController,
       )
 
+    const getAppointmentRescheduleByDay =
+      this.appointmentController.getAppointmentRescheduleByDay.bind(
+        this.appointmentController,
+      )
+
+    const updateAppointment =
+      this.appointmentController.updatePatientInAppointment.bind(
+        this.appointmentController,
+      )
+
     this.appointmentsRoutes.post(
       '/',
       CreateAppointmentMiddleware,
       createAppointment,
     )
 
+    this.appointmentsRoutes.post(
+      '/reschedule/:id',
+      RescheduleAppointmentMiddleware,
+      rescheduleAppointment,
+    )
+
     this.appointmentsRoutes.get('/', getAppointmentActivesByDay)
 
-    this.appointmentsRoutes.get('/canceled/', getAppointmentCanceledByDay)
+    this.appointmentsRoutes.get('/:id', getAppointmentById)
+
+    this.appointmentsRoutes.put(
+      '/:id',
+      updatePatientInAppointment,
+      updateAppointment,
+    )
+
+    this.appointmentsRoutes.get('/cancel/', getAppointmentCanceledByDay)
+
+    this.appointmentsRoutes.get('/reschedule/', getAppointmentRescheduleByDay)
 
     this.appointmentsRoutes.delete(
       '/:id',
-      DeleteAndCancelMiddleware,
+      DeleteAppointmentMiddleware,
       deleteAppointment,
     )
 
     this.appointmentsRoutes.patch(
-      '/:id',
-      DeleteAndCancelMiddleware,
+      '/cancel/:id',
+      CancelAppointmentMiddleware,
       cancelAppointment,
     )
   }

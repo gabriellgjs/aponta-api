@@ -10,6 +10,6 @@ export async function verifyAppointmentExistById(appointmentId: number) {
     })
   } catch (error) {
     console.log(error)
-    throw new InternalServerError('Erro ao buscar dentista')
+    throw new InternalServerError('Erro ao buscar o agendamento')
   }
 }

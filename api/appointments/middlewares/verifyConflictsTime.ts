@@ -6,7 +6,7 @@ import { AppointmentsRequestSql } from '@appointmentsAPI/types/appointmentReques
 export async function verifyConflictsTime(
   dataTimeStart: string,
   dataTimeEnd: string,
-  dentistId: string,
+  dentistId: number,
 ) {
   try {
     const sql = `
@@ -29,6 +29,6 @@ export async function verifyConflictsTime(
     return existConflict(interval, dataTimeStart, dataTimeEnd)
   } catch (error) {
     console.log(error)
-    throw new InternalServerError('Erro ao buscar dentista')
+    throw new InternalServerError('Erro ao buscar os agendamentos')
   }
 }

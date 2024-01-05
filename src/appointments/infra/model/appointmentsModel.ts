@@ -22,6 +22,60 @@ export default class AppointmentsModel {
     }
   }
 
+  async rescheduleAppointment(
+    dataTimeStart: string,
+    dataTimeEnd: string,
+    appointmentId: number,
+  ) {
+    let data
+    try {
+      const appointmentOriginal =
+        await this.PrismaConnection.appointments.findUnique({
+          where: {
+            id: appointmentId,
+          },
+        })
+
+      data = await this.PrismaConnection.$transaction([
+        this.PrismaConnection.appointments.create({
+          data: {
+            status: 'Ativo',
+            dataTimeStart,
+            dataTimeEnd,
+            dentistId: appointmentOriginal?.dentistId ?? 1,
+            patientId: appointmentOriginal?.patientId ?? 1,
+            appointmentId,
+          },
+        }),
+        this.PrismaConnection.appointments.update({
+          where: {
+            id: appointmentId,
+          },
+          data: {
+            status: 'Reagendado',
+          },
+        }),
+      ])
+
+      console.log(data)
+
+      const appointmentRecorded =
+        await this.PrismaConnection.appointments.findFirst({
+          where: {
+            id: data[0].id,
+          },
+          select: {
+            id: true,
+          },
+        })
+
+      return appointmentRecorded?.id
+    } catch (error) {
+      console.log(error)
+      throw new InternalServerError('Erro ao reagendar o agendamento')
+    }
+  }
+
   async deleteAppointment(appointmentId: number) {
     try {
       return await this.PrismaConnection.appointments.delete({
@@ -50,14 +104,14 @@ export default class AppointmentsModel {
     }
   }
 
-  async updateAppointments(appointment: Appointment) {
+  async updatePatientInAppointment(appointmentId: number, patientId: number) {
     try {
-      return await this.PrismaConnection.role.update({
+      return await this.PrismaConnection.appointments.update({
         where: {
-          id: appointment.id,
+          id: appointmentId,
         },
         data: {
-          name: appointment.status,
+          patientId,
         },
       })
     } catch (error) {
