@@ -6,7 +6,7 @@ import { AppointmentsRequestSql } from '@appointmentsAPI/types/appointmentReques
 export async function verifyConflictsTime(
   dataTimeStart: string,
   dataTimeEnd: string,
-  dentistId: string,
+  dentistId: number,
 ) {
   try {
     const sql = `
