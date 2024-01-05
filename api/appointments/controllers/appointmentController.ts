@@ -65,10 +65,14 @@ export default class AppointmentController {
     try {
       const appointmentsModel = new AppointmentsModel()
 
-      const query = request.query.day ? request.query.day : ''
+      const queryDay = request.query.day ? String(request.query.day) : ''
+      const queryDentistId = request.query.dentistId
+        ? Number(request.query.dentistId)
+        : 0
 
       const appointments = await appointmentsModel.getAppointmentsActivesByDay(
-        String(query),
+        queryDay,
+        queryDentistId,
       )
 
       return response.status(200).json(appointments)
@@ -91,10 +95,14 @@ export default class AppointmentController {
     try {
       const appointmentsModel = new AppointmentsModel()
 
-      const query = request.query.day ? request.query.day : ''
+      const queryDay = request.query.day ? String(request.query.day) : ''
+      const queryDentistId = request.query.dentistId
+        ? Number(request.query.dentistId)
+        : 0
 
       const appointments = await appointmentsModel.getAppointmentsCanceledByDay(
-        String(query),
+        queryDay,
+        queryDentistId,
       )
 
       return response.status(200).json(appointments)
@@ -117,10 +125,16 @@ export default class AppointmentController {
     try {
       const appointmentsModel = new AppointmentsModel()
 
-      const query = request.query.day ? request.query.day : ''
+      const queryDay = request.query.day ? String(request.query.day) : ''
+      const queryDentistId = request.query.dentistId
+        ? Number(request.query.dentistId)
+        : 0
 
       const appointments =
-        await appointmentsModel.getAppointmentsRescheduleByDay(String(query))
+        await appointmentsModel.getAppointmentsRescheduleByDay(
+          queryDay,
+          queryDentistId,
+        )
 
       return response.status(200).json(appointments)
     } catch (error) {
