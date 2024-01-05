@@ -46,7 +46,7 @@ export default class AppointmentsRoutes {
       )
 
     const getAppointmentRescheduleByDay =
-      this.appointmentController.getAppointmentCanceledByDay.bind(
+      this.appointmentController.getAppointmentRescheduleByDay.bind(
         this.appointmentController,
       )
 
