@@ -19,7 +19,7 @@ export default class AppointmentsModel {
       return await this.PrismaConnection.$queryRawUnsafe(sql)
     } catch (error) {
       console.log(error)
-      throw new InternalServerError('Erro ao listar os agendamentos')
+      throw new InternalServerError('Erro ao listar os agendamentos ativos')
     }
   }
 
@@ -37,7 +37,27 @@ export default class AppointmentsModel {
       return await this.PrismaConnection.$queryRawUnsafe(sql)
     } catch (error) {
       console.log(error)
-      throw new InternalServerError('Erro ao listar os agendamentos')
+      throw new InternalServerError('Erro ao listar os agendamentos cancelados')
+    }
+  }
+
+  async getAppointmentsRescheduleByDay(date: string) {
+    try {
+      if (date.length === 0) {
+        return await this.PrismaConnection
+          .$queryRaw`SELECT * FROM appointments p where p."dataTimeStart"  between current_date and  (current_date  + 1) and p."status" = 'Reagendado'`
+      }
+
+      const nextDay = dayjs(date).add(1, 'day').format('YYYY-MM-DD')
+
+      const sql = `SELECT * FROM appointments p where p."status" = 'Reagendado' and p."dataTimeStart" between '${date}' and '${nextDay}' order by "dataTimeStart"`
+
+      return await this.PrismaConnection.$queryRawUnsafe(sql)
+    } catch (error) {
+      console.log(error)
+      throw new InternalServerError(
+        'Erro ao listar os agendamentos reagendados',
+      )
     }
   }
 }

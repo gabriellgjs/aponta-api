@@ -45,6 +45,11 @@ export default class AppointmentsRoutes {
         this.appointmentController,
       )
 
+    const getAppointmentRescheduleByDay =
+      this.appointmentController.getAppointmentCanceledByDay.bind(
+        this.appointmentController,
+      )
+
     this.appointmentsRoutes.post(
       '/',
       CreateAppointmentMiddleware,
@@ -60,6 +65,8 @@ export default class AppointmentsRoutes {
     this.appointmentsRoutes.get('/', getAppointmentActivesByDay)
 
     this.appointmentsRoutes.get('/cancel/', getAppointmentCanceledByDay)
+
+    this.appointmentsRoutes.get('/reschedule/', getAppointmentRescheduleByDay)
 
     this.appointmentsRoutes.delete(
       '/:id',
