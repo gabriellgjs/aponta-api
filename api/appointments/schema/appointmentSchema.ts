@@ -23,7 +23,6 @@ export const appointmentSchema = z
       .datetime('Formato incorreto da data de término'),
     dentistId: z.number(),
     patientId: z.number(),
-    appointmentId: z.optional(z.number()),
   })
   .superRefine(({ dataTimeStart, dataTimeEnd }, ctx) => {
     if (!dayjs(dataTimeEnd).isAfter(dayjs(dataTimeStart))) {
