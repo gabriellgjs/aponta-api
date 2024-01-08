@@ -1,4 +1,4 @@
-import { RoleProps } from './types/rolesProps'
+import { RoleProps } from './types/roleProps'
 
 export default class Role {
   private props: RoleProps

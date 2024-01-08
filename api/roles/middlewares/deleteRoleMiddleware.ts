@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import verifyRoleExistById from '@rolesAPI/middlewares/verifyRoleExistById'
-import verifyRoleExistsInEmployees from '@rolesAPI/middlewares/verifyRoleExistsInEmployees'
+import verifyRoleExistsInUsers from '@rolesAPI/middlewares/verifyRoleExistsInUsers'
 
 export default async function DeleteRoleMiddleware(
   request: Request,
@@ -13,11 +13,11 @@ export default async function DeleteRoleMiddleware(
 
   if (!roleExist) {
     return response
-      .status(400)
-      .json({ status: 400, message: 'Cargo não encontrado' })
+      .status(404)
+      .json({ status: 404, message: 'Cargo não encontrado' })
   }
 
-  const employeesList = await verifyRoleExistsInEmployees(id)
+  const employeesList = await verifyRoleExistsInUsers(id)
 
   if (employeesList.length >= 1) {
     return response.status(400).json({
