@@ -26,6 +26,11 @@ export default class EmployeesRoutes {
       this.employeesController,
     )
 
+    const getEMployeesInactive =
+      this.employeesController.getEmployeesInactive.bind(
+        this.employeesController,
+      )
+
     const createEmployee = this.employeesController.createEmployee.bind(
       this.employeesController,
     )
@@ -52,6 +57,7 @@ export default class EmployeesRoutes {
     )
 
     this.employeesRoutes.get('/', getEmployees)
+    this.employeesRoutes.get('/inactive', getEMployeesInactive)
     this.employeesRoutes.get('/:id', getEmployee)
     this.employeesRoutes.put('/email/:id', ChangeEmailMiddleware, changeEmail)
     this.employeesRoutes.put(

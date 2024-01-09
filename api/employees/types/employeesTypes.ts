@@ -1,4 +1,4 @@
-export type Employee = {
+export interface Employee {
   id: number
   people: {
     id: number

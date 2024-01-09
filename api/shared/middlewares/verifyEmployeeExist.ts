@@ -7,6 +7,13 @@ export const verifyEmployeeExist = async (employeeId: string) => {
       where: {
         id: Number(employeeId),
       },
+      select: {
+        user: {
+          select: {
+            roleId: true,
+          },
+        },
+      },
     })
   } catch (error) {
     throw new InternalServerError('Erro ao buscar funcionário')

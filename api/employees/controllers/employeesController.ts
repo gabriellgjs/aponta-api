@@ -73,6 +73,28 @@ export default class EmployeesController {
     }
   }
 
+  public async getEmployeesInactive(request: Request, response: Response) {
+    try {
+      const employeesModel = new EmployeesModel()
+
+      const employees = await employeesModel.getEmployeesInactive()
+
+      return response
+        .status(200)
+        .json(EmployeeOutputData.responseGetEmployees(employees))
+        .end()
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ status: error.statusCode, message: error.message })
+          .end()
+      }
+    }
+  }
+
   public async createEmployee(request: Request, response: Response) {
     try {
       const employeeAction = new CreateEmployeeAction()

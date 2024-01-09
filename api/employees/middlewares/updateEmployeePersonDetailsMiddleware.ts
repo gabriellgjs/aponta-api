@@ -1,7 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
-import { verifySchemaEmployee } from '@employeesAPI/middlewares/verifySchemaEmployee'
 import { verifyCPFExist } from '@sharedAPI/middlewares/verifyCPFExist'
 import { verifyEmployeeExist } from '@sharedAPI/middlewares/verifyEmployeeExist'
+import { personValidatorZod } from '@sharedAPI/middlewares/personValidatorZod'
+import { fromZodError } from 'zod-validation-error'
+import { verifySchemaZod } from '@sharedAPI/middlewares/verifySchemaZod'
+import { employeeSchema } from '@employeesAPI/schema/employeeSchema'
 
 export default async function UpdateEmployeePersonDetailsMiddleware(
   request: Request,
@@ -18,7 +21,28 @@ export default async function UpdateEmployeePersonDetailsMiddleware(
       .json({ status: 404, message: 'Funcionário não encontrado' })
   }
 
-  await verifySchemaEmployee(request, response)
+  const personSchemaVerification = await personValidatorZod(request)
+
+  if (!personSchemaVerification.success) {
+    return response.status(400).json({
+      status: 400,
+      message:
+        fromZodError(personSchemaVerification.error).details[0].message ?? '',
+    })
+  }
+
+  const employeeSchemaVerification = await verifySchemaZod(
+    employeeSchema,
+    request,
+  )
+
+  if (!employeeSchemaVerification.success) {
+    return response.status(400).json({
+      status: 400,
+      message:
+        fromZodError(employeeSchemaVerification.error).details[0].message ?? '',
+    })
+  }
 
   const { cpf } = request.body
 

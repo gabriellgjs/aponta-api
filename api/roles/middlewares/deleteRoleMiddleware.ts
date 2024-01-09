@@ -26,5 +26,12 @@ export default async function DeleteRoleMiddleware(
     })
   }
 
+  if (roleExist.name === 'Administrador') {
+    return response.status(400).json({
+      status: 400,
+      message: 'Não é possível deletar cargo de Administrador',
+    })
+  }
+
   next()
 }

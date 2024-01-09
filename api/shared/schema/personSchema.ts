@@ -4,6 +4,7 @@ import regexTelephone from '@sharedAPI/utils/regex/regexTelephone'
 import pluginCustomParse from 'dayjs/plugin/customParseFormat'
 import pluginIsSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import dayjs from 'dayjs'
+import { isCPF } from 'validation-br'
 
 dayjs.extend(pluginCustomParse)
 dayjs.extend(pluginIsSameOrAfter)
@@ -44,7 +45,10 @@ export const personSchema = z.object({
     })
     .trim()
     .min(1, 'CPF é obrigatório')
-    .max(14, 'CPF não pode ter mais de 14 caracteres'),
+    .max(14, 'CPF não pode ter mais de 14 caracteres')
+    .refine((value) => isCPF(value), {
+      message: 'CPF inválido',
+    }),
   gender: z.string({
     invalid_type_error: 'Gênero inválido',
     required_error: 'Gênero é obrigatório',

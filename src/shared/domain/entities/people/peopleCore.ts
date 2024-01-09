@@ -5,7 +5,7 @@ import { PeopleProps } from './types/peopleCoreProps'
 export default abstract class PeopleCore {
   protected props: PeopleProps
 
-  constructor(props: PeopleProps) {
+  protected constructor(props: PeopleProps) {
     this.props = {
       ...props,
     }

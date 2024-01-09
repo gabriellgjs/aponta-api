@@ -15,5 +15,12 @@ export default async function StatusEmployeeMiddleware(
       .status(404)
       .json({ status: 404, message: 'Funcionário não encontrado' })
   }
+
+  if (employeeExist.user[0].roleId === 1) {
+    return response.status(404).json({
+      status: 404,
+      message: 'Administrador não pode ter status Inativo',
+    })
+  }
   next()
 }
