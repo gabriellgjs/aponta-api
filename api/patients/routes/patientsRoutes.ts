@@ -23,6 +23,9 @@ export default class PatientsRoutes {
       this.patientsController,
     )
 
+    const getPatientsInactive =
+      this.patientsController.getPatientsInactive.bind(this.patientsController)
+
     const getPatient = this.patientsController.getPatient.bind(
       this.patientsController,
     )
@@ -38,6 +41,8 @@ export default class PatientsRoutes {
     this.patientsRoutes.post('/', CreatePatientMiddleware, createPatient)
 
     this.patientsRoutes.get('/', getPatients)
+
+    this.patientsRoutes.get('/inactive', getPatientsInactive)
 
     this.patientsRoutes.get('/:id', getPatient)
 

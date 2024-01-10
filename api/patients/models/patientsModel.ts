@@ -7,6 +7,9 @@ export default class PatientsModel {
   async getPatients() {
     try {
       return await this.prismaConnection.patient.findMany({
+        where: {
+          status: 'Ativo',
+        },
         orderBy: {
           people: {
             name: 'asc',
@@ -22,7 +25,32 @@ export default class PatientsModel {
         },
       })
     } catch (error) {
-      throw new InternalServerError('Erro ao listar os pacientes.')
+      throw new InternalServerError('Erro ao listar os pacientes ativos.')
+    }
+  }
+
+  async getPatientsInactive() {
+    try {
+      return await this.prismaConnection.patient.findMany({
+        where: {
+          status: 'Inativo',
+        },
+        orderBy: {
+          people: {
+            name: 'asc',
+          },
+        },
+        include: {
+          people: {
+            include: {
+              telephone: true,
+              address: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro ao listar os pacientes inativos.')
     }
   }
 
