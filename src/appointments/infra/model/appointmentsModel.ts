@@ -100,7 +100,7 @@ export default class AppointmentsModel {
         },
       })
     } catch (error) {
-      throw new InternalServerError('Erro ao deletar o agendamento')
+      throw new InternalServerError('Erro ao cancelar o agendamento')
     }
   }
 
