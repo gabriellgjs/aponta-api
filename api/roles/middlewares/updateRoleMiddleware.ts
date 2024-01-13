@@ -25,8 +25,8 @@ export default async function UpdateRoleMiddleware(
 
   if (!roleExistById) {
     return response
-      .status(400)
-      .json({ status: 400, message: 'Cargo não encontrado' })
+      .status(404)
+      .json({ status: 404, message: 'Cargo não encontrado' })
   }
 
   if (roleExistById.name === 'Dentista' || roleExistById.id === 2) {

@@ -10,7 +10,7 @@ const roles = [
     name: 'Dentista',
   },
   {
-    name: 'Secretário(a)',
+    name: 'Secretário',
   },
 ]
 

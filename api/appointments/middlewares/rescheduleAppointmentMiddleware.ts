@@ -5,6 +5,8 @@ import { verifyConflictsTime } from '@appointmentsAPI/middlewares/verifyConflict
 import { verifyIsRequestSameDates } from '@appointmentsAPI/middlewares/verifyIsRequestSameDates'
 import { rescheduleAppointmentSchema } from '@appointmentsAPI/schema/rescheduleAppointmentSchema'
 import { verifyAppointmentExistById } from '@appointmentsAPI/middlewares/verifyAppointmentExistById'
+import { PatientIsInactive } from '@appointmentsAPI/middlewares/PatientIsInactive'
+import { verifyDentist } from '@sharedAPI/middlewares/verifyDentist'
 
 export default async function RescheduleAppointmentMiddleware(
   request: Request,
@@ -45,6 +47,24 @@ export default async function RescheduleAppointmentMiddleware(
     return response.status(400).json({
       status: 400,
       message,
+    })
+  }
+
+  const dentistExist = await verifyDentist(appointmentExist.dentistId)
+
+  if (dentistExist[0].status === 'Inativo') {
+    return response.status(400).json({
+      status: 400,
+      message: 'Dentista está inativo',
+    })
+  }
+
+  const patientIsInactive = await PatientIsInactive(appointmentExist.patientId)
+
+  if (patientIsInactive.inactive) {
+    return response.status(400).json({
+      status: 400,
+      message: patientIsInactive.message,
     })
   }
 

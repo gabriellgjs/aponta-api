@@ -59,6 +59,28 @@ export default class PatientsController {
     }
   }
 
+  public async getPatientsInactive(request: Request, response: Response) {
+    try {
+      const patientsModel = new PatientsModel()
+
+      const patients = await patientsModel.getPatientsInactive()
+
+      return response
+        .status(200)
+        .json(PatientsOutputData.responseGetPatients(patients))
+        .end()
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
+    }
+  }
+
   public async getPatient(request: Request, response: Response) {
     try {
       const patientsModel = new PatientsModel()

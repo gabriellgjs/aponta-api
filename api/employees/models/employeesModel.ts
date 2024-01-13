@@ -7,6 +7,13 @@ export default class EmployeesModel {
   async getEmployees() {
     try {
       return await this.PrismaConnection.employee.findMany({
+        where: {
+          user: {
+            every: {
+              status: 'Ativo',
+            },
+          },
+        },
         orderBy: {
           people: {
             name: 'asc',
@@ -36,6 +43,134 @@ export default class EmployeesModel {
       })
     } catch (error) {
       throw new InternalServerError('Erro ao listar os funcionários.')
+    }
+  }
+
+  async getEmployeesInactive() {
+    try {
+      return await this.PrismaConnection.employee.findMany({
+        where: {
+          user: {
+            every: {
+              status: 'Inativo',
+            },
+          },
+        },
+        orderBy: {
+          people: {
+            name: 'asc',
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              status: true,
+              email: true,
+              roleId: true,
+              role: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          people: {
+            include: {
+              telephone: true,
+              address: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro ao listar os funcionários inativos.')
+    }
+  }
+
+  async getDentistActives() {
+    try {
+      return await this.PrismaConnection.employee.findMany({
+        where: {
+          user: {
+            every: {
+              status: 'Ativo',
+              roleId: 2,
+            },
+          },
+        },
+        orderBy: {
+          people: {
+            name: 'asc',
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              status: true,
+              email: true,
+              roleId: true,
+              role: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          people: {
+            include: {
+              telephone: true,
+              address: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro ao listar os funcionários.')
+    }
+  }
+
+  async getDentistInactive() {
+    try {
+      return await this.PrismaConnection.employee.findMany({
+        where: {
+          user: {
+            every: {
+              status: 'Inativo',
+              roleId: 2,
+            },
+          },
+        },
+        orderBy: {
+          people: {
+            name: 'asc',
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              status: true,
+              email: true,
+              roleId: true,
+              role: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          people: {
+            include: {
+              telephone: true,
+              address: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro ao listar os funcionários inativos.')
     }
   }
 
