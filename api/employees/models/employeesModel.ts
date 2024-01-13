@@ -88,6 +88,92 @@ export default class EmployeesModel {
     }
   }
 
+  async getDentistActives() {
+    try {
+      return await this.PrismaConnection.employee.findMany({
+        where: {
+          user: {
+            every: {
+              status: 'Ativo',
+              roleId: 2,
+            },
+          },
+        },
+        orderBy: {
+          people: {
+            name: 'asc',
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              status: true,
+              email: true,
+              roleId: true,
+              role: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          people: {
+            include: {
+              telephone: true,
+              address: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro ao listar os funcionários.')
+    }
+  }
+
+  async getDentistInactive() {
+    try {
+      return await this.PrismaConnection.employee.findMany({
+        where: {
+          user: {
+            every: {
+              status: 'Inativo',
+              roleId: 2,
+            },
+          },
+        },
+        orderBy: {
+          people: {
+            name: 'asc',
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              status: true,
+              email: true,
+              roleId: true,
+              role: {
+                select: {
+                  name: true,
+                },
+              },
+            },
+          },
+          people: {
+            include: {
+              telephone: true,
+              address: true,
+            },
+          },
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro ao listar os funcionários inativos.')
+    }
+  }
+
   async getEmployeeById(employeeId: number) {
     try {
       return await this.PrismaConnection.employee.findUnique({
