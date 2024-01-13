@@ -200,16 +200,95 @@
       }
     },
 
+    "/employees/dentist": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": [
+              "BearerAuth"
+            ]
+          }
+        ],
+        "tags": [
+          "Funcionário"
+        ],
+        "summary": "Buscar todos os dentistas ativos",
+        "responses": {
+          "200": {
+            "description": "Array de objeto dos dentistas ativos"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+    "/employees/dentist/inactive": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": [
+              "BearerAuth"
+            ]
+          }
+        ],
+        "tags": [
+          "Funcionário"
+        ],
+        "summary": "Buscar todos os dentistas inativos",
+        "responses": {
+          "200": {
+            "description": "Array de objeto dos dentistas inativos"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+    "/employees/inactive": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": [
+              "BearerAuth"
+            ]
+          }
+        ],
+        "tags": [
+          "Funcionário"
+        ],
+        "summary": "Buscar todos os funcionários inativos",
+        "responses": {
+          "200": {
+            "description": "Array de objeto dos funcionários inativos"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
     "/employees": {
       "get": {
         "security": [
           {"BearerAuth" :  ["BearerAuth"]}
         ],
         "tags": ["Funcionário"],
-        "summary": "Buscar todos os funcionários",
+        "summary": "Buscar todos os funcionários ativos",
         "responses": {
           "200": {
-            "description": "Array de objeto dos funcionários"
+            "description": "Array de objeto dos funcionários ativos"
           },
           "401": {
             "description": "Acesso negado"
@@ -673,10 +752,10 @@
         "tags": [
           "Paciente"
         ],
-        "summary": "Buscar todos os pacientes",
+        "summary": "Buscar todos os pacientes ativos",
         "responses": {
           "200": {
-            "description": "Array de objeto dos pacientes"
+            "description": "Array de objeto dos pacientes ativos"
           },
           "401": {
             "description": "Acesso negado"
@@ -770,6 +849,32 @@
         }
       }
   },
+    "/patients/inactive": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": [
+              "BearerAuth"
+            ]
+          }
+        ],
+        "tags": [
+          "Paciente"
+        ],
+        "summary": "Buscar todos os pacientes inativos",
+        "responses": {
+          "200": {
+            "description": "Array de objeto dos pacientes inativos"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
 
     "/patients/{id}": {
       "parameters": [
