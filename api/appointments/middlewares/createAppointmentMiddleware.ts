@@ -6,6 +6,7 @@ import { verifyDentist } from '@sharedAPI/middlewares/verifyDentist'
 import { verifyConflictsTime } from '@appointmentsAPI/middlewares/verifyConflictsTime'
 import { verifyIsRequestSameDates } from '@appointmentsAPI/middlewares/verifyIsRequestSameDates'
 import { verifyIsSamePatientAndDentist } from '@appointmentsAPI/middlewares/verifyIsSamePatientAndDentist'
+import { PatientIsInactive } from '@appointmentsAPI/middlewares/PatientIsInactive'
 
 export default async function CreateAppointmentMiddleware(
   request: Request,
@@ -41,6 +42,22 @@ export default async function CreateAppointmentMiddleware(
     return response.status(400).json({
       status: 400,
       message: 'Dentista informado não corresponde aos cadastrados',
+    })
+  }
+
+  if (dentistExist[0].status === 'Inativo') {
+    return response.status(400).json({
+      status: 400,
+      message: 'Dentista está inativo',
+    })
+  }
+
+  const patientIsInactive = await PatientIsInactive(patientId)
+
+  if (patientIsInactive.inactive) {
+    return response.status(400).json({
+      status: 400,
+      message: patientIsInactive.message,
     })
   }
 

@@ -68,5 +68,12 @@ export default async function updatePatientInAppointment(
     })
   }
 
+  if (patientExist.status === 'Inativo') {
+    return response.status(400).json({
+      status: 400,
+      message: 'Paciente está inativo',
+    })
+  }
+
   next()
 }
