@@ -11,6 +11,6 @@ export default class RoleOutputData {
       }
     })
 
-    return { roles: [...response] }
+    return [...response]
   }
 }
