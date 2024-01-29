@@ -105,7 +105,7 @@ export default class PatientsController {
 
         return response
           .status(error.statusCode)
-          .json({ message: error.message })
+          .json({ status: error.statusCode, message: error.message })
           .end()
       }
     }
