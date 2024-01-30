@@ -5,13 +5,13 @@ import Sentry from '../../application/sentry'
 type ErrorProps = Error & Partial<BaseError>
 
 export const ErrorResponse = async (
-  error: ErrorProps,
   request: Request,
   response: Response,
+  error: ErrorProps,
 ) => {
   await Sentry.sendError(error.statusCode ?? 500, error.message)
   return response
     .status(error.statusCode ?? 500)
-    .json({ message: error.message })
+    .json({ message: error.message ?? 'Internal Server Error' })
     .end()
 }
