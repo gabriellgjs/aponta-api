@@ -17,7 +17,6 @@ export default class App {
   private readonly sentryRequestHandler = Sentry.requestHandler()
   private readonly sentryErrorHandler = Sentry.errorHandler()
   private readonly routes = new Routes().routes
-  private readonly errors = ErrorResponse
   private readonly version = '/v1'
   private readonly host = '0.0.0.0'
   private readonly documentationUrl = this.version + '/api-docs'
@@ -37,7 +36,7 @@ export default class App {
     )
     this.server.use(this.version, this.routes)
     this.server.use(this.sentryErrorHandler)
-    this.server.use(this.errors)
+    this.server.use(ErrorResponse)
 
     this.listen()
   }

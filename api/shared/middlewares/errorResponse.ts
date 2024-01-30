@@ -1,13 +1,14 @@
 import { BaseError } from '@apiErrors/errors'
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import Sentry from '../../application/sentry'
 
 type ErrorProps = Error & Partial<BaseError>
 
 export const ErrorResponse = async (
+  error: ErrorProps,
   request: Request,
   response: Response,
-  error: ErrorProps,
+  next: NextFunction,
 ) => {
   await Sentry.sendError(error.statusCode ?? 500, error.message)
   return response
