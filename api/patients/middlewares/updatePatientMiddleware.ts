@@ -32,7 +32,7 @@ export default async function UpdatePatientMiddleware(
   const { cpf } = request.body
 
   const cpfExist = await verifyCPFExist(cpf)
-  const isSameCPF = cpfExist?.id !== id
+  const isSameCPF = cpfExist?.id == id
   if (cpfExist && isSameCPF) {
     return response
       .status(400)

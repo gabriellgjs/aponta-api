@@ -47,7 +47,7 @@ export default async function UpdateEmployeePersonDetailsMiddleware(
   const { cpf } = request.body
 
   const cpfExist = await verifyCPFExist(cpf)
-  const isSameCPF = cpfExist?.id !== Number(id)
+  const isSameCPF = cpfExist?.id === Number(id)
 
   if (cpfExist && isSameCPF) {
     return response
