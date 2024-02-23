@@ -28,7 +28,7 @@ export const employeeSchema = z
         password: z.string({
           required_error: 'Senha é obrigatória',
           invalid_type_error: 'Senha inválida',
-        }),
+        }).optional(),
         roleId: z.number(),
       })
       .optional(),
