@@ -5,6 +5,7 @@ import pluginCustomParse from 'dayjs/plugin/customParseFormat'
 import pluginIsSameOrAfter from 'dayjs/plugin/isSameOrAfter'
 import dayjs from 'dayjs'
 import { isCPF } from 'validation-br'
+import { postalCodeIsValid } from '@sharedAPI/services/cep/postalCodeIsValid'
 
 dayjs.extend(pluginCustomParse)
 dayjs.extend(pluginIsSameOrAfter)
@@ -80,7 +81,10 @@ export const personSchema = z.object({
         required_error: 'CEP é obrigatório',
       })
       .min(1, 'CEP é obrigatório')
-      .max(9, 'CEP deve ter 9 caracteres'),
+      .max(9, 'CEP deve ter 9 caracteres')
+      .refine(async (value) => await postalCodeIsValid(value), {
+        message: 'CEP inválido',
+      }),
     state: z.string({
       invalid_type_error: 'Estado inválido',
       required_error: 'Estado é obrigatório',
