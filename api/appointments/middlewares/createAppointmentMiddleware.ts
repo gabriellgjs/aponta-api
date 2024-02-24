@@ -7,6 +7,7 @@ import { verifyConflictsTime } from '@appointmentsAPI/middlewares/verifyConflict
 import { verifyIsRequestSameDates } from '@appointmentsAPI/middlewares/verifyIsRequestSameDates'
 import { verifyIsSamePatientAndDentist } from '@appointmentsAPI/middlewares/verifyIsSamePatientAndDentist'
 import { PatientIsInactive } from '@appointmentsAPI/middlewares/PatientIsInactive'
+import { verifyIsRequestPacientSameDates } from './verifyIsRequestPacientSameDates'
 
 export default async function CreateAppointmentMiddleware(
   request: Request,
@@ -61,16 +62,29 @@ export default async function CreateAppointmentMiddleware(
     })
   }
 
-  const isSame = await verifyIsRequestSameDates(
+  const isSameDatesByDentist = await verifyIsRequestSameDates(
     dataTimeStart,
     dataTimeEnd,
     dentistId,
   )
 
-  if (isSame.length > 0) {
+  if (isSameDatesByDentist.length > 0) {
     return response.status(400).json({
       status: 400,
       message: 'Já existe agendamento para esse dentista nesse horário',
+    })
+  }
+
+  const isSameDatesByPatient = await verifyIsRequestPacientSameDates(
+    dataTimeStart,
+    dataTimeEnd,
+    patientId,
+  )
+
+  if (isSameDatesByPatient.length > 0) {
+    return response.status(400).json({
+      status: 400,
+      message: 'Já existe agendamento para esse paciente nesse horário',
     })
   }
 
