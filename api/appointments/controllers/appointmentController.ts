@@ -18,6 +18,8 @@ import AddConfirmedAction from '@src/appointments/apllication/actions/addConfirm
 import AddConfirmInAppointmentFactory from '@appointmentsAPI/factories/addConfirmInAppointmentFactory'
 import RemoveConfirmedAction from '@src/appointments/apllication/actions/removeConfirmedAction'
 import RemoveConfirmInAppointmentFactory from '@appointmentsAPI/factories/removeConfirmInAppointmentFactory'
+import { Appointments } from '@prisma/client'
+import { ResponseAppointment, ResponseListAppointments } from '@appointmentsAPI/dtos/responseGettersAppointment'
 
 export default class AppointmentController {
   public async createAppointment(request: Request, response: Response) {
@@ -92,7 +94,7 @@ export default class AppointmentController {
         queryConfirmed
       )
 
-      return response.status(200).json(appointments)
+      return response.status(200).json(ResponseListAppointments(appointments as Appointments[]))
     } catch (error) {
       if (error instanceof InternalServerError) {
         await Sentry.sendError(error.nameError, error.message)
@@ -131,7 +133,7 @@ export default class AppointmentController {
         queryConfirmed
       )
 
-      return response.status(200).json(appointments)
+      return response.status(200).json(ResponseListAppointments(appointments as Appointments[]))
     } catch (error) {
       if (error instanceof InternalServerError) {
         await Sentry.sendError(error.nameError, error.message)
@@ -170,7 +172,7 @@ export default class AppointmentController {
           queryConfirmed
         )
 
-      return response.status(200).json(appointments)
+      return response.status(200).json(ResponseListAppointments(appointments as Appointments[]))
     } catch (error) {
       if (error instanceof InternalServerError) {
         await Sentry.sendError(error.nameError, error.message)
@@ -196,7 +198,7 @@ export default class AppointmentController {
           .status(404)
           .json({ status: 404, message: 'Agendamento não encontrado' })
       }
-      return response.status(200).json(appointment)
+      return response.status(200).json(ResponseAppointment(appointment))
     } catch (error) {
       if (error instanceof NotFoundError) {
         return response
