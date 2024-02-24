@@ -8,9 +8,11 @@ export default class AppointmentsModel {
 
   async createAppointment(appointment: Appointment) {
     try {
+      console.log('teste um dois', appointment)
       return await this.PrismaConnection.appointments.create({
         data: {
           status: appointment.status,
+          description: appointment.description ?? null,
           dataTimeStart: appointment.dataTimeStart,
           dataTimeEnd: appointment.dataTimeEnd,
           dentistId: appointment.dentistId,
@@ -42,6 +44,7 @@ export default class AppointmentsModel {
             status: 'Ativo',
             dataTimeStart,
             dataTimeEnd,
+            description: appointmentOriginal?.description,
             dentistId: appointmentOriginal?.dentistId ?? 1,
             patientId: appointmentOriginal?.patientId ?? 1,
             appointmentId,

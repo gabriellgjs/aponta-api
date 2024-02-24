@@ -6,6 +6,7 @@ dayjs.extend(IsSameOrAfter)
 
 export const appointmentSchema = z
   .object({
+    description: z.string().trim().optional(),
     dataTimeStart: z
       .string({
         required_error: 'Data e hora de início é obrigatório',

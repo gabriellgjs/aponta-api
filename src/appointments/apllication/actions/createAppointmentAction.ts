@@ -11,6 +11,7 @@ export default class CreateAppointmentAction {
       dataTimeEnd: input.dataTimeEnd,
       patientId: input.patientId,
       dentistId: input.dentistId,
+      description: input.description
     })
 
     return await appointmentRepository.create(appointment)

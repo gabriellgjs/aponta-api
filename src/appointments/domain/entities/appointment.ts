@@ -26,6 +26,14 @@ export default class Appointment {
     this.props.status = status
   }
 
+  get description(): string {
+    return this.props.description ?? ''
+  }
+
+  set description(description: string) {
+    this.props.description = description
+  }
+
   get dataTimeStart(): string {
     return this.props.dataTimeStart
   }

@@ -1,6 +1,7 @@
 export interface AppointmentsProps {
   id?: number
   status?: string
+  description?: string
   dataTimeStart: string
   dataTimeEnd: string
   canceledAt?: string

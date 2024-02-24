@@ -4,5 +4,6 @@ export default class CreateAppointmentInputData {
     readonly dataTimeEnd: string,
     readonly dentistId: number,
     readonly patientId: number,
+    readonly description: string | undefined,
   ) {}
 }
