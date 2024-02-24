@@ -13,7 +13,6 @@ export default class UpdatePersonDetailsAction {
   ) {
     const employeeRepository = new EmployeeRepository()
 
-    console.log('aqui')
     const employee = new Employee({
       id: actual.id,
       name: input.name ?? actual.name,

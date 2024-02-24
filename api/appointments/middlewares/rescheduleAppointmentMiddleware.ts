@@ -77,7 +77,6 @@ export default async function RescheduleAppointmentMiddleware(
   )
 
   if (isSame.length > 0) {
-    console.log(isSame)
     return response.status(400).json({
       status: 400,
       message: 'Já existe agendamento para esse dentista nesse horário',

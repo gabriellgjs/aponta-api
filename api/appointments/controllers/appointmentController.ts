@@ -20,8 +20,6 @@ export default class AppointmentController {
 
       const appointmentFactory = CreateAppointmentFactory.fromRequest(request)
 
-      console.log('factory', appointmentFactory)
-
       const appointmentId = (
         await createAppointmentAction.execute(appointmentFactory)
       )?.id

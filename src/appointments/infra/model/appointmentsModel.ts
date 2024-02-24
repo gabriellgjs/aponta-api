@@ -8,7 +8,6 @@ export default class AppointmentsModel {
 
   async createAppointment(appointment: Appointment) {
     try {
-      console.log('teste um dois', appointment)
       return await this.PrismaConnection.appointments.create({
         data: {
           status: appointment.status,
@@ -59,8 +58,6 @@ export default class AppointmentsModel {
           },
         }),
       ])
-
-      console.log(data)
 
       const appointmentRecorded =
         await this.PrismaConnection.appointments.findFirst({

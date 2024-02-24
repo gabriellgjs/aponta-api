@@ -170,7 +170,6 @@ export default class EmployeesModel {
   }
 
   async updatePersonDetails(employee: Employee) {
-    console.log(employee)
     try {
       return await this.PrismaConnection.$transaction([
         this.PrismaConnection.employee.update({

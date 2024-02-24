@@ -19,8 +19,6 @@ export const existConflict = (
   if (interval.length === 0) {
     return false
   } else if (interval.length === 1) {
-    console.log('devolveu um do banco')
-
     const intervalLastIsSameRequest =
       dayjs.utc(interval[0].dataTimeStart).isSame(dataTimeStart) &&
       dayjs.utc(interval[0].dataTimeEnd).isSame(dataTimeEnd)
@@ -41,7 +39,6 @@ export const existConflict = (
     return !(dateIstAfterLastAppointment || dateIsBeforeLastAppointment)
   }
 
-  console.log('devolveu dois')
   const [intervalLast, intervalNext] = interval // Separa os dois cadastros
 
   const intervalLastAndNextIsSameRequest = // Verifica se as datas da REQUEST JÁ EXISTEM NO BD
@@ -79,19 +76,5 @@ export const existConflict = (
         '[]',
       )
     )
-
-  console.log(
-    startAndEndIsBetweenTheLastAndNextAppointment,
-    '\nlast\n',
-    intervalLast.id,
-    intervalLast.type,
-    intervalLast.dataTimeStart,
-    intervalLast.dataTimeEnd,
-    '\nnext\n',
-    intervalNext.id,
-    intervalNext.type,
-    intervalNext.dataTimeStart,
-    intervalNext.dataTimeEnd,
-  )
   return startAndEndIsBetweenTheLastAndNextAppointment
 }
