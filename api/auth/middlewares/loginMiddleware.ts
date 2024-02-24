@@ -24,6 +24,12 @@ export default async function LoginMiddleware(
 
   const userExist = await verifyEmailExist(email)
 
+  if(userExist?.status === "Inativo") {
+    return response
+    .status(401)
+    .json({ status: 401, message: 'Usuário inativo' })
+  }
+
   if (!userExist) {
     return response
       .status(400)
