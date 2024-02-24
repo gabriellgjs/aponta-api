@@ -34,6 +34,14 @@ export default class Appointment {
     this.props.description = description
   }
 
+  get confirmedAt(): string {
+    return this.props.confirmedAt ?? ''
+  }
+
+  set confirmedAt(confirmedAt: string) {
+    this.props.confirmedAt = confirmedAt
+  }
+
   get dataTimeStart(): string {
     return this.props.dataTimeStart
   }

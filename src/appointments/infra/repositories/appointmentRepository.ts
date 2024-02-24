@@ -47,4 +47,12 @@ export default class AppointmentRepository {
   async cancel(appointmentId: number): Promise<void> {
     await this.appointmentsModel.cancelAppointment(appointmentId)
   }
+
+  async addConfirm(appointmentId: number) {
+    await this.appointmentsModel.confirmedAppointment(appointmentId)
+  }
+
+  async removeConfirm(appointmentId: number) {
+    await this.appointmentsModel.notConfirmedAppointment(appointmentId)
+  }
 }

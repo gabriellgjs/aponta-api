@@ -14,6 +14,10 @@ import UpdatePatientInAppointmentAction from '@appointments/apllication/actions/
 import UpdateAppointmentFactory from '@appointmentsAPI/factories/updateAppointmentFactory'
 import UpdateDescriptionInAppointmentAction from '@src/appointments/apllication/actions/updateDescriptionInAppointmentAction'
 import UpdateDescriptionInAppointmentFactory from '@appointmentsAPI/factories/updateDescriptionInAppointmentFactory'
+import AddConfirmedAction from '@src/appointments/apllication/actions/addConfirmedAction'
+import AddConfirmInAppointmentFactory from '@appointmentsAPI/factories/addConfirmInAppointmentFactory'
+import RemoveConfirmedAction from '@src/appointments/apllication/actions/removeConfirmedAction'
+import RemoveConfirmInAppointmentFactory from '@appointmentsAPI/factories/removeConfirmInAppointmentFactory'
 
 export default class AppointmentController {
   public async createAppointment(request: Request, response: Response) {
@@ -282,6 +286,48 @@ export default class AppointmentController {
         return response
           .status(error.statusCode)
           .json({ status: error.statusCode, message: error.message })
+          .end()
+      }
+    }
+  }
+
+  public async addConfirmInAppointment(request: Request, response: Response) {
+    try {
+      const addConfirmedAction = new AddConfirmedAction()
+
+      const data = AddConfirmInAppointmentFactory.fromRequest(request)
+
+      await addConfirmedAction.execute(data)
+
+      return response.status(204).json()
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
+          .end()
+      }
+    }
+  }
+
+  public async removeConfirmInAppointment(request: Request, response: Response) {
+    try {
+      const removeConfirmedAction = new RemoveConfirmedAction()
+
+      const data = RemoveConfirmInAppointmentFactory.fromRequest(request)
+
+      await removeConfirmedAction.execute(data)
+
+      return response.status(204).json()
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ message: error.message })
           .end()
       }
     }

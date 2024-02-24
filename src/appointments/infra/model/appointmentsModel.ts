@@ -2,6 +2,12 @@ import PrismaConnection from '@prisma/prismaConnection'
 import { InternalServerError } from '@apiErrors/errors'
 import Appointment from '@appointments/domain/entities/appointment'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
+
 
 export default class AppointmentsModel {
   private PrismaConnection = PrismaConnection
@@ -131,6 +137,36 @@ export default class AppointmentsModel {
       })
     } catch (error) {
       throw new InternalServerError('Erro ao atualizar a descrição de um agendamento')
+    }
+  }
+
+  async confirmedAppointment(appointmentId: number) {
+    try {
+      return await this.PrismaConnection.appointments.update({
+        where: {
+          id: appointmentId,
+        },
+        data: {
+          confirmedAt: dayjs.utc(dayjs()).tz('America/Sao_Paulo').format(),
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro adicionar confirmação do agendamento')
+    }
+  }
+
+  async notConfirmedAppointment(appointmentId: number) {
+    try {
+      return await this.PrismaConnection.appointments.update({
+        where: {
+          id: appointmentId,
+        },
+        data: {
+          confirmedAt: null,
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro remover confirmação do agendamento')
     }
   }
 }

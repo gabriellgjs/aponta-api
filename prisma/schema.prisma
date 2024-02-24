@@ -122,6 +122,7 @@ model Appointments {
   id            Int       @id @default(autoincrement())
   status        String    @db.VarChar(50)
   description   String?    @db.Text
+  confirmedAt   String?
   dataTimeStart DateTime
   dataTimeEnd   DateTime
   canceledAt    DateTime?

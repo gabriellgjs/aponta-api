@@ -6,6 +6,7 @@ import RescheduleAppointmentMiddleware from '@appointmentsAPI/middlewares/resche
 import DeleteAppointmentMiddleware from '@appointmentsAPI/middlewares/deleteAppointmentMiddleware'
 import updatePatientInAppointment from '@appointmentsAPI/middlewares/updatePatientInAppointment'
 import updateDescriptionInAppointmentMiddleware from '@appointmentsAPI/middlewares/updateDescriptionMiddleware'
+import RemoveOrAddConfirmAppointmentMiddleware from '@appointmentsAPI/middlewares/removeOrAddConfirmAppointmentMiddleware'
 
 export default class AppointmentsRoutes {
   private readonly appointmentController: AppointmentController
@@ -66,6 +67,14 @@ export default class AppointmentsRoutes {
       this.appointmentController,
       )
 
+    const addConfirm = this.appointmentController.addConfirmInAppointment.bind(
+      this.appointmentController,
+      )  
+
+    const removeConfirm = this.appointmentController.removeConfirmInAppointment.bind(
+      this.appointmentController,
+      )     
+
     this.appointmentsRoutes.post(
       '/',
       CreateAppointmentMiddleware,
@@ -109,6 +118,19 @@ export default class AppointmentsRoutes {
       updateDescriptionInAppointmentMiddleware, 
       updateDescriptionInAppointment
     )
+
+    this.appointmentsRoutes.patch(
+      '/confirm/add/:id', 
+      RemoveOrAddConfirmAppointmentMiddleware,
+      addConfirm
+    )
+
+    this.appointmentsRoutes.patch(
+      '/confirm/remove/:id', 
+      RemoveOrAddConfirmAppointmentMiddleware,
+      removeConfirm
+    )
+
   }
 
   get AppointmentsRoutes() {
