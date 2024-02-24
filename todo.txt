@@ -5,4 +5,3 @@
 //  TODO GET de agendamentos ativos por dia, e dentista, paciente
 //  TODO GET de agendamentos cancelados por dia e dentista, paciente
 //  TODO GET de agedamentos reagendados por dia e dentista, paciente
-//  TODO Criar um README

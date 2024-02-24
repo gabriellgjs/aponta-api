@@ -6,18 +6,15 @@ DOCKER_ENV_FILE=.docker/.env
 # └─────────────────────────────────────────────────────────────────────────────┘
 
 .PHONY: prepare-api
-prepare-api: stop start api-dev
+prepare-api: start api-dev
 
 .PHONY: prepare-db
 prepare-db: db-seed prisma-studio
 
-.PHONY: build
-build:
-	@docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(DOCKER_ENV_FILE) build
 
 .PHONY: start
 start:
-	@docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(DOCKER_ENV_FILE) up -d
+	@docker-compose -f $(DOCKER_COMPOSE_FILE) --env-file $(DOCKER_ENV_FILE) up -d --build
 
 .PHONY: stop
 stop:
@@ -31,7 +28,7 @@ stop:
 api-build:
 	@docker exec aponta-api bash -c "yarn run build"
 
-.PHONY: api-dev
+.PHONY: api-start
 api-dev: start
 	@docker exec -it aponta-api bash -c "sudo yarn run dev"
 
