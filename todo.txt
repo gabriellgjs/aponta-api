@@ -1,5 +1,4 @@
 //  TODO tirar OS CONSOLE.log
-
 //  TODO implementar serviço de validação de cep
 //  TODO develver um get de agendamento mais bonito
 //  TODO um agendamento não pode ter o seu paciente troccado já estiver em outro agendamento naquele hórario
@@ -7,4 +6,3 @@
 //  TODO GET de agendamentos cancelados por dia e dentista, paciente
 //  TODO GET de agedamentos reagendados por dia e dentista, paciente
 //  TODO Criar um README
-//  TODO Rota de atualizar descrição de um agendamento

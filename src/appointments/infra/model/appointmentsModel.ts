@@ -115,7 +115,22 @@ export default class AppointmentsModel {
         },
       })
     } catch (error) {
-      throw new InternalServerError('Erro ao atualizar o agendamento')
+      throw new InternalServerError('Erro ao atualizar um paciente em um agendamento')
+    }
+  }
+
+  async updateDescriptionInAppointment(appointmentId: number, description: string) {
+    try {
+      return await this.PrismaConnection.appointments.update({
+        where: {
+          id: appointmentId,
+        },
+        data: {
+          description,
+        },
+      })
+    } catch (error) {
+      throw new InternalServerError('Erro ao atualizar a descrição de um agendamento')
     }
   }
 }

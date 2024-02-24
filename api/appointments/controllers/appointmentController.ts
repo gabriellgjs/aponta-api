@@ -12,6 +12,8 @@ import RescheduleAppointmentAction from '@appointments/apllication/actions/resch
 import RescheduleAppointmentFactory from '@appointmentsAPI/factories/rescheduleAppointmentFactory'
 import UpdatePatientInAppointmentAction from '@appointments/apllication/actions/updatePatientInAppointmentAction'
 import UpdateAppointmentFactory from '@appointmentsAPI/factories/updateAppointmentFactory'
+import UpdateDescriptionInAppointmentAction from '@src/appointments/apllication/actions/updateDescriptionInAppointmentAction'
+import UpdateDescriptionInAppointmentFactory from '@appointmentsAPI/factories/updateDescriptionInAppointmentFactory'
 
 export default class AppointmentController {
   public async createAppointment(request: Request, response: Response) {
@@ -243,6 +245,33 @@ export default class AppointmentController {
       await updatePatientInAppointmentAction.execute(
         userDataInput,
         actualAppointmentInput,
+      )
+
+      return response.status(204).json().end()
+    } catch (error) {
+      if (error instanceof InternalServerError) {
+        await Sentry.sendError(error.nameError, error.message)
+
+        return response
+          .status(error.statusCode)
+          .json({ status: error.statusCode, message: error.message })
+          .end()
+      }
+    }
+  }
+
+  public async updateDescriptionInAppointment(
+    request: Request,
+    response: Response,
+  ) {
+    try {
+      const updateDescriptionInAppointmentAction =
+        new UpdateDescriptionInAppointmentAction()
+
+      const userDataInput = UpdateDescriptionInAppointmentFactory.fromRequest(request)
+
+      await updateDescriptionInAppointmentAction.execute(
+        userDataInput,
       )
 
       return response.status(204).json().end()

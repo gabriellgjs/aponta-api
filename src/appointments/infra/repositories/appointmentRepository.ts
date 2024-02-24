@@ -36,6 +36,10 @@ export default class AppointmentRepository {
     )
   }
 
+  async updateDescription(appointmentId: number, description: string) {
+    await this.appointmentsModel.updateDescriptionInAppointment(appointmentId, description)
+  }
+
   async delete(appointmentId: number): Promise<void> {
     await this.appointmentsModel.deleteAppointment(appointmentId)
   }

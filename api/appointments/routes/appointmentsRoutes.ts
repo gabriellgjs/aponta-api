@@ -5,6 +5,7 @@ import CancelAppointmentMiddleware from '@appointmentsAPI/middlewares/cancelAppo
 import RescheduleAppointmentMiddleware from '@appointmentsAPI/middlewares/rescheduleAppointmentMiddleware'
 import DeleteAppointmentMiddleware from '@appointmentsAPI/middlewares/deleteAppointmentMiddleware'
 import updatePatientInAppointment from '@appointmentsAPI/middlewares/updatePatientInAppointment'
+import updateDescriptionInAppointmentMiddleware from '@appointmentsAPI/middlewares/updateDescriptionMiddleware'
 
 export default class AppointmentsRoutes {
   private readonly appointmentController: AppointmentController
@@ -61,6 +62,10 @@ export default class AppointmentsRoutes {
         this.appointmentController,
       )
 
+    const updateDescriptionInAppointment = this.appointmentController.updateDescriptionInAppointment.bind(
+      this.appointmentController,
+      )
+
     this.appointmentsRoutes.post(
       '/',
       CreateAppointmentMiddleware,
@@ -97,6 +102,12 @@ export default class AppointmentsRoutes {
       '/cancel/:id',
       CancelAppointmentMiddleware,
       cancelAppointment,
+    )
+
+    this.appointmentsRoutes.put(
+      '/description/:id', 
+      updateDescriptionInAppointmentMiddleware, 
+      updateDescriptionInAppointment
     )
   }
 
