@@ -5,6 +5,7 @@ import { verifyAppointmentExistById } from '@appointmentsAPI/middlewares/verifyA
 import { updatePatientInAppointmentSchema } from '@appointmentsAPI/schema/updatePatientInAppointmentSchema'
 import { verifyIsSamePatientAndDentist } from '@appointmentsAPI/middlewares/verifyIsSamePatientAndDentist'
 import { verifyPatientExist } from '@sharedAPI/middlewares/verifyPatientExist'
+import { verifyIsRequestPacientSameDates } from './verifyIsRequestPacientSameDates'
 
 export default async function updatePatientInAppointment(
   request: Request,
@@ -56,6 +57,13 @@ export default async function updatePatientInAppointment(
     })
   }
 
+  if(appointmentExist.patientId === patientId) {
+    return response.status(400).json({
+      status: 400,
+      message: 'Esse paciente já esta agendando nesse agendamento',
+    })
+  }
+
   const isSamePatientAndDentist = await verifyIsSamePatientAndDentist(
     appointmentExist.dentistId,
     patientId,
@@ -72,6 +80,19 @@ export default async function updatePatientInAppointment(
     return response.status(400).json({
       status: 400,
       message: 'Paciente está inativo',
+    })
+  }
+
+  const isSameDatesByPatient = await verifyIsRequestPacientSameDates(
+    appointmentExist.dataTimeStart.toUTCString(),
+    appointmentExist.dataTimeEnd.toUTCString(),
+    patientId,
+  )
+
+  if (isSameDatesByPatient.length > 0) {
+    return response.status(400).json({
+      status: 400,
+      message: 'Já existe agendamento para esse paciente nesse horário',
     })
   }
 
