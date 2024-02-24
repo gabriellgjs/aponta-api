@@ -75,8 +75,6 @@ export default class AppointmentsRoutes {
 
     this.appointmentsRoutes.get('/', getAppointmentActivesByDay)
 
-    this.appointmentsRoutes.get('/:id', getAppointmentById)
-
     this.appointmentsRoutes.put(
       '/:id',
       updatePatientInAppointment,
@@ -86,6 +84,8 @@ export default class AppointmentsRoutes {
     this.appointmentsRoutes.get('/cancel/', getAppointmentCanceledByDay)
 
     this.appointmentsRoutes.get('/reschedule/', getAppointmentRescheduleByDay)
+    
+    this.appointmentsRoutes.get('/:id', getAppointmentById)
 
     this.appointmentsRoutes.delete(
       '/:id',
