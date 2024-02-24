@@ -1,5 +1,4 @@
 //  TODO tirar OS CONSOLE.log
-//  TODO implementar serviço de validação de cep
 //  TODO develver um get de agendamento mais bonito
 //  TODO GET de agendamentos ativos por dia, e dentista, paciente
 //  TODO GET de agendamentos cancelados por dia e dentista, paciente
