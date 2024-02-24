@@ -1,6 +1,3 @@
 //  TODO tirar OS CONSOLE.log
 //  TODO develver um get de agendamento mais bonito
-//  TODO GET de agendamentos ativos por dia, e dentista, paciente
-//  TODO GET de agendamentos cancelados por dia e dentista, paciente, confirmado
-//  TODO GET de agedamentos reagendados por dia e dentista, paciente, confirmado
 //  TODO atualizar swagger

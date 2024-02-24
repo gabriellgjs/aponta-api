@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 export default class AppointmentsModel {
   private PrismaConnection = PrismaConnection
 
-  async getAppointmentsActivesByDay(date: string, dentistId: number) {
+  async getAppointmentsActivesByDay(date: string, dentistId: number, patientId: number, confirmed: boolean) {
     try {
       if (date.length === 0) {
         const sql = `
@@ -13,6 +13,8 @@ export default class AppointmentsModel {
             WHERE p."dataTimeStart" BETWEEN current_date AND (current_date  + 1) 
             AND p."status" = 'Ativo' 
             ${dentistId !== 0 ? `AND p."dentistId" = ${dentistId}` : ''}
+            ${patientId !== 0 ? `AND p."patientId" = ${patientId}` : ''}
+            ${confirmed ? `AND p."confirmedAt" IS NOT NULL` : ''}
             ORDER BY p."dataTimeStart"`
 
         return await this.PrismaConnection.$queryRawUnsafe(sql)
@@ -25,8 +27,9 @@ export default class AppointmentsModel {
             WHERE p."status" = 'Ativo' 
             AND p."dataTimeStart" between '${date}' AND '${nextDay}' 
             ${dentistId !== 0 ? `AND p."dentistId" = ${dentistId}` : ''}
+            ${patientId !== 0 ? `AND p."patientId" = ${patientId}` : ''}
+            ${confirmed ? `AND p."confirmedAt" IS NOT NULL` : ''}
             ORDER BY p."dataTimeStart"`
-
       return await this.PrismaConnection.$queryRawUnsafe(sql)
     } catch (error) {
       console.log(error)
@@ -34,7 +37,7 @@ export default class AppointmentsModel {
     }
   }
 
-  async getAppointmentsCanceledByDay(date: string, dentistId: number) {
+  async getAppointmentsCanceledByDay(date: string, dentistId: number, patientId: number, confirmed: boolean) {
     try {
       if (date.length === 0) {
         const sql = `
@@ -42,6 +45,8 @@ export default class AppointmentsModel {
             WHERE p."dataTimeStart"  BETWEEN current_date AND (current_date  + 1) 
             AND p."status" = 'Cancelado' 
             ${dentistId !== 0 ? `AND p."dentistId" = ${dentistId}` : ''}
+            ${patientId !== 0 ? `AND p."patientId" = ${patientId}` : ''}
+            ${confirmed ? `AND p."confirmedAt" IS NOT NULL` : ''}
             ORDER BY p."dataTimeStart"`
 
         return await this.PrismaConnection.$queryRawUnsafe(sql)
@@ -54,6 +59,8 @@ export default class AppointmentsModel {
         WHERE p."status" = 'Cancelado'
         AND p."dataTimeStart" BETWEEN '${date}' AND '${nextDay}'
         ${dentistId !== 0 ? `AND p."dentistId" = ${dentistId}` : ''}
+        ${patientId !== 0 ? `AND p."patientId" = ${patientId}` : ''}
+        ${confirmed ? `AND p."confirmedAt" IS NOT NULL` : ''}
         ORDER BY p."dataTimeStart"`
 
       return await this.PrismaConnection.$queryRawUnsafe(sql)
@@ -63,7 +70,7 @@ export default class AppointmentsModel {
     }
   }
 
-  async getAppointmentsRescheduleByDay(date: string, dentistId: number) {
+  async getAppointmentsRescheduleByDay(date: string, dentistId: number, patientId: number, confirmed: boolean) {
     try {
       if (date.length === 0) {
         const sql = `
@@ -71,6 +78,8 @@ export default class AppointmentsModel {
             WHERE p."dataTimeStart" between current_date AND (current_date  + 1) 
             AND p."status" = 'Reagendado'
             ${dentistId !== 0 ? `AND p."dentistId" = ${dentistId}` : ''}
+            ${patientId !== 0 ? `AND p."patientId" = ${patientId}` : ''}
+            ${confirmed ? `AND p."confirmedAt" IS NOT NULL` : ''}
             ORDER BY p."dataTimeStart"`
 
         return await this.PrismaConnection.$queryRawUnsafe(sql)
@@ -83,6 +92,8 @@ export default class AppointmentsModel {
         WHERE p."status" = 'Reagendado'
         AND p."dataTimeStart" BETWEEN '${date}' AND '${nextDay}'
         ${dentistId !== 0 ? `AND p."dentistId" = ${dentistId}` : ''}
+        ${patientId !== 0 ? `AND p."patientId" = ${patientId}` : ''}
+        ${confirmed ? `AND p."confirmedAt" IS NOT NULL` : ''}
         ORDER BY p."dataTimeStart"`
 
       return await this.PrismaConnection.$queryRawUnsafe(sql)

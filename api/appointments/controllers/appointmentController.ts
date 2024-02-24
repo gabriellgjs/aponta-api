@@ -77,10 +77,19 @@ export default class AppointmentController {
       const queryDentistId = request.query.dentistId
         ? Number(request.query.dentistId)
         : 0
+      const queryConfirmed = 
+        request.query.confirmed && request.query.confirmed == "true" 
+        ? true 
+        : false
+      const queryPatientId = request.query.patientId
+        ? Number(request.query.patientId)
+        : 0  
 
       const appointments = await appointmentsModel.getAppointmentsActivesByDay(
         queryDay,
         queryDentistId,
+        queryPatientId,
+        queryConfirmed
       )
 
       return response.status(200).json(appointments)
@@ -107,10 +116,19 @@ export default class AppointmentController {
       const queryDentistId = request.query.dentistId
         ? Number(request.query.dentistId)
         : 0
+      const queryConfirmed = 
+        request.query.confirmed && request.query.confirmed == "true" 
+        ? true 
+        : false
+      const queryPatientId = request.query.patientId
+        ? Number(request.query.patientId)
+        : 0  
 
       const appointments = await appointmentsModel.getAppointmentsCanceledByDay(
         queryDay,
         queryDentistId,
+        queryPatientId,
+        queryConfirmed
       )
 
       return response.status(200).json(appointments)
@@ -137,11 +155,19 @@ export default class AppointmentController {
       const queryDentistId = request.query.dentistId
         ? Number(request.query.dentistId)
         : 0
-
+      const queryConfirmed = 
+        request.query.confirmed && request.query.confirmed == "true" 
+        ? true 
+        : false
+      const queryPatientId = request.query.patientId
+        ? Number(request.query.patientId)
+        : 0  
       const appointments =
         await appointmentsModel.getAppointmentsRescheduleByDay(
           queryDay,
           queryDentistId,
+          queryPatientId,
+          queryConfirmed
         )
 
       return response.status(200).json(appointments)
