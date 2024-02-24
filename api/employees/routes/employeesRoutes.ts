@@ -63,23 +63,32 @@ export default class EmployeesRoutes {
     )
 
     this.employeesRoutes.get('/', getEmployees)
+
     this.employeesRoutes.get('/inactive', getEmployeesInactive)
+
     this.employeesRoutes.get('/dentist', getDentistsActives)
+
     this.employeesRoutes.get('/dentist/inactive', getDentistsInactives)
+
     this.employeesRoutes.get('/:id', getEmployee)
+
     this.employeesRoutes.put('/email/:id', ChangeEmailMiddleware, changeEmail)
+
     this.employeesRoutes.put(
       '/password/:id',
       ChangePasswordMiddleware,
       changePassword,
     )
     this.employeesRoutes.post('/', CreateEmployeeMiddleware, createEmployee)
+
     this.employeesRoutes.put('/:id', UpdateEmployeeMiddleware, updateEmployee)
+
     this.employeesRoutes.put(
       '/person-details/:id',
       UpdateEmployeePersonDetailsMiddleware,
       updatePersonDetails,
     )
+    
     this.employeesRoutes.patch('/:id', StatusEmployeeMiddleware, statusEmployee)
   }
 
