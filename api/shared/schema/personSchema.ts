@@ -18,7 +18,7 @@ export const personSchema = z.object({
     })
     .trim()
     .min(1, 'Nome é obrigatório')
-    .regex(regexName, 'name só pode conter letras'),
+    .regex(regexName, 'Nome só pode conter letras'),
   birthDate: z
     .string({
       required_error: 'Data de nascimento é obrigatória',
