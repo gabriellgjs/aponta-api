@@ -26,10 +26,30 @@ export default async function DeleteRoleMiddleware(
     })
   }
 
-  if (roleExist.name === 'Administrador') {
+  if (
+    roleExist.name === 'Administrador'
+    ) {
     return response.status(400).json({
       status: 400,
       message: 'Não é possível deletar cargo de Administrador',
+    })
+  }
+
+  if (
+    roleExist.name === 'Dentista'
+    ) {
+    return response.status(400).json({
+      status: 400,
+      message: 'Não é possível deletar cargo de Dentista',
+    })
+  }
+
+  if (
+    roleExist.name === 'Secretário'
+    ) {
+    return response.status(400).json({
+      status: 400,
+      message: 'Não é possível deletar cargo de Secretário',
     })
   }
 
