@@ -11,6 +11,9 @@ export default class RolesModel {
           id: true,
           name: true,
         },
+        orderBy: {
+          name: 'asc'
+        }
       })
     } catch (error) {
       throw new InternalServerError('Erro ao listar os cargos')
