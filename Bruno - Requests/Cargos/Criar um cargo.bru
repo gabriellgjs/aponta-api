@@ -1,0 +1,21 @@
+meta {
+  name: Criar um cargo
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{url}}/roles
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Teste"
+  }
+}

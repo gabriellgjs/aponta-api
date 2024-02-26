@@ -1,0 +1,15 @@
+meta {
+  name: Listar dentistas
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/employees/dentist
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

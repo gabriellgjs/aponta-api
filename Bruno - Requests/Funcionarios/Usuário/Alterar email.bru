@@ -1,0 +1,21 @@
+meta {
+  name: Alterar email
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{url}}/employees/email/2
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "email": "testantoesseemail@email.com"
+  }
+}

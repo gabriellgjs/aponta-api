@@ -1,0 +1,15 @@
+meta {
+  name: Listar todos cargos
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{url}}/roles
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

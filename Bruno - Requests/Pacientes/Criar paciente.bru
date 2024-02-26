@@ -1,0 +1,37 @@
+meta {
+  name: Criar paciente
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{url}}/patients
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Márcia Pasccuti",
+    "birthDate": "2000-05-03",
+    "rg": "49.718.785-1",
+    "cpf": "484.502.840-90",
+    "maritalStatus": "Casado (a)",
+    "gender": "Feminino",
+    "address": {
+      "street": "Rua da Aves",
+      "number": "20",
+      "district": "Jardim Central ",
+      "city": "Umuarama",
+      "state": "PR",
+      "postalCode": "87014-000"
+    },
+    "telephone": {
+      "telephoneNumber": "(43) 99135-7487"
+    }
+  }
+}

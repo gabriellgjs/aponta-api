@@ -1,0 +1,21 @@
+meta {
+  name: Atualizar cargo pelo id
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{url}}/roles/7
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Psicologo"
+  }
+}

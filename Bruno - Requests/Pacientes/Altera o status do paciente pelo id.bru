@@ -1,0 +1,15 @@
+meta {
+  name: Altera o status do paciente pelo id
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{url}}/patients/8
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

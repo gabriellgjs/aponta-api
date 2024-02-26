@@ -1,0 +1,22 @@
+meta {
+  name: Reagendar
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{url}}/appointments/reschedule/3
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "dataTimeStart": "2024-02-26T10:30:00Z",
+    "dataTimeEnd": "2024-02-26T11:00:00Z"
+  }
+}

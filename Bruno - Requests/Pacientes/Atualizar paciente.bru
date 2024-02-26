@@ -1,0 +1,37 @@
+meta {
+  name: Atualizar paciente
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{url}}/patients/8
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Márcia Pasccuti",
+    "birthDate": "2000-05-03",
+    "rg": "49.718.785-1",
+    "cpf": "484.502.840-90",
+    "maritalStatus": "Casado (a)",
+    "gender": "Feminino",
+    "address": {
+      "street": "Rua da Selva",
+      "number": "20",
+      "district": "Jardim milhos",
+      "city": "Umuarama",
+      "state": "PR",
+      "postalCode": "87501-020"
+    },
+    "telephone": {
+      "telephoneNumber": "(43) 99135-7487"
+    }
+  }
+}

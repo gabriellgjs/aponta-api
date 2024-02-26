@@ -1,0 +1,42 @@
+meta {
+  name: Criar novo funcionário
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{url}}/employees
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Marcus Tiradentes",
+    "birthDate": "1992-04-21",
+    "rg": "928.085.400-35",
+    "cpf": "408.860.710-46",
+    "maritalStatus": "Divorciado (a)",
+    "gender": "Masculino",
+    "hireDate": "2024-02-26",
+    "user": {
+      "email": "tiradentes@gmail.com",
+      "roleId": 2
+    },
+    "address": {
+      "street": "Rua São Bento",
+      "number": "50",
+      "district": "Jardim Benção",
+      "city": "Altônia",
+      "postalCode": "87550-000",
+      "state": "PR"
+    },
+    "telephone": {
+      "telephoneNumber": "(44) 99963-4002"
+    }
+  }
+}

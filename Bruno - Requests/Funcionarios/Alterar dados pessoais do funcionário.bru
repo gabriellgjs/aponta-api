@@ -1,0 +1,38 @@
+meta {
+  name: Alterar dados pessoais do funcionário
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{url}}/employees/person-details/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "Gabriel José Silva",
+    "birthDate": "2002-05-10",
+    "rg": "14.852-714-8",
+    "cpf": "077-862-979-10",
+    "maritalStatus": "Solteiro (a)",
+    "gender": "Masculino",
+    "hireDate": "2020-11-16",
+    "address": {
+      "street": "Rua Floresta",
+      "number": "330",
+      "district": "Jardim Panorama",
+      "city": "Altônia",
+      "postalCode": "87550-000",
+      "state": "PR"
+    },
+    "telephone": {
+      "telephoneNumber": "(44) 99873-9002"
+    }
+  }
+}

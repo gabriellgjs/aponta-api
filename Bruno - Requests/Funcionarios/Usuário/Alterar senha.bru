@@ -1,0 +1,22 @@
+meta {
+  name: Alterar senha
+  type: http
+  seq: 1
+}
+
+put {
+  url: {{url}}/employees/password/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "currentPassword": "a1b2c3d4",
+    "newPassword": "123456"
+  }
+}

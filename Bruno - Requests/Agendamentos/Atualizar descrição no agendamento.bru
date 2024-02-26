@@ -1,0 +1,21 @@
+meta {
+  name: Atualizar descrição no agendamento
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{url}}/appointments/description/4
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "description": "Manunteção do aparelho"
+  }
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Atualizar um paciente no agendamento
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{url}}/appointments/4
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "patientId": 6
+  }
+}

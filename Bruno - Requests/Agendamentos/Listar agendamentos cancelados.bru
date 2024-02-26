@@ -1,0 +1,22 @@
+meta {
+  name: Listar agendamentos cancelados
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/appointments/cancel?day=2024-02-26&dentistId=2
+  body: none
+  auth: bearer
+}
+
+query {
+  day: 2024-02-26
+  dentistId: 2
+  ~patientId: 1
+  ~confirmed: true
+}
+
+auth:bearer {
+  token: {{token}}
+}

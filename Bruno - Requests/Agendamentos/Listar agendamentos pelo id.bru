@@ -1,0 +1,15 @@
+meta {
+  name: Listar agendamentos pelo id
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{url}}/appointments/1
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

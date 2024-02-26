@@ -1,0 +1,15 @@
+meta {
+  name: Alterar status de funcionário
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{url}}/employees/4
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

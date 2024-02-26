@@ -1,0 +1,25 @@
+meta {
+  name: Criar agendamento
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{url}}/appointments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "dataTimeStart": "2024-02-27T08:00:00Z",
+    "dataTimeEnd": "2024-02-27T08:30:00Z",
+    "description": "Avaliação",
+    "dentistId": 2,
+    "patientId": 8
+  }
+}

@@ -1,0 +1,22 @@
+meta {
+  name: Listar agendamentos reagendados
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{url}}/appointments/reschedule?day=2024-02-26
+  body: none
+  auth: bearer
+}
+
+query {
+  day: 2024-02-26
+  ~patientId: 1
+  ~dentistId: 2
+  ~confirmed: true
+}
+
+auth:bearer {
+  token: {{token}}
+}
