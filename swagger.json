@@ -2,8 +2,8 @@
   "openapi":"3.0.2",
 
   "info": {
-    "title":"APONTA- API",
-    "description": "Essa API é um gerenciador de agendamentos genérico, tendo em vista que está sendo elaborado como o projeto de conclusão de curso de Gabriel José Silva.",
+    "title":"APONTA - API",
+    "description": "Essa API é um gerenciador de agendamentos de clínicas odontológicas, tendo em vista que está sendo elaborado como o projeto de conclusão de curso de Gabriel José Silva.",
     "contact": {
       "name": "Gabriel Silva",
       "email": "contato.gabrieljosesilva@gmail.com",
@@ -1010,7 +1010,7 @@
 
     "/appointments": {
       "get": {
-        "summary": "Busca os agendamentos ativos do dia, sem query params",
+        "summary": "Busca os agendamentos ativos do dia, com filtro de query params",
         "parameters": [
           {
             "in": "query",
@@ -1021,6 +1021,16 @@
             "in": "query",
             "name": "dentistId",
             "description": "Busca os agendamentos com o id do dentista do query params"
+          },
+          {
+            "in": "query",
+            "name": "patientId",
+            "description": "Busca os agendamentos com o id do paciente do query params"
+          },
+          {
+            "in": "query",
+            "name": "confirmed",
+            "description": "Busca os agendamentos confirmados"
           }
         ],
         "tags": ["Agendamentos"],
@@ -1062,6 +1072,11 @@
                     "example": "2024-03-16T15:00:00Z"
                   },
 
+                  "description": {
+                    "type": "string",
+                    "example": "Manutenção"
+                  },
+
                   "dentistId": {
                     "type": "number",
                     "example": "2"
@@ -1094,7 +1109,7 @@
     },
     "/appointments/cancel": {
       "get": {
-        "summary": "Busca os agendamentos cancelados do dia, sem query params",
+        "summary": "Busca os agendamentos cancelados do dia, com filtro de query params",
         "parameters": [
           {
             "in": "query",
@@ -1105,6 +1120,16 @@
             "in": "query",
             "name": "dentistId",
             "description": "Busca os agendamentos com o id do dentista do query params"
+          },
+          {
+            "in": "query",
+            "name": "patientId",
+            "description": "Busca os agendamentos com o id do paciente do query params"
+          },
+          {
+            "in": "query",
+            "name": "confirmed",
+            "description": "Busca os agendamentos confirmados"
           }
         ],
         "tags": ["Agendamentos"],
@@ -1153,7 +1178,7 @@
     },
     "/appointments/reschedule": {
       "get": {
-        "summary": "Busca os agendamentos que foram reagendados do dia, sem query params",
+        "summary": "Busca os agendamentos que foram reagendados do dia, com filtro de query params",
         "parameters": [
           {
             "in": "query",
@@ -1164,6 +1189,16 @@
             "in": "query",
             "name": "dentistId",
             "description": "Busca os agendamentos com o id do dentista do query params"
+          },
+          {
+            "in": "query",
+            "name": "patientId",
+            "description": "Busca os agendamentos com o id do paciente do query params"
+          },
+          {
+            "in": "query",
+            "name": "confirmed",
+            "description": "Busca os agendamentos confirmados"
           }
         ],
         "tags": ["Agendamentos"],
@@ -1303,6 +1338,127 @@
             }
           }
         },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "404": {
+            "description": "Não encontrado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
+    "/appointments/description{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Inserir id do agendamento"
+        }
+        
+      ],
+      "put": {
+        "summary": "Atualiza a descrição no agendamento pelo id",
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "example": "Avaliação"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "404": {
+            "description": "Não encontrado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
+    "/appointments/confirm/add/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Inserir id do agendamento"
+        }
+        
+      ],
+      "patch": {
+        "summary": "Confirma um agendamento pelo id",
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
+        "responses": {
+          "204": {
+            "description": "Sem conteúdo"
+          },
+          "400": {
+            "description": "Conteúdo inválido"
+          },
+          "401": {
+            "description": "Acesso negado"
+          },
+          "404": {
+            "description": "Não encontrado"
+          },
+          "500": {
+            "description": "Erro do servidor"
+          }
+        }
+      }
+    },
+
+    "/appointments/confirm/remove/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Inserir id do agendamento"
+        }
+        
+      ],
+      "patch": {
+        "summary": "Remove a confirmação de um agendamento pelo id",
+        "tags": ["Agendamentos"],
+        "security": [
+          {"BearerAuth" :  ["BearerAuth"]}
+        ],
         "responses": {
           "204": {
             "description": "Sem conteúdo"

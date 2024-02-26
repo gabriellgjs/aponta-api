@@ -20,7 +20,7 @@ const user = {
   rg: '14.862.714-8',
   email: 'contato.gabrieljosesilva@gmail.com',
   password: '$2a$10$x.Me28CGWGlj0T/nf5AV/urvqzzTdExoU4WhPowymktXKdzRrwSFy',
-  cpf: '077.862.978-10',
+  cpf: '077.862.979-10',
   maritalStatus: 'Solteiro (a)',
   gender: 'Masculino',
   hireDate: new Date(2020, 11, 16),
